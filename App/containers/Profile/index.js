@@ -16,12 +16,15 @@ import Images from '../../utils/Images';
 import {styles} from './styles';
 import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
+import YearPickerModal from '../../components/YearPickerModal';
 
 const ProfileScreen = ({ navigation }) => {
     const {loading, login} = React.useContext(AuthContext);
     const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [smoke, setSmoke] = React.useState(false);
+    const [yearModal, setYearModal] = React.useState(false);
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{flex: 1}} contentContainerStyle={{flex: 1,}}>
@@ -39,7 +42,7 @@ const ProfileScreen = ({ navigation }) => {
                                     icon={Images.ic_calendar}
                                     width={scale(21)}
                                     height={scale(24)}
-                                    onPress={()=>{}}
+                                    onPress={()=>{setYearModal(true)}}
                                 />
                             }
                         />
@@ -106,7 +109,14 @@ const ProfileScreen = ({ navigation }) => {
                         />
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
+            </KeyboardAwareScrollView>            
+            <YearPickerModal
+                visible={yearModal}
+                onHide={()=>setYearModal(false)}
+                onSelected={(v) => {
+                    setYearModal(false)
+                }}
+            />
         </View>
     );
 };

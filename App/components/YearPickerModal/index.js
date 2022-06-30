@@ -20,18 +20,9 @@ const sizeText = {
     1: 15,
     2: 10,
   };
-
-const ItemToRender = ({ item, index }, indexSelected, vertical, lastIndex) => {
-    const selected = index === indexSelected;
-    const isLastIndex = index >= lastIndex;
-    const gap = Math.abs(index - indexSelected);
-
-    let fontSize = sizeText[gap];
-    if (gap > 1) {
-        fontSize = sizeText[2];
-    }
-
-    return (
+const Item = React.memo(
+    ({ selected, vertical, fontSize, name, isLastIndex }) => {
+      return (
         <View
             style={{
                 width: '100%',
@@ -45,9 +36,31 @@ const ItemToRender = ({ item, index }, indexSelected, vertical, lastIndex) => {
                     fontSize: selected ? 25 : 20,
                     color: selected ? Colors.white : Colors.textColor,
             }}>
-            {item}
+            {name}
             </Text>
         </View>
+      );
+    }
+);
+
+const ItemToRender = ({ item, index }, indexSelected, vertical, lastIndex) => {
+    const selected = index === indexSelected;
+    const isLastIndex = index >= lastIndex;
+    const gap = Math.abs(index - indexSelected);
+
+    let fontSize = sizeText[gap];
+    if (gap > 1) {
+        fontSize = sizeText[2];
+    }
+
+    return (
+        <Item
+          selected={selected}
+          vertical={vertical}
+          fontSize={fontSize}
+          name={item}
+          isLastIndex={isLastIndex}
+        />
     );
 };
 

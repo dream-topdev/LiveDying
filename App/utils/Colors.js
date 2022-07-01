@@ -3,6 +3,7 @@ export default {
   secondaryColor: '#FFB800',
   backgroundColor: '#FFFFFF',
 
+  primaryLightColor: '#3EAB7050',
   mintColor: '#A6D1BF',
   lightGrayColor: '#E9E8E6',
   mediumGrayColor: '#ADB3BC',

@@ -17,6 +17,7 @@ import {styles} from './styles';
 import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
 import YearPickerModal from '../../components/YearPickerModal';
+import DurationModal from '../../components/DurationModal';
 
 const ProfileScreen = ({ navigation }) => {
     const {loading, login} = React.useContext(AuthContext);
@@ -24,6 +25,7 @@ const ProfileScreen = ({ navigation }) => {
     const [password, setPassword] = React.useState("");
     const [smoke, setSmoke] = React.useState(false);
     const [yearModal, setYearModal] = React.useState(false);
+    const [durationModal, setDurationModal] = React.useState(false);
 
     return (
         <View style={styles.container}>
@@ -89,12 +91,11 @@ const ProfileScreen = ({ navigation }) => {
                         <InlineContainer
                             title="Exercise Frequency?"
                             actionChild={
-                                <Switch
-                                    trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
-                                    thumbColor={Colors.white}
-                                    ios_backgroundColor={Colors.primaryColor}
-                                    onValueChange={() => {setSmoke(!smoke)}}
-                                    value={smoke}
+                                <IconButton
+                                    icon={Images.ic_calendar}
+                                    width={scale(21)}
+                                    height={scale(24)}
+                                    onPress={()=>{setDurationModal(true)}}
                                 />
                             }
                             />
@@ -116,6 +117,10 @@ const ProfileScreen = ({ navigation }) => {
                 onSelected={(v) => {
                     setYearModal(false)
                 }}
+            />
+            <DurationModal
+                visible={durationModal}
+                onClose={()=>setDurationModal(false)}
             />
         </View>
     );

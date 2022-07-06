@@ -8,6 +8,7 @@ import ChatScreen from '../containers/Chat';
 import SignUpScreen from '../containers/SignUp';
 import { AuthContext } from '../AuthProvider';
 import ProfileScreen from '../containers/Profile';
+import LifeSpanScreen from '../containers/LifeSpan';
 
 
 const Stack = createNativeStackNavigator();
@@ -40,6 +41,7 @@ const MainNavigator = () => {
                 <Stack.Screen name="SignIn" component={SignInScreen} />
                 <Stack.Screen name="SignUp" component={SignUpScreen} />
                 <Stack.Screen name="Profile" component={ProfileScreen} />
+                <Stack.Screen name="LifeSpan" component={LifeSpanScreen} />
             </>
             )
         }

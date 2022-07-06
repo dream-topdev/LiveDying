@@ -1,9 +1,12 @@
 export default {
   primaryColor: '#3EAB70',
-  secondaryColor: '#FFB800',
+  primaryBackColor: '#EBFBF3',
   backgroundColor: '#FFFFFF',
-
-  primaryLightColor: '#3EAB7050',
+  primaryTextColor: '#46BC7C',
+  primaryTextBoldColor: '#04AE5C',
+  
+  secondaryColor: '#FFB800',
+  secondaryBackColor: '#FFB800',
   mintColor: '#A6D1BF',
   lightGrayColor: '#E9E8E6',
   mediumGrayColor: '#ADB3BC',

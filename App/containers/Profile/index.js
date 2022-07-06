@@ -105,7 +105,8 @@ const ProfileScreen = ({ navigation }) => {
                             title="Click to see age you'll likely die"
                             loading={loading}
                             onPress={() => {        
-                                login(userName, password);
+                                navigation.navigate('LifeSpan');
+                                // login(userName, password);
                             }}
                         />
                     </View>

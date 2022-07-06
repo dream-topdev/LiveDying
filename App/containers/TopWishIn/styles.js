@@ -18,22 +18,39 @@ export const styles = StyleSheet.create({
     paddingHorizontal: scale(27),
     width: '100%',
   },
-  lifespan: {
+  message: {
     width: '100%',
     marginTop: scale(35),
-    paddingHorizontal: scale(20),
-    paddingVertical: scale(27),
-    borderRadius: scale(10),
+    paddingHorizontal: scale(25),
+    paddingVertical: scale(25),
+    borderRadius: scale(20),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.primaryBackColor,
+    // borderColor: '#4d4d4d',
+    shadowColor: '#404d4d',
+    shadowOffset: {
+      width: 0,
+      height: scale(10),
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: scale(13.51),
+    elevation: scale(5),
   },
   notetext: {
     fontFamily: Fonts.EpilogueBold,
-    fontSize: scale(80),
+    fontSize: scale(18),
+    lineHeight: scale(30),
+    color: Colors.black
+  },
+  plannote: {
+    marginTop: scale(20),
+    fontFamily: Fonts.EpilogueBold,
+    fontSize: scale(18),
+    lineHeight: scale(30),
+    textAlign: 'left',
     color: Colors.primaryColor
   },
-  meaning: {
+  topwishlist: {
     width: '100%',
     marginTop: scale(30),
     justifyContent: 'center',
@@ -69,13 +86,6 @@ export const styles = StyleSheet.create({
     lineHeight: scale(27),
     color: Colors.primaryColor,
   },
-  noteeventmessage: {
-    fontFamily: Fonts.EpilogueBold,
-    fontSize: scale(17),
-    textAlign: 'center',
-    lineHeight: scale(27),
-    color: Colors.secondaryColor,
-  },
   sharemessage: {
     width: '100%',
     marginTop: scale(15),
@@ -85,6 +95,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.secondaryBackColor,
+    opacity: 0.1
   },
   logo: {
     marginTop: scale(46),
@@ -96,7 +107,7 @@ export const styles = StyleSheet.create({
     marginTop: scale(74)
   },
   divider: {
-    height: scale(14)
+    height: scale(18)
   },
   loginWrapper: {
     width: '100%',

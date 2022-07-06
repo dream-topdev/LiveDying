@@ -6,7 +6,7 @@ export default {
   primaryTextBoldColor: '#04AE5C',
   
   secondaryColor: '#FFB800',
-  secondaryBackColor: '#FFB800',
+  secondaryBackColor: '#fff8e5',
   mintColor: '#A6D1BF',
   lightGrayColor: '#E9E8E6',
   mediumGrayColor: '#ADB3BC',

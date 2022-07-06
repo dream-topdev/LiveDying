@@ -49,14 +49,14 @@ const LifeSpanScreen = ({ navigation }) => {
                         <Text style={styles.noteeventhint}>{eventHint}</Text>
                     </View>
                     <View style={styles.sharemessage}>
-                        <Text style={styles.noteeventhint}>{shareMessage}</Text>
+                        <Text style={styles.noteeventmessage}>{shareMessage}</Text>
                     </View>
                     <View style={styles.loginWrapper}>
                         <OutlineButton
                             title="Next"
                             loading={loading}
                             onPress={() => {
-                                login(userName, password);
+                                navigation.navigate('TopWishIn');
                             }}
                         />
                     </View>

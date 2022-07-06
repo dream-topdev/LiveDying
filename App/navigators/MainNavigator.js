@@ -9,6 +9,7 @@ import SignUpScreen from '../containers/SignUp';
 import { AuthContext } from '../AuthProvider';
 import ProfileScreen from '../containers/Profile';
 import LifeSpanScreen from '../containers/LifeSpan';
+import TopWishInScreen from '../containers/TopWishIn';
 
 
 const Stack = createNativeStackNavigator();
@@ -42,6 +43,7 @@ const MainNavigator = () => {
                 <Stack.Screen name="SignUp" component={SignUpScreen} />
                 <Stack.Screen name="Profile" component={ProfileScreen} />
                 <Stack.Screen name="LifeSpan" component={LifeSpanScreen} />
+                <Stack.Screen name="TopWishIn" component={TopWishInScreen} />
             </>
             )
         }

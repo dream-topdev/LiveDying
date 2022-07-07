@@ -75,7 +75,7 @@ const TopWishInScreen = ({ navigation }) => {
                             title="Next"
                             loading={loading}
                             onPress={() => {
-                                navigation.navigate('');
+                                navigation.navigate('TopWishOut');
                             }}
                         />
                     </View>

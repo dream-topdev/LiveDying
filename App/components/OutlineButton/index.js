@@ -6,18 +6,19 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {styles} from './styles';
+import Colors from '../../utils/Colors';
 
-const OutlineButton = ({ title, loading, onPress}) => {
+const OutlineButton = ({ title, loading, onPress, backColor=Colors.primaryColor, color=Colors.white}) => {
 	return (
 		<TouchableOpacity
-			style={styles.container}
+			style={[styles.container, {backgroundColor: backColor}]}
 			disabled={loading}
 			onPress={onPress}
 		>
 				{loading ? (
 					<ActivityIndicator size="small" color="white" />
 				) : (
-					<Text style={styles.text}>
+					<Text style={[styles.text, {color: color}]}>
 						{title}
 					</Text>
 				)}

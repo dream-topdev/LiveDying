@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     paddingVertical: scale(25),
     borderRadius: scale(20),
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     // borderColor: '#4d4d4d',
     shadowColor: '#404d4d',
     shadowOffset: {

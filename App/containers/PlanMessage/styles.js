@@ -20,13 +20,11 @@ export const styles = StyleSheet.create({
     },
     message: {
         width: '100%',
-        marginTop: scale(50),
+        marginTop: scale(86),
         paddingHorizontal: scale(25),
         paddingVertical: scale(25),
         borderRadius: scale(20),
         justifyContent: 'center',
-        // alignItems: 'center',
-        // borderColor: '#4d4d4d',
         shadowColor: '#404d4d',
         shadowOffset: {
             width: 0,
@@ -112,10 +110,7 @@ export const styles = StyleSheet.create({
     },
     testReminderWrapper: {
         width: '100%',
-        flex: 1,
-        justifyContent: 'flex-end',
-        marginBottom: scale(-110),
-        // marginTop: scale(83),
+        marginTop: scale(83),
     },
     loginWrapper: {
         width: '100%',

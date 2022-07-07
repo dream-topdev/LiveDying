@@ -111,7 +111,10 @@ export const styles = StyleSheet.create({
   },
   loginWrapper: {
     width: '100%',
-    marginTop: scale(46)
+    flex: 1,
+    justifyContent:'flex-end',
+    marginBottom:scale(40),
+    // marginTop: scale(46)
   },
   forgetWrapper: {
     marginTop: scale(24),

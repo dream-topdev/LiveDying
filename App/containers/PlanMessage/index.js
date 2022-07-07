@@ -14,7 +14,7 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import TestReminderModal from '../../components/TestReminderModal';
 
-const TopWishOutScreen = ({ navigation }) => {
+const TopWishOutScreen = (navigation) => {
     const { loading, login } = useContext(AuthContext);
     const [testReminderModal, setTestReminderModal] = useState(false);
     const [userName, setUserName] = useState("");
@@ -25,7 +25,6 @@ const TopWishOutScreen = ({ navigation }) => {
         'Help Poor with electricity',
         'Take Grandkids to Disney World'
     ]);
-    const [shareMessage, setShareMessage] = useState('Share what you are planning to do over the next 24 years')
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -36,36 +35,18 @@ const TopWishOutScreen = ({ navigation }) => {
                         resizeMode={'contain'}
                     />
                     <View style={styles.message}>
-                        <Text style={styles.notetext}>{"5 Things you still want to do in your life?"}</Text>
-                        {topWishList.map(item => (
-                            <Text style={styles.plannote}>{item}</Text>
-                        ))}
-                    </View>
-                    <View style={styles.testReminderWrapper}>
-                        <OutlineButton
-                            title="Text reminders"
-                            loading={loading}
-                            backColor={Colors.secondaryColor}
-                            onPress={() => {
-                                setTestReminderModal(true);
-                            }}
-                        />
+                        <Text style={styles.notetext}>{"At the end of your life, what will be about your life?"}</Text>
+                        <Text style={styles.plannote}>{"A great way to Figure that out isto plan your funeral and eulogy."}</Text>
                     </View>
                     <View style={styles.loginWrapper}>
                         <OutlineButton
                             title="Next"
                             loading={loading}
-                            onPress={() => {
-                                navigation.navigate('PlanMessage')
-                            }}
+                            onPress={() => { navigation.navigate(''); }}
                         />
                     </View>
                 </View>
             </KeyboardAwareScrollView>
-            <TestReminderModal
-                visible={testReminderModal}
-                onClose={() => setTestReminderModal(false)}
-            />
         </View>
     )
 }

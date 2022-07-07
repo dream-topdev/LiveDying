@@ -92,7 +92,7 @@ const ProfileScreen = ({ navigation }) => {
                             title="Exercise Frequency?"
                             actionChild={
                                 <IconButton
-                                    icon={Images.ic_calendar}
+                                    icon={Images.ic_running}
                                     width={scale(21)}
                                     height={scale(24)}
                                     onPress={()=>{setDurationModal(true)}}

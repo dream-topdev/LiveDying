@@ -12,9 +12,11 @@ import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
+import TestReminderModal from '../../components/TestReminderModal';
 
 const TopWishOutScreen = () => {
     const { loading, login } = useContext(AuthContext);
+    const [testReminderModal, setTestReminderModal] = useState(false);
     const [userName, setUserName] = useState("");
     const [topWishList, setTopWishList] = useState([
         'Get VP Title',
@@ -45,7 +47,7 @@ const TopWishOutScreen = () => {
                             loading={loading}
                             backColor={Colors.secondaryColor}
                             onPress={() => {
-                                console.log("You lciked ther test reminder button")
+                                setTestReminderModal(true);
                             }}
                         />
                     </View>
@@ -53,13 +55,15 @@ const TopWishOutScreen = () => {
                         <OutlineButton
                             title="Next"
                             loading={loading}
-                            onPress={() => {
-                                navigation.navigate('');
-                            }}
+                            onPress={() => { navigation.navigate(''); }}
                         />
                     </View>
                 </View>
             </KeyboardAwareScrollView>
+            <TestReminderModal
+                visible={testReminderModal}
+                onClose={() => setTestReminderModal(false)}
+            />
         </View>
     )
 }

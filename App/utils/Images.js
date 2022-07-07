@@ -32,6 +32,10 @@ export default {
   ic_voice: require('./../assets/images/voice.png'),
   ic_recording: require('./../assets/images/recording.png'),
   ic_calendar: require('./../assets/images/calendar.png'),
+  ic_running: require('./../assets/images/running.png'),
+  ic_alarm: require('./../assets/images/alarm.png'),
+  ic_back: require('./../assets/images/back.png'),
+  ic_next: require('./../assets/images/next.png'),
 
   ic_react_smile: require('./../assets/images/react-smile.png'),
 

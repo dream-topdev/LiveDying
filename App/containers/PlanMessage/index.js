@@ -14,7 +14,7 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import TestReminderModal from '../../components/TestReminderModal';
 
-const TopWishOutScreen = (navigation) => {
+const TopWishOutScreen = ({ navigation }) => {
     const { loading, login } = useContext(AuthContext);
     const [testReminderModal, setTestReminderModal] = useState(false);
     const [userName, setUserName] = useState("");
@@ -42,7 +42,7 @@ const TopWishOutScreen = (navigation) => {
                         <OutlineButton
                             title="Next"
                             loading={loading}
-                            onPress={() => { navigation.navigate(''); }}
+                            onPress={() => { navigation.navigate('Funeral'); }}
                         />
                     </View>
                 </View>

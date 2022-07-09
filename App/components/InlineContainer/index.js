@@ -3,16 +3,17 @@ import {
     Text,
     TouchableOpacity,
     View,
-  } from 'react-native';
+} from 'react-native';
 import PropTypes from 'prop-types';
-import {styles} from './styles';
+import { styles } from './styles';
+import { scale } from '../../utils/scale';
 
-const InlineContainer = ({ title, actionChild}) => {
+const InlineContainer = ({ title, actionChild, fontSize = 13 }) => {
     return (
         <View
             style={styles.container}
         >
-            <Text style={styles.text}>{title}</Text>
+            <Text style={[styles.text, { fontSize: scale(fontSize) }]}>{title}</Text>
             {actionChild}
         </View>
     );
@@ -21,6 +22,7 @@ const InlineContainer = ({ title, actionChild}) => {
 InlineContainer.propTypes = {
     title: PropTypes.string,
     actionChild: PropTypes.object.isRequired,
+    fontSize: PropTypes.number
 }
 
 export default InlineContainer;

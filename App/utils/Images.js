@@ -8,8 +8,8 @@ export default {
   ic_mail: require('./../assets/images/Mail.png'),
   ic_mail_inactive: require('./../assets/images/Mail-inactive.png'),
   ic_user: require('./../assets/images/User.png'),
-  ic_user_inactive: require('./../assets/images/User-inactive.png'), 
-  ic_email: require('./../assets/images/Email.png'), 
+  ic_user_inactive: require('./../assets/images/User-inactive.png'),
+  ic_email: require('./../assets/images/Email.png'),
   ic_password: require('./../assets/images/Password.png'),
   ic_watch: require('./../assets/images/Watch.png'),
   ic_watch_inactive: require('./../assets/images/Watch-inactive.png'),
@@ -36,6 +36,8 @@ export default {
   ic_alarm: require('./../assets/images/alarm.png'),
   ic_back: require('./../assets/images/back.png'),
   ic_next: require('./../assets/images/next.png'),
+  ic_home: require('./../assets/images/home.png'),
+  ic_share: require('./../assets/images/share.png'),
 
   ic_react_smile: require('./../assets/images/react-smile.png'),
 

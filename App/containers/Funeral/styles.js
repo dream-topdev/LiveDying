@@ -11,37 +11,46 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.backgroundColor,
     },
     containerInner: {
-        alignItems: 'center',
         position: 'relative',
         flex: 1,
+        flexDirection: 'column',
         minHeight: scale(610),
         paddingHorizontal: scale(27),
         width: '100%',
     },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginTop: scale(40),
+    },
     message: {
         width: '100%',
-        marginTop: scale(50),
-        paddingHorizontal: scale(25),
-        paddingVertical: scale(25),
+        marginTop: scale(70),
         borderRadius: scale(20),
         justifyContent: 'center',
-        // alignItems: 'center',
-        // borderColor: '#4d4d4d',
-        shadowColor: '#404d4d',
-        shadowOffset: {
-            width: 0,
-            height: scale(10),
-        },
-        shadowOpacity: 0.8,
-        shadowRadius: scale(13.51),
-        elevation: scale(5),
+        alignItems: 'center',
+    },
+    footer:{
+        flex:1,
+        justifyContent:'flex-end',
+        alignItems:'center',
+        marginBottom:scale(40)
+    },
+    footerInner: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: scale(0),
     },
     notetext: {
         fontFamily: Fonts.EpilogueBold,
-        fontSize: scale(18),
-        lineHeight: scale(30),
+        fontSize: scale(30),
         color: Colors.black,
-        marginBottom: scale(10)
+    },
+    buttonEnter: {
+        backgroundColor: Colors.primaryBackColor
     },
     plannote: {
         marginTop: scale(8),
@@ -54,7 +63,6 @@ export const styles = StyleSheet.create({
     topwishlist: {
         width: '100%',
         marginTop: scale(30),
-        // justifyContent: 'center',
         backgroundColor: Colors.backgroundColor,
     },
     notemeanhead: {
@@ -99,33 +107,33 @@ export const styles = StyleSheet.create({
         opacity: 0.1
     },
     logo: {
-        marginTop: scale(46),
-        width: scale(246),
-        height: scale(130),
+        width: scale(60),
+        height: scale(60),
     },
     inputForm: {
         width: '100%',
         marginTop: scale(74)
     },
     divider: {
-        height: scale(18)
+        height: scale(30)
     },
     testReminderWrapper: {
         width: '100%',
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginBottom: scale(20),
-    },
-    loginWrapper: {
-        width: '100%',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginBottom: scale(40),
+        marginTop: scale(83),
     },
     forgetWrapper: {
         marginTop: scale(24),
         width: '100%',
         alignItems: 'flex-end'
     },
+    enterButton: {
+        backgroundColor: Colors.primaryBackColor,
+        paddingHorizontal: scale(26),
+        paddingVertical: scale(7),
+        borderRadius: scale(8)
+    },
+    buttonContent: {
+        color: Colors.primaryColor,
+        fontSize: scale(14)
+    }
 });

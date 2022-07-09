@@ -12,6 +12,7 @@ import LifeSpanScreen from '../containers/LifeSpan';
 import TopWishInScreen from '../containers/TopWishIn';
 import TopWishOutScreen from '../containers/TopWishOut';
 import PlanMessageScreen from '../containers/PlanMessage';
+import FuneralScreen from '../containers/Funeral';
 
 
 const Stack = createNativeStackNavigator();
@@ -48,6 +49,7 @@ const MainNavigator = () => {
                 <Stack.Screen name="TopWishIn" component={TopWishInScreen} />
                 <Stack.Screen name="TopWishOut" component={TopWishOutScreen} />
                 <Stack.Screen name="PlanMessage" component={PlanMessageScreen} />
+                <Stack.Screen name="Funeral" component={FuneralScreen} />
             </>
             )
         }

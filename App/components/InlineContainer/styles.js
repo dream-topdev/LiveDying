@@ -19,6 +19,5 @@ export const styles = StyleSheet.create({
     color: Colors.textInputPlacholder,
     fontFamily: Fonts.EpilogueBold,
     fontWeight: '400',
-    fontSize: textScale(13)
   }
 });

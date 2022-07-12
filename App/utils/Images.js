@@ -38,7 +38,9 @@ export default {
   ic_next: require('./../assets/images/next.png'),
   ic_home: require('./../assets/images/home.png'),
   ic_share: require('./../assets/images/share.png'),
-
+  ic_youtube: require('./../assets/images/youtube.png'),
+  ic_remove: require('./../assets/images/remove.png'),
+  default_thumbnail: require('./../assets/images/default_thumbnail.png'),
   ic_react_smile: require('./../assets/images/react-smile.png'),
 
   template_user: require('./../assets/images/template-user.png'),

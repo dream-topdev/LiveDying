@@ -13,7 +13,9 @@ import TopWishInScreen from '../containers/TopWishIn';
 import TopWishOutScreen from '../containers/TopWishOut';
 import PlanMessageScreen from '../containers/PlanMessage';
 import FuneralScreen from '../containers/Funeral';
-
+import SongOpenScreen from '../containers/SongOpen'
+import SongProcessScreen from '../containers/SongProcess'
+import SongCloseScreen from '../containers/SongClose'
 
 const Stack = createNativeStackNavigator();
 
@@ -28,33 +30,36 @@ const MainNavigator = () => {
     }, []);
 
     if (isLoading) {
-        return <SplashScreen/>
+        return <SplashScreen />
     }
 
     return (
-    <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {
-        userProfile ? (
-            <>
-                <Stack.Screen name="Home" component={HomeNavigator} />
-                <Stack.Screen name="Chat" component={ChatScreen}/>
-            </>
-            ) : (
-            <>
-                <Stack.Screen name="SignIn" component={SignInScreen} />
-                <Stack.Screen name="SignUp" component={SignUpScreen} />
-                <Stack.Screen name="Profile" component={ProfileScreen} />
-                <Stack.Screen name="LifeSpan" component={LifeSpanScreen} />
-                <Stack.Screen name="TopWishIn" component={TopWishInScreen} />
-                <Stack.Screen name="TopWishOut" component={TopWishOutScreen} />
-                <Stack.Screen name="PlanMessage" component={PlanMessageScreen} />
-                <Stack.Screen name="Funeral" component={FuneralScreen} />
-            </>
-            )
-        }
-        </Stack.Navigator>
-    </NavigationContainer>
+        <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {
+                    userProfile ? (
+                        <>
+                            <Stack.Screen name="Home" component={HomeNavigator} />
+                            <Stack.Screen name="Chat" component={ChatScreen} />
+                        </>
+                    ) : (
+                        <>
+                            <Stack.Screen name="SignIn" component={SignInScreen} />
+                            <Stack.Screen name="SignUp" component={SignUpScreen} />
+                            <Stack.Screen name="Profile" component={ProfileScreen} />
+                            <Stack.Screen name="LifeSpan" component={LifeSpanScreen} />
+                            <Stack.Screen name="TopWishIn" component={TopWishInScreen} />
+                            <Stack.Screen name="TopWishOut" component={TopWishOutScreen} />
+                            <Stack.Screen name="PlanMessage" component={PlanMessageScreen} />
+                            <Stack.Screen name="Funeral" component={FuneralScreen} />
+                            <Stack.Screen name="SongOpen" component={SongOpenScreen} />
+                            <Stack.Screen name="SongProcess" component={SongProcessScreen} />
+                            <Stack.Screen name="SongClose" component={SongCloseScreen} />
+                        </>
+                    )
+                }
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 };
 

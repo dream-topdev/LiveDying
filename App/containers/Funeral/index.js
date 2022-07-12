@@ -18,7 +18,7 @@ import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 
-const TopWishOutScreen = (navigation) => {
+const FuneralScreen = ({ navigation }) => {
     const { loading, login } = useContext(AuthContext);
     const [testReminderModal, setTestReminderModal] = useState(false);
     const [userName, setUserName] = useState("");
@@ -140,6 +140,7 @@ const TopWishOutScreen = (navigation) => {
                                 height={52}
                                 onPress={() => {
                                     console.log('You clicked the back button')
+                                    navigation.navigate('PlanMessage')
                                 }}
                             />
                             <IconButton
@@ -148,6 +149,7 @@ const TopWishOutScreen = (navigation) => {
                                 height={52}
                                 onPress={() => {
                                     console.log('You clicked the back button')
+                                    navigation.navigate('Profile')
                                 }}
                             />
                             <IconButton
@@ -164,6 +166,8 @@ const TopWishOutScreen = (navigation) => {
                                 height={52}
                                 onPress={() => {
                                     console.log('You clicked the back button')
+                                    navigation.navigate('SongOpen')
+
                                 }}
                             />
                         </View>
@@ -173,4 +177,4 @@ const TopWishOutScreen = (navigation) => {
         </View>
     )
 }
-export default TopWishOutScreen;
+export default FuneralScreen;

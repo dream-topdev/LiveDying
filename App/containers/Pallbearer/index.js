@@ -12,14 +12,14 @@ import OutlineButton from '../../components/OutlineButton';
 import InlineContainer from '../../components/InlineContainer';
 import ActionButton from '../../components/ActionButton';
 import IconButton from '../../components/IconButton';
-import SongItemContainer from '../../components/SongItemContainer';
+import PallbearerContainer from '../../components/PallbearerContainer';
 import { scale, scaleVertical } from '../../utils/scale';
 import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 
-const SongCloseScreen = ({ navigation }) => {
+const PallbearerScreen = ({ navigation }) => {
     const { loading, login } = useContext(AuthContext);
     const [testReminderModal, setTestReminderModal] = useState(false);
     const [userName, setUserName] = useState("");
@@ -44,23 +44,20 @@ const SongCloseScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.message}>
                         <InlineContainer
-                            title="Closing Songs:"
+                            title="Pall bearers:"
                             backgroundColor={Colors.backgroundColor}
                             fontSize={18}
                             borderRadius={0}
-                            paddingRight={10}
+                            paddingRight={5}
                             paddingLeft={0}
                             actionChild={
                                 <View style={styles.youtube}>
-                                    <Text style={styles.textYoutube}>{'Find On'}</Text>
                                     <IconButton
-                                        icon={Images.ic_youtube}
-                                        width={32}
-                                        height={22}
+                                        icon={Images.ic_add}
+                                        width={35}
+                                        height={35}
                                         onPress={() => {
-                                            console.log('You clicked the  youtube button');
-                                            console.log('doulble scale function', scale(scale(10)))
-                                            console.log('single scale function', scale(10))
+                                            console.log('You clicked the youtube button');
                                         }}
                                     />
                                 </View>
@@ -68,42 +65,30 @@ const SongCloseScreen = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.songList}>
-                        <ScrollView >
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                            <View style={styles.divider} />
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                            <View style={styles.divider} />
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                            <View style={styles.divider} />
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                            <View style={styles.divider} />
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                        </ScrollView>
+                        <PallbearerContainer
+                            thumbnail={''}
+                            name={'Mike Smith'}
+                        />
+                        <View style={styles.divider} />
+                        <PallbearerContainer
+                            thumbnail={''}
+                            name={'Robb Parker'}
+                        />
+                        <View style={styles.divider} />
+                        <PallbearerContainer
+                            thumbnail={''}
+                            name={'Mike Jones'}
+                        />
+                        <View style={styles.divider} />
+                        <PallbearerContainer
+                            thumbnail={''}
+                            name={'Jose Darron'}
+                        />
+                        <View style={styles.divider} />
+                        <PallbearerContainer
+                            thumbnail={''}
+                            name={'Jensen Chancey'}
+                        />
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>
@@ -113,7 +98,7 @@ const SongCloseScreen = ({ navigation }) => {
                                 height={52}
                                 onPress={() => {
                                     console.log('You clicked the back button')
-                                    navigation.navigate('SongProcess')
+                                    navigation.navigate('SongClose')
                                 }}
                             />
                             <IconButton
@@ -131,7 +116,7 @@ const SongCloseScreen = ({ navigation }) => {
                                 height={52}
                                 onPress={() => {
                                     console.log('You clicked the back button')
-                                    navigation.navigate('Pallbearer')
+                                    navigation.navigate('Speaker')
                                 }}
                             />
                         </View>
@@ -141,4 +126,4 @@ const SongCloseScreen = ({ navigation }) => {
         </View>
     )
 }
-export default SongCloseScreen;
+export default PallbearerScreen;

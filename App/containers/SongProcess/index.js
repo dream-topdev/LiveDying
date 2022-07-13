@@ -45,8 +45,11 @@ const SongProcessScreen = ({ navigation }) => {
                     <View style={styles.message}>
                         <InlineContainer
                             title="Processing Songs:"
-                            fontSize={scale(18)}
-                            borderRadius={scale(0)}
+                            backgroundColor={Colors.backgroundColor}
+                            fontSize={18}
+                            borderRadius={0}
+                            paddingRight={10}
+                            paddingLeft={0}
                             actionChild={
                                 <View style={styles.youtube}>
                                     <Text style={styles.textYoutube}>{'Find On'}</Text>

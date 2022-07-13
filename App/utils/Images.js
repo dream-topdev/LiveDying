@@ -40,6 +40,7 @@ export default {
   ic_share: require('./../assets/images/share.png'),
   ic_youtube: require('./../assets/images/youtube.png'),
   ic_remove: require('./../assets/images/remove.png'),
+  ic_add: require('./../assets/images/add.png'),
   default_thumbnail: require('./../assets/images/default_thumbnail.png'),
   ic_react_smile: require('./../assets/images/react-smile.png'),
 

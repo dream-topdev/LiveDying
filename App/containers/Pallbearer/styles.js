@@ -31,6 +31,51 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    youtube: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    textYoutube: {
+        marginRight: scale(10)
+    },
+    songList: {
+        marginTop: scale(18),
+        // flex: 5
+    },
+    songItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: Colors.textInputBackground,
+        borderRadius: scale(8)
+    },
+    thumbnailWrapper: {
+        width: '30%'
+    },
+    itemContent: {
+        width: '50%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    songInfo: {
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'flex-start',
+    },
+    songTitle: {
+        fontSize: scale(18)
+    },
+    songArtist: {
+        fontSize: scale(15)
+    },
+    songTime: {
+        fontSize: scale(15)
+    },
+    removeIcon: {
+        marginRight: scale(15)
+    },
     footer: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -115,7 +160,7 @@ export const styles = StyleSheet.create({
         marginTop: scale(74)
     },
     divider: {
-        height: scale(30)
+        height: scale(10)
     },
     testReminderWrapper: {
         width: '100%',

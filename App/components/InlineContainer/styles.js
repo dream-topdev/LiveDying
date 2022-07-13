@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     height: scale(50),
     borderRadius: scale(25),
-    paddingHorizontal: scale(17)
   },
   text: {
     color: Colors.textInputPlacholder,

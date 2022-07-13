@@ -80,7 +80,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginBottom: scale(40)
+        marginBottom: scale(20)
     },
     footerInner: {
         width: '100%',

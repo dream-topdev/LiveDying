@@ -14,9 +14,9 @@ import TopWishOutScreen from '../containers/TopWishOut';
 import PlanMessageScreen from '../containers/PlanMessage';
 import FuneralScreen from '../containers/Funeral';
 import SongOpenScreen from '../containers/SongOpen'
-import SongProcessScreen from '../containers/SongProcess'
-import SongCloseScreen from '../containers/SongClose'
-
+import SongProcessScreen from '../containers/SongProcess';
+import SongCloseScreen from '../containers/SongClose';
+import PallbearerScreen from '../containers/Pallbearer';
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
@@ -55,6 +55,7 @@ const MainNavigator = () => {
                             <Stack.Screen name="SongOpen" component={SongOpenScreen} />
                             <Stack.Screen name="SongProcess" component={SongProcessScreen} />
                             <Stack.Screen name="SongClose" component={SongCloseScreen} />
+                            <Stack.Screen name="Pallbearer" component={PallbearerScreen} />
                         </>
                     )
                 }

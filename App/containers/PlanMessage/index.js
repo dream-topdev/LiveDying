@@ -42,7 +42,9 @@ const TopWishOutScreen = ({ navigation }) => {
                         <OutlineButton
                             title="Next"
                             loading={loading}
-                            onPress={() => { navigation.navigate('Funeral'); }}
+                            onPress={() => {
+                                navigation.navigate('Funeral');
+                            }}
                         />
                     </View>
                 </View>

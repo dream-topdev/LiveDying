@@ -5,12 +5,12 @@ import {
     Text
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {styles} from './styles';
+import { styles } from './styles';
 import Images from '../../utils/Images';
 import Avatar from '../Avatar';
 import IconButton from '../IconButton';
 
-const DentistCard = ({ dentist }) => {    
+const DentistCard = ({ dentist }) => {
     return (
         <View style={styles.container}>
             <Avatar
@@ -25,21 +25,29 @@ const DentistCard = ({ dentist }) => {
                 <View style={styles.icons}>
                     <IconButton
                         icon={Images.ic_phone}
-                        onPress={() => {}}
+                        onPress={() => {
+                            console.log('You clicked the iconbutton.')
+                        }}
                     />
                     <IconButton
                         icon={Images.ic_mail}
-                        onPress={() => {}}
+                        onPress={() => {
+                            console.log('You clicked the iconbutton.')
+                        }}
                     />
                     <IconButton
                         icon={Images.ic_chat}
-                        onPress={() => {}}
+                        onPress={() => {
+                            console.log('You clicked the iconbutton.')
+                        }}
                     />
                     <IconButton
                         icon={Images.ic_calendar}
                         width={16}
                         height={15}
-                        onPress={() => {}}
+                        onPress={() => {
+                            console.log('You clicked the iconbutton.')
+                        }}
                     />
                 </View>
             </View>

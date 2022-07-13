@@ -4,6 +4,8 @@ import {
     View,
     Text,
     Image,
+    Button,
+    Pressable,
     ScrollView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -19,7 +21,17 @@ import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 
-const SpeakerScreen = ({ navigation }) => {
+const Col = ({ numRows, children }) => {
+    return (
+        <View style={styles[`${numRows}col`]}>{children}</View>
+    )
+}
+
+const Row = ({ children }) => (
+    <View style={styles.row}>{children}</View>
+)
+
+const GalleryScreen = ({ navigation }) => {
     const { loading, login } = useContext(AuthContext);
     const [testReminderModal, setTestReminderModal] = useState(false);
     const [userName, setUserName] = useState("");
@@ -44,7 +56,7 @@ const SpeakerScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.message}>
                         <InlineContainer
-                            title="Speakers:"
+                            title="Gallery"
                             backgroundColor={Colors.backgroundColor}
                             fontSize={18}
                             borderRadius={0}
@@ -64,9 +76,53 @@ const SpeakerScreen = ({ navigation }) => {
                             }
                         />
                     </View>
-                    <View style={styles.songList}>
-                        <ScrollView >
-                            <SpeakerContainer
+                    <View style={styles.tabBar}>
+                        <Pressable
+                            style={styles.tabButton}
+                            onPress={() => {
+                                console.log('Press me')
+                            }}
+                        >
+                            <Text style={styles.tabContent}>{'Music'}</Text>
+                        </Pressable>
+                        <Pressable
+                            style={styles.tabButton}
+                            onPress={() => {
+                                console.log('Press me')
+                            }}
+                        >
+                            <Text style={styles.tabContent}>{'Video'}</Text>
+                        </Pressable>
+                        <Pressable
+                            style={styles.tabButton}
+                            onPress={() => {
+                                console.log('Press me')
+                            }}
+                        >
+                            <Text style={styles.tabContent}>{'Photo'}</Text>
+                        </Pressable>
+                    </View>
+                    <View style={styles.music}>
+                        {/* <ScrollView > */}
+                        {/* <View style={styles.app}>
+                                <Row>
+                                    <Col numRows={2}>
+                                        <Text>First Item</Text>
+                                    </Col>
+                                    <Col numRows={2}>
+                                        <Text>Second column</Text>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col numRows={3}>
+                                        <Text>First column</Text>
+                                    </Col>
+                                    <Col numRows={1}>
+                                        <Text>Second Column</Text>
+                                    </Col>
+                                </Row>
+                            </View> */}
+                        {/* <SpeakerContainer
                                 thumbnail={''}
                                 speakerName={'Mike Smith'}
                                 speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi, Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
@@ -94,8 +150,8 @@ const SpeakerScreen = ({ navigation }) => {
                                 thumbnail={''}
                                 speakerName={'Jensen Chancey'}
                                 speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            />
-                        </ScrollView>
+                            /> */}
+                        {/* </ScrollView> */}
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>
@@ -105,7 +161,7 @@ const SpeakerScreen = ({ navigation }) => {
                                 height={52}
                                 onPress={() => {
                                     console.log('You clicked the back button')
-                                    navigation.navigate('Pallbearer')
+                                    navigation.navigate('Speaker')
                                 }}
                             />
                             <IconButton
@@ -123,14 +179,14 @@ const SpeakerScreen = ({ navigation }) => {
                                 height={52}
                                 onPress={() => {
                                     console.log('You clicked the back button')
-                                    navigation.navigate('Gallery')
+                                    // navigation.navigate('')
                                 }}
                             />
                         </View>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
-        </View>
+            </KeyboardAwareScrollView >
+        </View >
     )
 }
-export default SpeakerScreen;
+export default GalleryScreen;

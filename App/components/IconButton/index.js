@@ -2,12 +2,12 @@ import * as React from 'react';
 import {
     Image,
     TouchableOpacity,
-  } from 'react-native';
+} from 'react-native';
 import PropTypes from 'prop-types';
-import {styles} from './styles';
-import {scale} from '../../utils/scale';
+import { styles } from './styles';
+import { scale } from '../../utils/scale';
 
-const IconButton = ({ icon, width=18, height=18, disabled, onPress}) => {
+const IconButton = ({ icon, width = 18, height = 18, disabled, onPress }) => {
     return (
         <TouchableOpacity
             style={styles.container}
@@ -18,7 +18,7 @@ const IconButton = ({ icon, width=18, height=18, disabled, onPress}) => {
                 source={icon}
                 style={[
                     styles.icon,
-                    {                    
+                    {
                         width: scale(width),
                         height: scale(height)
                     }
@@ -33,7 +33,7 @@ IconButton.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     disabled: PropTypes.bool,
-    onPress: PropTypes.func.isRequired,
+    onPress: PropTypes.func,
 }
 
 export default IconButton;

@@ -29,7 +29,7 @@ const ProfileScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView style={{flex: 1}} contentContainerStyle={{flex: 1,}}>
+            <KeyboardAwareScrollView style={{flex: 1}} contentContainerStyle={{flex: 1}}>
                 <View style={styles.containerInner}>
                     <Image            
                         source={Images.ic_full_logo}

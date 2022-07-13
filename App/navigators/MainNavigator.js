@@ -17,6 +17,8 @@ import SongOpenScreen from '../containers/SongOpen'
 import SongProcessScreen from '../containers/SongProcess';
 import SongCloseScreen from '../containers/SongClose';
 import PallbearerScreen from '../containers/Pallbearer';
+import SpeakerScreen from '../containers/Speaker';
+
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
@@ -56,6 +58,7 @@ const MainNavigator = () => {
                             <Stack.Screen name="SongProcess" component={SongProcessScreen} />
                             <Stack.Screen name="SongClose" component={SongCloseScreen} />
                             <Stack.Screen name="Pallbearer" component={PallbearerScreen} />
+                            <Stack.Screen name="Speaker" component={SpeakerScreen} />
                         </>
                     )
                 }

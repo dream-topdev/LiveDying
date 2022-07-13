@@ -20,6 +20,8 @@ import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
+import PagerView from 'react-native-pager-view';
+
 
 const Col = ({ numRows, children }) => {
     return (
@@ -103,55 +105,14 @@ const GalleryScreen = ({ navigation }) => {
                         </Pressable>
                     </View>
                     <View style={styles.music}>
-                        {/* <ScrollView > */}
-                        {/* <View style={styles.app}>
-                                <Row>
-                                    <Col numRows={2}>
-                                        <Text>First Item</Text>
-                                    </Col>
-                                    <Col numRows={2}>
-                                        <Text>Second column</Text>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col numRows={3}>
-                                        <Text>First column</Text>
-                                    </Col>
-                                    <Col numRows={1}>
-                                        <Text>Second Column</Text>
-                                    </Col>
-                                </Row>
-                            </View> */}
-                        {/* <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Mike Smith'}
-                                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi, Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            />
-                            <View style={styles.divider} />
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Robb Parker'}
-                                speakerTopic={'Lorem ipsum dolor.'}
-                            />
-                            <View style={styles.divider} />
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Mike Jones'}
-                                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            />
-                            <View style={styles.divider} />
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Jose Darron'}
-                                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            />
-                            <View style={styles.divider} />
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Jensen Chancey'}
-                                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            /> */}
-                        {/* </ScrollView> */}
+                        <PagerView style={styles.pagerView} initialPage={0}>
+                            <View key="1">
+                                <Text>First page</Text>
+                            </View>
+                            <View key="2">
+                                <Text>Second page</Text>
+                            </View>
+                        </PagerView>
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>

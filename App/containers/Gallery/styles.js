@@ -31,30 +31,16 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    tabBar: {
+    youtube: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: 'pink',
-        marginTop: scale(18),
-        // flex: 1
-    },
-    tabButton: {
-        width: '33.3%',
-        // borderBottomWidth: scale(4),
-        borderColor: Colors.primaryColor,
-        backgroundColor: Colors.white,
-        flexDirection: 'row',
-        justifyContent: 'center',
         alignItems: 'center'
     },
-    tabContent: {
-        paddingVertical: scale(10),
-        fontSize: scale(21)
+    textYoutube: {
+        marginRight: scale(10)
     },
-    music: {
-        marginTop: scale(10),
-        backgroundColor: 'pink',
+    songList: {
+        marginTop: scale(18),
         flex: 1
     },
     songItem: {
@@ -73,11 +59,28 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+    songInfo: {
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'flex-start',
+    },
+    songTitle: {
+        fontSize: scale(18)
+    },
+    songArtist: {
+        fontSize: scale(15)
+    },
+    songTime: {
+        fontSize: scale(15)
+    },
+    removeIcon: {
+        marginRight: scale(15)
+    },
     footer: {
         // flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginTop: scale(27),
+        marginTop:scale(27),
         marginBottom: scale(20)
     },
     footerInner: {
@@ -86,6 +89,50 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: scale(0),
+    },
+    notetext: {
+        fontFamily: Fonts.EpilogueBold,
+        fontSize: scale(30),
+        color: Colors.black,
+    },
+    buttonEnter: {
+        backgroundColor: Colors.primaryBackColor
+    },
+    plannote: {
+        marginTop: scale(8),
+        fontFamily: Fonts.EpilogueBold,
+        fontSize: scale(18),
+        lineHeight: scale(30),
+        textAlign: 'left',
+        color: Colors.primaryColor
+    },
+    topwishlist: {
+        width: '100%',
+        marginTop: scale(30),
+        backgroundColor: Colors.backgroundColor,
+    },
+    notemeanhead: {
+        fontFamily: Fonts.EpilogueBold,
+        fontSize: scale(18),
+        color: Colors.black,
+        marginBottom: scale(3)
+    },
+    notemean: {
+        fontFamily: Fonts.Light,
+        fontSize: scale(18),
+        color: Colors.primaryTextColor,
+        lineHeight: scale(27),
+        marginTop: 15
+    },
+    eventhint: {
+        width: '100%',
+        marginTop: scale(30),
+        paddingHorizontal: scale(52),
+        paddingVertical: scale(15),
+        borderRadius: scale(10),
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.primaryBackColor,
     },
     noteeventhint: {
         fontFamily: Fonts.EpilogueBold,

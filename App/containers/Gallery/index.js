@@ -4,37 +4,21 @@ import {
   View,
   Text,
   Image,
-  ScrollView
+  ScrollView,
+  useWindowDimensions
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
-import InlineContainer from '../../components/InlineContainer';
-import ActionButton from '../../components/ActionButton';
-import IconButton from '../../components/IconButton';
-import SpeakerContainer from '../../components/SpeakerContainer';
-import { scale, scaleVertical } from '../../utils/scale';
-import AuthInput from '../../components/AuthInput';
+import { scale } from '../../utils/scale';
 import { styles } from './styles';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 const GalleryScreen = ({ navigation }) => {
-  const { loading, login } = useContext(AuthContext);
-  const [testReminderModal, setTestReminderModal] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [topWishList, setTopWishList] = useState([
-    'Get VP Title',
-    'Bora Bora',
-    'Get to 170 lbs',
-    'Help Poor with electricity',
-    'Take Grandkids to Disney World'
-  ]);
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
         <View style={styles.containerInner}>
-          <View style={styles.header}>
+          <Text style={{ fontSize: scale(50), color: 'red' }}>{'Hello world '}</Text>
+          {/* <View style={styles.header}>
             <Text style={styles.notetext}>{'Agenda'}</Text>
             <Image
               source={Images.ic_logo}
@@ -44,7 +28,7 @@ const GalleryScreen = ({ navigation }) => {
           </View>
           <View style={styles.message}>
             <InlineContainer
-              title="Gallery:"
+              title={'Life Video:'}
               backgroundColor={Colors.backgroundColor}
               fontSize={18}
               borderRadius={0}
@@ -65,37 +49,13 @@ const GalleryScreen = ({ navigation }) => {
             />
           </View>
           <View style={styles.songList}>
-            <ScrollView >
-              <SpeakerContainer
-                thumbnail={''}
-                speakerName={'Mike Smith'}
-                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi, Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-              />
-              <View style={styles.divider} />
-              <SpeakerContainer
-                thumbnail={''}
-                speakerName={'Robb Parker'}
-                speakerTopic={'Lorem ipsum dolor.'}
-              />
-              <View style={styles.divider} />
-              <SpeakerContainer
-                thumbnail={''}
-                speakerName={'Mike Jones'}
-                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-              />
-              <View style={styles.divider} />
-              <SpeakerContainer
-                thumbnail={''}
-                speakerName={'Jose Darron'}
-                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-              />
-              <View style={styles.divider} />
-              <SpeakerContainer
-                thumbnail={''}
-                speakerName={'Jensen Chancey'}
-                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-              />
-            </ScrollView>
+            <TabView
+              navigationState={{ index, routes }}
+              renderScene={renderScene}
+              renderTabBar={renderTabBar}
+              onIndexChange={setIndex}
+              initialLayout={{ width: layout.width }}
+            />
           </View>
           <View style={styles.footer}>
             <View style={styles.footerInner}>
@@ -105,7 +65,7 @@ const GalleryScreen = ({ navigation }) => {
                 height={52}
                 onPress={() => {
                   console.log('You clicked the back button')
-                  navigation.navigate('Pallbearer')
+                  navigation.navigate('Speaker')
                 }}
               />
               <IconButton
@@ -122,12 +82,12 @@ const GalleryScreen = ({ navigation }) => {
                 width={52}
                 height={52}
                 onPress={() => {
-                  console.log('You clicked the back button')
+                  console.log('You clicked the next button')
                   navigation.navigate('Gallery')
                 }}
               />
             </View>
-          </View>
+          </View> */}
         </View>
       </KeyboardAwareScrollView>
     </View>

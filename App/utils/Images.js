@@ -41,8 +41,14 @@ export default {
   ic_youtube: require('./../assets/images/youtube.png'),
   ic_remove: require('./../assets/images/remove.png'),
   ic_add: require('./../assets/images/add.png'),
-  default_thumbnail: require('./../assets/images/default_thumbnail.png'),
   ic_react_smile: require('./../assets/images/react-smile.png'),
+  ic_music_symbol: require('./../assets/images/ic_music_symbol.png'),
+  //test images 
+  default_thumbnail: require('./../assets/images/default_thumbnail.png'),
+  img_gallery_1: require('./../assets/images/gallery_1.png'),
+  img_gallery_2: require('./../assets/images/gallery_2.png'),
+  img_gallery_3: require('./../assets/images/gallery_3.png'),
+  img_gallery_4: require('./../assets/images/gallery_4.png'),
 
   template_user: require('./../assets/images/template-user.png'),
   template_graph: require('./../assets/images/template-graph.png'),

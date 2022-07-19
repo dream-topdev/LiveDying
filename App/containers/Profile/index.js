@@ -18,15 +18,26 @@ import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
 import YearPickerModal from '../../components/YearPickerModal';
 import DurationModal from '../../components/DurationModal';
+import { useQuery } from "react-query";
+import API from '../../services/API';
 
 const ProfileScreen = ({ navigation }) => {
-    const {loading, login} = React.useContext(AuthContext);
+    const {login} = React.useContext(AuthContext);
     const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [smoke, setSmoke] = React.useState(false);
     const [yearModal, setYearModal] = React.useState(false);
     const [durationModal, setDurationModal] = React.useState(false);
-
+    const userId = 23;
+    const { data, status, loading } = useQuery(["getProfileById", userId], () => API.getProfileById(userId));
+    
+    if (loading)
+        return (
+            <View>
+                <Text>Loading...</Text>
+            </View>
+        )
+    console.log("ProfileScreen", data, status);
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{flex: 1}} contentContainerStyle={{flex: 1}}>

@@ -3,8 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from '../containers/Splash';
 import SignInScreen from '../containers/SignIn';
-import HomeNavigator from './HomeNavigator';
-import ChatScreen from '../containers/Chat';
 import SignUpScreen from '../containers/SignUp';
 import { AuthContext } from '../AuthProvider';
 import ProfileScreen from '../containers/Profile';
@@ -43,13 +41,6 @@ const MainNavigator = () => {
                 {
                     userProfile ? (
                         <>
-                            <Stack.Screen name="Home" component={HomeNavigator} />
-                            <Stack.Screen name="Chat" component={ChatScreen} />
-                        </>
-                    ) : (
-                        <>
-                            <Stack.Screen name="SignIn" component={SignInScreen} />
-                            <Stack.Screen name="SignUp" component={SignUpScreen} />
                             <Stack.Screen name="Profile" component={ProfileScreen} />
                             <Stack.Screen name="LifeSpan" component={LifeSpanScreen} />
                             <Stack.Screen name="TopWishIn" component={TopWishInScreen} />
@@ -62,6 +53,11 @@ const MainNavigator = () => {
                             <Stack.Screen name="Pallbearer" component={PallbearerScreen} />
                             <Stack.Screen name="Speaker" component={SpeakerScreen} />
                             <Stack.Screen name="Gallery" component={GalleryScreen} />
+                        </>
+                    ) : (
+                        <>
+                            <Stack.Screen name="SignIn" component={SignInScreen} />
+                            <Stack.Screen name="SignUp" component={SignUpScreen} />
                         </>
                     )
                 }

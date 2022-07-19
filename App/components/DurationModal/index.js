@@ -42,7 +42,7 @@ const DurationModal = ({ visible, onClose }) => {
                 <View>
                     <Text style={styles.title}>{'Choose Duration'}</Text>
                     {durations.map(d => (
-                        <View style={styles.toggleWrapper}>
+                        <View key={d} style={styles.toggleWrapper}>
                             <ToggleButton
                                 title={d}
                                 onPress={() => { setActive(d) }}

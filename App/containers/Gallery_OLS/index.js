@@ -195,13 +195,19 @@ const icVideo = 'http://livelikeyouaredying.com/assets/images/videoplay_v1.png';
 // };
 
 const MusicRoute = () => (
-  <Text>{'Hello world'}</Text>
+  <View style={{ flex: 1 }}>
+    <Text>{'Hello world'}</Text>
+  </View>
 )
 const VideoRoute = () => (
-  <Text>{'Hello world'}</Text>
+  <View style={{ flex: 1 }}>
+    <Text>{'Hello world'}</Text>
+  </View>
 )
 const PhotoRoute = () => (
-  <Text>{'Hello world'}</Text>
+  <View style={{ flex: 1 }}>
+    <Text>{'Hello world'}</Text>
+  </View>
 )
 const renderScene = SceneMap({
   first: MusicRoute,
@@ -250,7 +256,6 @@ const GalleryScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-        {/* <Text style={{fontSize: scale(50)}}>{'Hello World! '}</Text> */}
         <View style={styles.containerInner}>
           <View style={styles.header}>
             <Text style={styles.notetext}>{'Agenda'}</Text>

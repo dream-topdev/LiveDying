@@ -25,6 +25,10 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {
+   QueryClient,
+   QueryClientProvider,
+ } from 'react-query';
 
 import MainNavigator from './App/navigators/MainNavigator';
 import { MenuProvider } from 'react-native-popup-menu';
@@ -34,6 +38,8 @@ import { LogBox } from "react-native";
 
 LogBox.ignoreLogs(["EventEmitter.removeListener", 'Animated.event']);
 
+const queryClient = new QueryClient();
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -41,11 +47,13 @@ const App: () => Node = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
   return (
-    <MenuProvider>
-      <AuthProvider>
-        <MainNavigator/>
-      </AuthProvider>
-    </MenuProvider>
+    <QueryClientProvider client={queryClient}>
+      <MenuProvider>
+        <AuthProvider>
+          <MainNavigator/>
+        </AuthProvider>
+      </MenuProvider>
+    </QueryClientProvider>
   )
 };
 

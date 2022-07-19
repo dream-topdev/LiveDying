@@ -14,8 +14,9 @@ import {styles} from './styles';
 
 const SignInScreen = ({ navigation }) => {
     const {loading, login} = React.useContext(AuthContext);
-    const [userName, setUserName] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [userName, setUserName] = React.useState("tyrannosaurus.rex@gmail.com");
+    const [password, setPassword] = React.useState("qweasdzxc");
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{flex: 1}} contentContainerStyle={{flex: 1,}}>

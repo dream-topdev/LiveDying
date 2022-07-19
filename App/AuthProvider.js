@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { setUserOnline } from './services/FirebaseService';
+import API from './services/API';
+import { useMutation } from 'react-query';
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -13,52 +15,20 @@ export const AuthProvider = ({ children }) => {
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [chatBadge, setChatBadge] = useState(false);
-
-  useEffect(() => {
-    // onAuthStateChanged returns an unsubscriber
-    const unsubscribeAuth = auth().onAuthStateChanged(
-      async authenticatedUser => {
-        authenticatedUser ? setUser(authenticatedUser) : setUser(null);
-        if (authenticatedUser) {
-          console.log("Auth User", authenticatedUser);
-          await setUserOnline(authenticatedUser.uid, AppState.currentState === "active");
-          firestore()
-            .collection('users')
-            .doc(authenticatedUser.uid)
-            .get()
-            .then(documentSnapshot => {
-              console.log('User exists: ', documentSnapshot.exists);
-              if (documentSnapshot.exists) {
-                console.log('User Profile', documentSnapshot.data());                
-                Toast.show({
-                  type: 'success',
-                  text1: 'Welcome',
-                  text2: 'Log in success!👋'
-                });
-                setUserProfile(documentSnapshot.data());
-              }
-            });
-        } else {
-          setUserProfile(null);
-        }
-      }
-    );
-    
-    const subscription = AppState.addEventListener("change", nextAppState => {
-      if (!user)
-        return;
-      let online = true;
-      if (nextAppState === "background")
-        online = false;
-      setUserOnline(user.uid, online);
-    });
-
-    // unsubscribe auth listener on unmount
-    return () => {
-      subscription.remove();
-      unsubscribeAuth();
-    };
-  }, [user]);
+  const { mutate, isLoading } = useMutation(API.login, {
+    onSuccess: data => {
+      console.log(data);           
+      Toast.show({
+        type: 'success',
+        text1: 'Welcome',
+        text2: 'Log in success!👋'
+      });
+      setUserProfile(data);
+    },
+    onError: () => {
+      alert("there was an error")
+    }
+  });
 
   return (
     <AuthContext.Provider
@@ -73,14 +43,11 @@ export const AuthProvider = ({ children }) => {
         login: async (email, password) => {
           if (email !== '' && password !== '') {
             setLoading(true);
-            try {
-              await auth().signInWithEmailAndPassword(email, password)
-                .then(() => console.log('Login success'))
-                .catch(err => console.log(`Login err: ${err}`));
-            } catch (e) {
-              console.error(e);
-            }
-            setLoading(false);
+            const userCred = {
+              email,
+              password
+            };
+            mutate(userCred);
           } else {
             Toast.show({
               type: 'error',

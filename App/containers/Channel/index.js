@@ -23,55 +23,6 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
     const [activeChannels, setActiveChannels] = React.useState([]);
     const [archivedChannels, setArchivedChannels] = React.useState([]);
 
-    React.useEffect(() => {
-        console.log("Profile", userProfile)
-        firestore()
-            .collection('channels')
-            .where(userProfile.type, '==', userProfile._id)
-            .onSnapshot(async snapshot => {
-                console.log("Updated channel");
-                if (!snapshot)
-                    return;
-                console.log('Total channels: ', snapshot.docs.length);
-                const savedUsers = {};
-                const resultActiveChannels = [];
-                const resultArchivedChannels = [];
-                const channels = [];
-                let unreadMessageCount = 0;
-                snapshot.forEach(async documentSnapshot => {
-                    console.log('Channel ID: ', documentSnapshot.id, documentSnapshot.data());
-                    var channel = documentSnapshot.data();
-                    channel.id = documentSnapshot.id;
-                    channels.push(channel);
-                });
-                for(var i = 0; i < channels.length; i ++) { 
-                    var channel = channels[i];                   
-                    if (!savedUsers[channel.dentist]) {
-                        savedUsers[channel.dentist] = await getUserProfile(channel.dentist);                        
-                    }
-                    if (!savedUsers[channel.consumer]) {
-                        savedUsers[channel.consumer] = await getUserProfile(channel.consumer);
-                    }
-                    var dentist = savedUsers[channel.dentist];
-                    var consumer = savedUsers[channel.consumer];
-                    if (userProfile.type === "dentist")
-                        channel["other"] = consumer;
-                    else
-                        channel["other"] = dentist;
-                    if (channel.active) {
-                        resultActiveChannels.push(channel);
-                        const lastMsg = channel.lastMsg;
-                        if (lastMsg && lastMsg.user._id != userProfile._id && lastMsg._id !== channel[`lastSeen_${userProfile._id}`])
-                            unreadMessageCount++;
-                    }
-                    else
-                        resultArchivedChannels.push(channel);
-                }
-                setActiveChannels(resultActiveChannels);
-                setArchivedChannels(resultArchivedChannels);
-                setBadge(unreadMessageCount > 0);
-            });
-    }, []);
     const renderItem = ({ item }) => (
       <ChannelCard
         currentUser={userProfile}

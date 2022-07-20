@@ -43,6 +43,10 @@ export default {
   ic_add: require('./../assets/images/add.png'),
   ic_react_smile: require('./../assets/images/react-smile.png'),
   ic_music_symbol: require('./../assets/images/ic_music_symbol.png'),
+  ic_skip_previous: require('./../assets/images/ic_previous.png'),
+  ic_skip_next: require('./../assets/images/ic_next.png'),
+  ic_pause: require('./../assets/images/ic_pause.png'),
+  ic_play: require('./../assets/images/ic_play.png'),
   //test images 
   default_thumbnail: require('./../assets/images/default_thumbnail.png'),
   img_gallery_1: require('./../assets/images/gallery_1.png'),

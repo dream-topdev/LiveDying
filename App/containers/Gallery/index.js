@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
   View,
   Text,
   Image,
   ScrollView,
+  TouchableOpacity,
   useWindowDimensions
 } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { FlatGrid, SectionGrid } from 'react-native-super-grid';
 import VideoPlayer from 'react-native-video-controls';
-import { Thumbnail } from 'react-native-thumbnail-video';
-import { createThumbnail } from "react-native-create-thumbnail";
+import TrackPlayer from "react-native-track-player"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
 import OutlineButton from '../../components/OutlineButton';
@@ -25,13 +25,14 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import GalleryItemContainer from '../../components/GalleryItemContainer';
 import VideoPlayerModal from '../../components/VideoPlayerModal';
-
+import MusicPlayerModal from '../../components/MusicPlayerModal';
 
 const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
 const icMusic = 'http://livelikeyouaredying.com/assets/images/ic_music_symbol_v2.png';
 const icVideo = 'http://livelikeyouaredying.com/assets/images/videoplay_v1.png';
 
 const MusicRoute = () => {
+  const [muisicPlayerModal, setMusicPlayerModal] = useState(false);
   const [musics, setMusics] = useState([
     {
       url: hostname + 'gallery_music_userid_4_1656820163.mp3',
@@ -76,12 +77,18 @@ const MusicRoute = () => {
               width={50}
               height={50}
               onPress={() => {
+                setMusicPlayerModal(true)
                 console.log(item.code)
               }}
             />
             <Text style={styles.musicTitle}>{item.title}</Text>
           </View>
         )}
+      />
+      <MusicPlayerModal
+        url={musics}
+        visible={muisicPlayerModal}
+        onClose={() => setMusicPlayerModal(false)}
       />
     </View>
   )

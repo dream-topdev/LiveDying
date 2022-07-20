@@ -39,9 +39,9 @@ export const styles = StyleSheet.create({
     textYoutube: {
         marginRight: scale(10)
     },
-    songList: {
+    pallbearerList: {
         marginTop: scale(18),
-        // flex: 5
+        flex: 1
     },
     songItem: {
         flexDirection: 'row',
@@ -77,9 +77,10 @@ export const styles = StyleSheet.create({
         marginRight: scale(15)
     },
     footer: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        marginTop: scale(20),
         marginBottom: scale(20)
     },
     footerInner: {

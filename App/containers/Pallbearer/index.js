@@ -64,31 +64,33 @@ const PallbearerScreen = ({ navigation }) => {
                             }
                         />
                     </View>
-                    <View style={styles.songList}>
-                        <PallbearerContainer
-                            thumbnail={''}
-                            name={'Mike Smith'}
-                        />
-                        <View style={styles.divider} />
-                        <PallbearerContainer
-                            thumbnail={''}
-                            name={'Robb Parker'}
-                        />
-                        <View style={styles.divider} />
-                        <PallbearerContainer
-                            thumbnail={''}
-                            name={'Mike Jones'}
-                        />
-                        <View style={styles.divider} />
-                        <PallbearerContainer
-                            thumbnail={''}
-                            name={'Jose Darron'}
-                        />
-                        <View style={styles.divider} />
-                        <PallbearerContainer
-                            thumbnail={''}
-                            name={'Jensen Chancey'}
-                        />
+                    <View style={styles.pallbearerList}>
+                        <ScrollView>
+                            <PallbearerContainer
+                                thumbnail={''}
+                                name={'Mike Smith'}
+                            />
+                            <View style={styles.divider} />
+                            <PallbearerContainer
+                                thumbnail={''}
+                                name={'Robb Parker'}
+                            />
+                            <View style={styles.divider} />
+                            <PallbearerContainer
+                                thumbnail={''}
+                                name={'Mike Jones'}
+                            />
+                            <View style={styles.divider} />
+                            <PallbearerContainer
+                                thumbnail={''}
+                                name={'Jose Darron'}
+                            />
+                            <View style={styles.divider} />
+                            <PallbearerContainer
+                                thumbnail={''}
+                                name={'Jensen Chancey'}
+                            />
+                        </ScrollView>
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>
@@ -122,8 +124,8 @@ const PallbearerScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
-        </View>
+            </KeyboardAwareScrollView >
+        </View >
     )
 }
 export default PallbearerScreen;

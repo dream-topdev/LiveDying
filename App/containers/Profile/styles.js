@@ -1,7 +1,7 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
-import {scale, scaleVertical} from '../../utils/scale';
+import { scale, scaleVertical } from '../../utils/scale';
 import { textScale } from '../../utils/textUtil';
 import { getDeviceHeight } from '../../utils/extension';
 
@@ -18,19 +18,20 @@ export const styles = StyleSheet.create({
     paddingHorizontal: scale(27),
     width: '100%',
   },
-  logo: {    
+  logo: {
     marginTop: scale(46),
     width: scale(246),
     height: scale(130),
   },
   inputForm: {
+    flex: 1,
     width: '100%',
     marginTop: scale(74)
   },
   divider: {
     height: scale(14)
   },
-  noteWrapper: {  
+  noteWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
     position: 'absolute',
@@ -43,7 +44,10 @@ export const styles = StyleSheet.create({
   },
   loginWrapper: {
     width: '100%',
-    marginTop: scale(46)
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    marginTop: scale(20),
+    marginBottom: scale(20)
   },
   forgetWrapper: {
     marginTop: scale(24),

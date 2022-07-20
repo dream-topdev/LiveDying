@@ -49,6 +49,7 @@ const FuneralScreen = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={styles.enterButton}
                                     onPress={() => {
+                                        navigation.navigate('SongOpen')
                                         console.log("YOu clicked the enter button")
                                     }}
                                 >
@@ -64,6 +65,7 @@ const FuneralScreen = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={styles.enterButton}
                                     onPress={() => {
+                                        navigation.navigate('SongProcess')
                                         console.log("YOu clicked the enter button")
                                     }}
                                 >
@@ -79,6 +81,7 @@ const FuneralScreen = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={styles.enterButton}
                                     onPress={() => {
+                                        navigation.navigate('Pallbearer')
                                         console.log("YOu clicked the enter button")
                                     }}
                                 >
@@ -94,6 +97,7 @@ const FuneralScreen = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={styles.enterButton}
                                     onPress={() => {
+                                        navigation.navigate('Speaker')
                                         console.log("YOu clicked the enter button")
                                     }}
                                 >
@@ -109,6 +113,7 @@ const FuneralScreen = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={styles.enterButton}
                                     onPress={() => {
+                                        navigation.navigate('Gallery')
                                         console.log("YOu clicked the enter button")
                                     }}
                                 >
@@ -124,6 +129,7 @@ const FuneralScreen = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={styles.enterButton}
                                     onPress={() => {
+                                        navigation.navigate('SongClose')
                                         console.log("YOu clicked the enter button")
                                     }}
                                 >

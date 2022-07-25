@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
   useWindowDimensions
 } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
@@ -56,29 +57,31 @@ const MusicRoute = () => {
     }
   ])
   return (
-    <View style={styles.tabContent}>
+    <SafeAreaView style={styles.tabContent}>
       <FlatGrid
         itemDimension={130}
         data={musics}
         style={{}}
         spacing={10}
         renderItem={({ item }) => (
-          <View style={{
-            backgroundColor: Colors.secondaryBackColor,
-            height: scale(150),
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            borderColor: Colors.primaryColor,
-            borderWidth: scale(3),
-            borderRadius: scale(10)
-          }}>
+          <View
+            kwy={item.url.toString()}
+            style={{
+              backgroundColor: Colors.secondaryBackColor,
+              height: scale(150),
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              borderColor: Colors.primaryColor,
+              borderWidth: scale(3),
+              borderRadius: scale(10)
+            }}>
             <GalleryItemContainer
               url={icMusic}
               width={50}
               height={50}
               onPress={() => {
                 setMusicPlayerModal(true)
-                console.log(item.code)
+                console.log(item.url)
               }}
             />
             <Text style={styles.musicTitle}>{item.title}</Text>
@@ -86,13 +89,19 @@ const MusicRoute = () => {
         )}
       />
       <MusicPlayerModal
-        url={musics}
+        tracks={musics}
         visible={muisicPlayerModal}
         onClose={() => setMusicPlayerModal(false)}
       />
-    </View>
+    </SafeAreaView>
   )
 };
+
+// const MusicRoute = () => {
+//   return(
+//     <View><Text>{'Hello World'}</Text></View>
+//   )
+// }
 
 const VideoRoute = () => {
   const [videoPlayerModal, setVideoPlayerModal] = useState(false);
@@ -124,6 +133,7 @@ const VideoRoute = () => {
         spacing={10}
         renderItem={({ item }) => (
           <View
+            key={item.url.toString()}
             style={{
               backgroundColor: Colors.secondaryBackColor,
               height: scale(150),
@@ -186,9 +196,11 @@ const PhotoRoute = () => {
         itemDimension={130}
         data={photos}
         style={{}}
-        spacing={10}
+        spacing={0}
         renderItem={({ item }) => (
-          <View style={styles.photoItem}>
+          <View key={item.url.toString()}
+            style={styles.photoItem}
+          >
             <GalleryItemContainer
               url={item.url}
               onPress={() => {
@@ -202,18 +214,20 @@ const PhotoRoute = () => {
     </View>
   )
 };
+
 const renderScene = SceneMap({
   first: MusicRoute,
   second: VideoRoute,
   third: PhotoRoute
 });
+
 const GalleryScreen = ({ navigation }) => {
   const { loading, login } = useContext(AuthContext);
   const [testReminderModal, setTestReminderModal] = useState(false);
   const [userName, setUserName] = useState("");
 
   const layout = useWindowDimensions();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(2);
   const [routes] = useState([
     { key: 'first', title: 'Music' },
     { key: 'second', title: 'Video' },
@@ -313,7 +327,7 @@ const GalleryScreen = ({ navigation }) => {
                 height={52}
                 onPress={() => {
                   console.log('You clicked the next button')
-                  navigation.navigate('Gallery')
+                  navigation.navigate('SongClose')
                 }}
               />
             </View>

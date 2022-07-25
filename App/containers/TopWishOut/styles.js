@@ -24,16 +24,14 @@ export const styles = StyleSheet.create({
         paddingHorizontal: scale(25),
         paddingVertical: scale(25),
         borderRadius: scale(20),
-        justifyContent: 'center',
-        // alignItems: 'center',
-        // borderColor: '#4d4d4d',
+        justifyContent: 'flex-start',
         shadowColor: '#404d4d',
         shadowOffset: {
             width: 0,
             height: scale(10),
         },
         shadowOpacity: 0.8,
-        shadowRadius: scale(13.51),
+        shadowRadius: scale(12),
         elevation: scale(5),
     },
     notetext: {
@@ -121,7 +119,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginBottom: scale(40),
+        marginBottom: scale(20),
     },
     forgetWrapper: {
         marginTop: scale(24),

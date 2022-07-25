@@ -1,19 +1,19 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
     Image,
     View,
     Text,
-    Switch
-  } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+    Switch,
+    ScrollView
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import AuthInput from '../../components/AuthInput';
 import InlineContainer from '../../components/InlineContainer';
-import LinkButton from '../../components/LinkButton';
 import OutlineButton from '../../components/OutlineButton';
 import IconButton from '../../components/IconButton';
 import Images from '../../utils/Images';
-import {styles} from './styles';
+import { styles } from './styles';
 import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
 import YearPickerModal from '../../components/YearPickerModal';
@@ -21,118 +21,161 @@ import DurationModal from '../../components/DurationModal';
 import { useQuery } from "react-query";
 import API from '../../services/API';
 
+
+const stringToBoolean = (str) => {
+    switch (str.toLowerCase().trim()) {
+        case "true": case "yes": case "1": return true;
+        case "false": case "no": case "0": case null: return false;
+        default: return Boolean(str);
+    }
+}
+
 const ProfileScreen = ({ navigation }) => {
-    const {login} = React.useContext(AuthContext);
-    const [userName, setUserName] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [smoke, setSmoke] = React.useState(false);
-    const [yearModal, setYearModal] = React.useState(false);
-    const [durationModal, setDurationModal] = React.useState(false);
-    const userId = 23;
-    const { data, status, loading } = useQuery(["getProfileById", userId], () => API.getProfileById(userId));
-    
-    if (loading)
+    const { userProfile } = React.useContext(AuthContext);
+    const userId = userProfile.result.id;
+    const { data, isLoading, status } = useQuery(["getProfileById", userId], () => API.getProfileById(userId));
+    const [birthday, setBirthday] = useState('');
+    const [smoke, setSmoke] = useState(false);
+    const [isHealthy, setIsHealthy] = useState(false);
+    const [haveHeartDisease, setHaveHeartDisease] = useState(false);
+    const [exFreq, setExFreq] = useState('-');
+    const [yearModal, setYearModal] = useState(false);
+    const [durationModal, setDurationModal] = useState(false);
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            setBirthday(data.birthday);
+            setSmoke(stringToBoolean(data.is_smoke))
+            setIsHealthy(stringToBoolean(data.is_healthy))
+            setHaveHeartDisease(stringToBoolean(data.have_heart_disease))
+            setExFreq(data.ex_freq);
+        }
+    }, [data])
+
+    if (isLoading)
         return (
-            <View>
-                <Text>Loading...</Text>
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
             </View>
         )
-    console.log("ProfileScreen", data, status);
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView style={{flex: 1}} contentContainerStyle={{flex: 1}}>
+            <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                 <View style={styles.containerInner}>
-                    <Image            
+                    <Image
                         source={Images.ic_full_logo}
                         style={styles.logo}
                         resizeMode={'contain'}
                     />
                     <View style={styles.inputForm}>
-                        <InlineContainer
-                            title="Enter your year of birth"
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_calendar}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    onPress={()=>{setYearModal(true)}}
-                                />
-                            }
-                        />
-                        <View style={styles.divider}/>
-                        <InlineContainer
-                            title="Do you smoke?"
-                            actionChild={
-                                <Switch
-                                    trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
-                                    thumbColor={Colors.white}
-                                    ios_backgroundColor={Colors.primaryColor}
-                                    onValueChange={() => {setSmoke(!smoke)}}
-                                    value={smoke}
-                                />
-                            }
-                        />                        
-                        <View style={styles.divider}/>
-                        <InlineContainer
-                            title="Are you healthy?"
-                            actionChild={
-                                <Switch
-                                    trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
-                                    thumbColor={Colors.white}
-                                    ios_backgroundColor={Colors.primaryColor}
-                                    onValueChange={() => {setSmoke(!smoke)}}
-                                    value={smoke}
-                                />
-                            }
-                        />                        
-                        <View style={styles.divider}/>
-                        <InlineContainer
-                            title="Relatives with heart disease?"
-                            actionChild={
-                                <Switch
-                                    trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
-                                    thumbColor={Colors.white}
-                                    ios_backgroundColor={Colors.primaryColor}
-                                    onValueChange={() => {setSmoke(!smoke)}}
-                                    value={smoke}
-                                />
-                            }
-                        />                
-                        <View style={styles.divider}/>
-                        <InlineContainer
-                            title="Exercise Frequency?"
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_running}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    onPress={()=>{setDurationModal(true)}}
-                                />
-                            }
+                        <ScrollView>
+                            <InlineContainer
+                                title={birthday == undefined || birthday == ''
+                                    ? 'Enter your birth year'
+                                    : birthday
+                                }
+                                actionChild={
+                                    <IconButton
+                                        icon={Images.ic_calendar}
+                                        width={scale(21)}
+                                        height={scale(24)}
+                                        marginRight={12}
+                                        onPress={() => { setYearModal(true) }}
+                                    />
+                                }
                             />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title="Do you smoke?"
+                                actionChild={
+                                    <Switch
+                                        trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
+                                        thumbColor={Colors.white}
+                                        ios_backgroundColor={Colors.primaryColor}
+                                        onValueChange={() => {
+                                            setSmoke(!smoke)
+                                        }}
+                                        value={smoke}
+                                    />
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title="Are you healthy?"
+                                actionChild={
+                                    <Switch
+                                        trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
+                                        thumbColor={Colors.white}
+                                        ios_backgroundColor={Colors.primaryColor}
+                                        onValueChange={() => { setIsHealthy(!isHealthy) }}
+                                        value={isHealthy}
+                                    />
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title="Relatives with heart disease?"
+                                actionChild={
+                                    <Switch
+                                        trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
+                                        thumbColor={Colors.white}
+                                        ios_backgroundColor={Colors.primaryColor}
+                                        onValueChange={() => { setHaveHeartDisease(!haveHeartDisease) }}
+                                        value={haveHeartDisease}
+                                    />
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title={exFreq === '-'
+                                    ? "Exercise Frequency?"
+                                    : exFreq
+                                }
+                                actionChild={
+                                    <IconButton
+                                        icon={Images.ic_running}
+                                        width={scale(21)}
+                                        height={scale(24)}
+                                        marginRight={12}
+                                        onPress={() => { setDurationModal(true) }}
+                                    />
+                                }
+                            />
+                        </ScrollView>
                     </View>
                     <View style={styles.loginWrapper}>
                         <OutlineButton
                             title="Click to see age you'll likely die"
-                            loading={loading}
-                            onPress={() => {        
+                            loading={isLoading}
+                            onPress={() => {
                                 navigation.navigate('LifeSpan');
-                                // login(userName, password);
                             }}
                         />
                     </View>
                 </View>
-            </KeyboardAwareScrollView>            
+            </KeyboardAwareScrollView>
             <YearPickerModal
                 visible={yearModal}
-                onHide={()=>setYearModal(false)}
+                onHide={() => setYearModal(false)}
                 onSelected={(v) => {
                     setYearModal(false)
                 }}
             />
             <DurationModal
                 visible={durationModal}
-                onClose={()=>setDurationModal(false)}
+                onClose={() => setDurationModal(false)}
             />
         </View>
     );

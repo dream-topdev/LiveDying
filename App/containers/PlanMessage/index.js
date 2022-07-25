@@ -3,7 +3,8 @@ import { useState, useContext } from 'react';
 import {
     View,
     Text,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
@@ -34,14 +35,16 @@ const TopWishOutScreen = ({ navigation }) => {
                         style={styles.logo}
                         resizeMode={'contain'}
                     />
-                    <View style={styles.message}>
-                        <Text style={styles.notetext}>{"At the end of your life, what will be about your life?"}</Text>
-                        <Text style={styles.plannote}>{"A great way to Figure that out isto plan your funeral and eulogy."}</Text>
+                    <View style={styles.messageWrapper}>
+                        <View style={styles.message}>
+                            <Text style={styles.notetext}>{"At the end of your life, what will be about your life?"}</Text>
+                            <Text style={styles.plannote}>{"A great way to Figure that out isto plan your funeral and eulogy."}</Text>
+                        </View>
                     </View>
                     <View style={styles.loginWrapper}>
                         <OutlineButton
                             title="Next"
-                            loading={loading}
+                            loading={false}
                             onPress={() => {
                                 navigation.navigate('Funeral');
                             }}

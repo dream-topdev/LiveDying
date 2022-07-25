@@ -10,7 +10,7 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 
-const PallbearerContainer = ({ thumbnail, name}) => {
+const PallbearerContainer = ({ thumbnail, name, removePress }) => {
     return (
         <View style={styles.container} >
             <View style={styles.thumbnailWrapper}>
@@ -18,6 +18,7 @@ const PallbearerContainer = ({ thumbnail, name}) => {
                     icon={Images.default_thumbnail}
                     width={scale(79)}
                     height={scale(79)}
+                    // onPress={removePress}
                     disabled={true}
                 />
             </View>
@@ -29,7 +30,8 @@ const PallbearerContainer = ({ thumbnail, name}) => {
                     icon={Images.ic_remove}
                     width={scale(24)}
                     height={scale(24)}
-                    disabled={true}
+                    onPress={removePress}
+                    disabled={false}
                 />
             </View>
         </View >
@@ -38,7 +40,8 @@ const PallbearerContainer = ({ thumbnail, name}) => {
 
 PallbearerContainer.propTypes = {
     thumbnail: PropTypes.any,
-    name: PropTypes.string
+    name: PropTypes.string,
+    removePress: PropTypes.func
 }
 
 export default PallbearerContainer;

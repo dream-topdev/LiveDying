@@ -3,25 +3,26 @@ import {
     Image,
     View,
     Text
-  } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
 import AuthInput from '../../components/AuthInput';
 import LinkButton from '../../components/LinkButton';
 import OutlineButton from '../../components/OutlineButton';
 import Images from '../../utils/Images';
-import {styles} from './styles';
+import { styles } from './styles';
 
 const SignInScreen = ({ navigation }) => {
-    const {loading, login} = React.useContext(AuthContext);
-    const [userName, setUserName] = React.useState("tyrannosaurus.rex@gmail.com");
-    const [password, setPassword] = React.useState("qweasdzxc");
-
+    const { loading, login } = React.useContext(AuthContext);
+    const [userName, setUserName] = React.useState('anton@gmail.com');
+    const [password, setPassword] = React.useState('qweasdzxc');
+    // tyrannosaurus.rex@gmail.com
+    // qweasdzxc
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView style={{flex: 1}} contentContainerStyle={{flex: 1,}}>
+            <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1, }}>
                 <View style={styles.containerInner}>
-                    <Image            
+                    <Image
                         source={Images.ic_full_logo}
                         style={styles.logo}
                         resizeMode={'contain'}
@@ -34,7 +35,7 @@ const SignInScreen = ({ navigation }) => {
                             onChangeText={(v) => setUserName(v)}
                             borderType={"roundTop"}
                         />
-                        <View style={styles.divider}/>
+                        <View style={styles.divider} />
                         <AuthInput
                             placeholder='Password'
                             icon={Images.ic_password}
@@ -49,7 +50,7 @@ const SignInScreen = ({ navigation }) => {
                             title="Forget password?"
                             underline={false}
                             onPress={() => {
-                                navigation.navigate("Profile");
+                                // navigation.navigate("Profile");
                             }}
                         />
                     </View>
@@ -57,13 +58,14 @@ const SignInScreen = ({ navigation }) => {
                         <OutlineButton
                             title="Login"
                             loading={loading}
-                            onPress={() => {        
+                            onPress={() => {
+                                console.log(userName, password)
                                 login(userName, password);
                             }}
                         />
                     </View>
                     <View style={styles.noteWrapper}>
-                        <Text style={styles.noteText}>Not a member? </Text>
+                        <Text style={styles.noteText}>{'Not a member?'} </Text>
                         <LinkButton
                             title="Sign up here."
                             onPress={() => {

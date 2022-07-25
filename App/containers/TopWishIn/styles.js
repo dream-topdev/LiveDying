@@ -25,36 +25,39 @@ export const styles = StyleSheet.create({
     paddingVertical: scale(25),
     borderRadius: scale(20),
     justifyContent: 'center',
-    // alignItems: 'center',
-    // borderColor: '#4d4d4d',
     shadowColor: '#404d4d',
     shadowOffset: {
-      width: 0,
+      width: scale(0),
       height: scale(10),
     },
     shadowOpacity: 0.8,
-    shadowRadius: scale(13.51),
+    shadowRadius: scale(12),
     elevation: scale(5),
   },
   notetext: {
     fontFamily: Fonts.EpilogueBold,
-    fontSize: scale(18),
+    fontSize: scale(20),
     lineHeight: scale(30),
-    color: Colors.black
+    color: Colors.black,
+    // textAlign:'center'
   },
   plannote: {
     marginTop: scale(20),
     fontFamily: Fonts.EpilogueBold,
-    fontSize: scale(18),
+    fontSize: scale(20),
     lineHeight: scale(30),
-    textAlign: 'left',
+    // textAlign:'center',
     color: Colors.primaryColor
   },
   topwishlist: {
+    flex: 1,
     width: '100%',
     marginTop: scale(30),
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: Colors.backgroundColor,
+  },
+  topwishItenWrapper: {
+    marginBottom: scaleVertical(18)
   },
   notemeanhead: {
     fontFamily: Fonts.EpilogueBold,
@@ -111,10 +114,9 @@ export const styles = StyleSheet.create({
   },
   loginWrapper: {
     width: '100%',
-    flex: 1,
-    justifyContent:'flex-end',
-    marginBottom:scale(40),
-    // marginTop: scale(46)
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    marginBottom: scale(20),
   },
   forgetWrapper: {
     marginTop: scale(24),

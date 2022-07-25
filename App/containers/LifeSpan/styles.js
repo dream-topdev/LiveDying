@@ -20,13 +20,29 @@ export const styles = StyleSheet.create({
   },
   lifespan: {
     width: '100%',
-    marginTop: scale(35),
+    marginTop: scale(25),
     paddingHorizontal: scale(20),
     paddingVertical: scale(27),
     borderRadius: scale(10),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.primaryBackColor,
+  },
+  noteMeanHeadWrapper: {
+    width: '100%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginTop: scale(20)
+  },
+  notemeanhead: {
+    fontFamily: Fonts.EpilogueBold,
+    fontSize: scale(18),
+    color: Colors.black,
+    marginBottom: scale(3)
+  },
+  bodyContent: {
+    flex: 1,
   },
   notetext: {
     fontFamily: Fonts.EpilogueBold,
@@ -35,21 +51,14 @@ export const styles = StyleSheet.create({
   },
   meaning: {
     width: '100%',
-    marginTop: scale(30),
     justifyContent: 'center',
     backgroundColor: Colors.backgroundColor,
-  },
-  notemeanhead: {
-    fontFamily: Fonts.EpilogueBold,
-    fontSize: scale(18),
-    color: Colors.black,
-    marginBottom: scale(3)
   },
   notemean: {
     fontFamily: Fonts.Light,
     fontSize: scale(18),
     color: Colors.primaryTextColor,
-    lineHeight: scale(27),
+    lineHeight: scale(20),
     marginTop: 15
   },
   eventhint: {
@@ -100,10 +109,9 @@ export const styles = StyleSheet.create({
   },
   loginWrapper: {
     width: '100%',
-    flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: scale(40),
-    // marginTop: scale(46)
+    marginTop: scale(20),
+    marginBottom: scale(20),
   },
   forgetWrapper: {
     marginTop: scale(24),

@@ -10,6 +10,14 @@ import API from './services/API';
 import { useMutation } from 'react-query';
 export const AuthContext = createContext({});
 
+const validateEmail = (email) => {
+  let isEmail = false;
+  if (/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+    isEmail = true;
+  }
+  return isEmail;
+}
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
@@ -17,16 +25,22 @@ export const AuthProvider = ({ children }) => {
   const [chatBadge, setChatBadge] = useState(false);
   const { mutate, isLoading } = useMutation(API.login, {
     onSuccess: data => {
-      console.log(data);           
       Toast.show({
         type: 'success',
         text1: 'Welcome',
         text2: 'Log in success!👋'
       });
-      setUserProfile(data);
+      if (data.result.id !== undefined) {
+        setUserProfile(data);
+      }
     },
     onError: () => {
-      alert("there was an error")
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry',
+        text2: 'You are unregisted user.'
+      });
+      setLoading(false)
     }
   });
 
@@ -41,13 +55,20 @@ export const AuthProvider = ({ children }) => {
           setChatBadge(b);
         },
         login: async (email, password) => {
-          if (email !== '' && password !== '') {
+          if (email !== '' && password !== '' && validateEmail(email)) {
             setLoading(true);
             const userCred = {
               email,
               password
             };
             mutate(userCred);
+          }
+          else if (!validateEmail(email)) {
+            Toast.show({
+              type: 'error',
+              text1: 'Sorry',
+              text2: 'Please enter correct user email.'
+            });
           } else {
             Toast.show({
               type: 'error',
@@ -79,7 +100,7 @@ export const AuthProvider = ({ children }) => {
         }
       }}
     >
-      {children}      
+      {children}
       <Toast />
     </AuthContext.Provider>
   )

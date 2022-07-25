@@ -6,21 +6,13 @@ import { textScale } from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
   container: {
-    // width: '100%',
-    // backgroundColor: Colors.textInputBackground,
-    // justifyContent: 'space-between',
-    // alignItems: 'center',
-    // flexDirection: 'row',
-    // height: scale(50),
-    // borderRadius: scale(25),
-    // paddingHorizontal: scale(17),
-
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: Colors.textInputBackground,
-    borderRadius: scale(8)
+    borderRadius: scale(8),
+    marginBottom: scale(10)
   },
   text: {
     color: Colors.textInputPlacholder,
@@ -35,7 +27,8 @@ export const styles = StyleSheet.create({
     borderRadius: scale(8)
   },
   thumbnailWrapper: {
-    width: '30%'
+    // width: '30%'
+    // height: '100%'
   },
   itemContent: {
     width: '50%',
@@ -44,12 +37,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   songInfo: {
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'flex-start',
+    marginHorizontal: scale(15),
+    marginVertical: scaleVertical(5)
   },
   songTitle: {
-    fontSize: scale(18)
+    fontSize: scale(18),
+    color: Colors.primaryColor
   },
   songArtist: {
     fontSize: scale(15)
@@ -62,5 +59,5 @@ export const styles = StyleSheet.create({
   },
   divider: {
     height: scale(12)
-},
+  },
 });

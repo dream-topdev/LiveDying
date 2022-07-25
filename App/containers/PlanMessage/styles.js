@@ -18,20 +18,23 @@ export const styles = StyleSheet.create({
         paddingHorizontal: scale(27),
         width: '100%',
     },
+    messageWrapper: {
+        flex: 1,
+        justifyContent: 'flex-start',
+    },
     message: {
         width: '100%',
-        marginTop: scale(86),
+        marginTop: scale(50),
         paddingHorizontal: scale(25),
         paddingVertical: scale(25),
         borderRadius: scale(20),
-        justifyContent: 'center',
         shadowColor: '#404d4d',
         shadowOffset: {
             width: 0,
             height: scale(10),
         },
         shadowOpacity: 0.8,
-        shadowRadius: scale(13.51),
+        shadowRadius: scale(12),
         elevation: scale(5),
     },
     notetext: {
@@ -114,10 +117,10 @@ export const styles = StyleSheet.create({
     },
     loginWrapper: {
         width: '100%',
-        flex: 1,
+        flexDirection: 'column',
+        alignitem: 'center',
         justifyContent: 'flex-end',
-        marginBottom: scale(40),
-        // marginTop: scale(20)
+        marginVertical: scale(20),
     },
     forgetWrapper: {
         marginTop: scale(24),

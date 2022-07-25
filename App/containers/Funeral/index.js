@@ -4,7 +4,8 @@ import {
     View,
     Text,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
@@ -42,101 +43,103 @@ const FuneralScreen = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.message}>
-                        <InlineContainer
-                            title="Opening Songs:"
-                            fontSize={18}
-                            actionChild={
-                                <TouchableOpacity
-                                    style={styles.enterButton}
-                                    onPress={() => {
-                                        navigation.navigate('SongOpen')
-                                        console.log("YOu clicked the enter button")
-                                    }}
-                                >
-                                    <Text style={styles.buttonContent}>{'Enter'}</Text>
-                                </TouchableOpacity>
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title="Procession Song:"
-                            fontSize={18}
-                            actionChild={
-                                <TouchableOpacity
-                                    style={styles.enterButton}
-                                    onPress={() => {
-                                        navigation.navigate('SongProcess')
-                                        console.log("YOu clicked the enter button")
-                                    }}
-                                >
-                                    <Text style={styles.buttonContent}>{'Enter'}</Text>
-                                </TouchableOpacity>
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title="Pall Bearers:"
-                            fontSize={18}
-                            actionChild={
-                                <TouchableOpacity
-                                    style={styles.enterButton}
-                                    onPress={() => {
-                                        navigation.navigate('Pallbearer')
-                                        console.log("YOu clicked the enter button")
-                                    }}
-                                >
-                                    <Text style={styles.buttonContent}>{'Enter'}</Text>
-                                </TouchableOpacity>
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title="Speakers / Topics:"
-                            fontSize={18}
-                            actionChild={
-                                <TouchableOpacity
-                                    style={styles.enterButton}
-                                    onPress={() => {
-                                        navigation.navigate('Speaker')
-                                        console.log("YOu clicked the enter button")
-                                    }}
-                                >
-                                    <Text style={styles.buttonContent}>{'Enter'}</Text>
-                                </TouchableOpacity>
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title="Life Video:"
-                            fontSize={18}
-                            actionChild={
-                                <TouchableOpacity
-                                    style={styles.enterButton}
-                                    onPress={() => {
-                                        navigation.navigate('Gallery')
-                                        console.log("YOu clicked the enter button")
-                                    }}
-                                >
-                                    <Text style={styles.buttonContent}>{'Enter'}</Text>
-                                </TouchableOpacity>
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title="Closing Song:"
-                            fontSize={18}
-                            actionChild={
-                                <TouchableOpacity
-                                    style={styles.enterButton}
-                                    onPress={() => {
-                                        navigation.navigate('SongClose')
-                                        console.log("YOu clicked the enter button")
-                                    }}
-                                >
-                                    <Text style={styles.buttonContent}>{'Enter'}</Text>
-                                </TouchableOpacity>
-                            }
-                        />
+                        {/* <ScrollView> */}
+                            <InlineContainer
+                                title="Opening Songs:"
+                                fontSize={18}
+                                actionChild={
+                                    <TouchableOpacity
+                                        style={styles.enterButton}
+                                        onPress={() => {
+                                            navigation.navigate('SongOpen')
+                                            console.log("YOu clicked the enter button")
+                                        }}
+                                    >
+                                        <Text style={styles.buttonContent}>{'Enter'}</Text>
+                                    </TouchableOpacity>
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title="Procession Song:"
+                                fontSize={18}
+                                actionChild={
+                                    <TouchableOpacity
+                                        style={styles.enterButton}
+                                        onPress={() => {
+                                            navigation.navigate('SongProcess')
+                                            console.log("YOu clicked the enter button")
+                                        }}
+                                    >
+                                        <Text style={styles.buttonContent}>{'Enter'}</Text>
+                                    </TouchableOpacity>
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title="Pall Bearers:"
+                                fontSize={18}
+                                actionChild={
+                                    <TouchableOpacity
+                                        style={styles.enterButton}
+                                        onPress={() => {
+                                            navigation.navigate('Pallbearer')
+                                            console.log("YOu clicked the enter button")
+                                        }}
+                                    >
+                                        <Text style={styles.buttonContent}>{'Enter'}</Text>
+                                    </TouchableOpacity>
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title="Speakers / Topics:"
+                                fontSize={18}
+                                actionChild={
+                                    <TouchableOpacity
+                                        style={styles.enterButton}
+                                        onPress={() => {
+                                            navigation.navigate('Speaker')
+                                            console.log("YOu clicked the enter button")
+                                        }}
+                                    >
+                                        <Text style={styles.buttonContent}>{'Enter'}</Text>
+                                    </TouchableOpacity>
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title="Life Video:"
+                                fontSize={18}
+                                actionChild={
+                                    <TouchableOpacity
+                                        style={styles.enterButton}
+                                        onPress={() => {
+                                            navigation.navigate('Gallery')
+                                            console.log("YOu clicked the enter button")
+                                        }}
+                                    >
+                                        <Text style={styles.buttonContent}>{'Enter'}</Text>
+                                    </TouchableOpacity>
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title="Closing Song:"
+                                fontSize={18}
+                                actionChild={
+                                    <TouchableOpacity
+                                        style={styles.enterButton}
+                                        onPress={() => {
+                                            navigation.navigate('SongClose')
+                                            console.log("YOu clicked the enter button")
+                                        }}
+                                    >
+                                        <Text style={styles.buttonContent}>{'Enter'}</Text>
+                                    </TouchableOpacity>
+                                }
+                            />
+                        {/* </ScrollView> */}
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>

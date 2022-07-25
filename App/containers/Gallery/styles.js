@@ -49,9 +49,9 @@ export const styles = StyleSheet.create({
         // backgroundColor: Colors.white
     },
     tabContent: {
-        flex: 1,
+        // flex: 1,
         // backgroundColor: 'pink',
-        marginTop: scale(20)
+        marginTop: scale(5)
     },
     musicTitle: {
         color: Colors.primaryColor,

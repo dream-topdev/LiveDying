@@ -12,7 +12,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.textInputBackground,
         borderRadius: scale(8),
-        position: 'relative'
+        position: 'relative',
+        marginBottom: scale(12)
     },
     thumbnailWrapper: {
     },

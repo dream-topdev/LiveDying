@@ -11,7 +11,8 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: Colors.textInputBackground,
-        borderRadius: scale(8)
+        borderRadius: scale(8),
+        marginBottom: scaleVertical(10),
     },
     text: {
         color: Colors.textInputPlacholder,

@@ -25,14 +25,14 @@ export const styles = StyleSheet.create({
         marginTop: scale(40),
     },
     message: {
+        flex: 1,
         width: '100%',
-        marginTop: scale(70),
+        marginTop: scale(50),
         borderRadius: scale(20),
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
     },
     footer: {
-        flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
         marginBottom: scale(20)

@@ -1,35 +1,103 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
     Image,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
 import InlineContainer from '../../components/InlineContainer';
-import ActionButton from '../../components/ActionButton';
 import IconButton from '../../components/IconButton';
 import SongItemContainer from '../../components/SongItemContainer';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { scale, scaleVertical } from '../../utils/scale';
-import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
+import { useMutation, useQuery } from 'react-query';
+import API from '../../services/API';
+
+
+const delItemFromJson = (jsonArray, key, value) => {
+    var BreakException = {};
+    var index = 0;
+    try {
+        jsonArray.forEach((item) => {
+            if (item[key] === value) throw BreakException;
+            index++;
+        });
+    } catch (e) {
+        if (e !== BreakException) throw e;
+        jsonArray.splice(index, 1)
+        console.log('you deleted whose item \' index is ', index);
+    }
+}
 
 const SongCloseScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
-    const [testReminderModal, setTestReminderModal] = useState(false);
-    const [userName, setUserName] = useState("");
-    const [topWishList, setTopWishList] = useState([
-        'Get VP Title',
-        'Bora Bora',
-        'Get to 170 lbs',
-        'Help Poor with electricity',
-        'Take Grandkids to Disney World'
-    ]);
+    const { userProfile } = useContext(AuthContext);
+    const userId = userProfile.result.id;
+    console.log('user id is got ', userId);
+    const { data, isLoading: isLoading1, status } = useQuery(['getMediaByUserIdClose', userId], () => API.getMediaByUserId(userId, 'song', 'close'));
+    const [closeSongList, setCloseSongList] = useState([]);
+    const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
+        onSuccess: (data) => {
+            console.log('<----------------------------------------->', data)
+            Toast.show({
+                type: 'success',
+                text1: 'Welcome',
+                text2: data.message
+            });
+        },
+        onError: (data) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Sorry',
+                text2: data.message
+            });
+        }
+    });
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            data.contents.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        title: item.title,
+                        youtubeUrl: item.youtoube_url,
+                        fileUrl: item.file_url,
+                        type: item.type,
+                        userId: item.user_id
+                    }
+                )
+            })
+            setCloseSongList(temp)
+        }
+    }, [data])
+
+    if (isLoading1 || isLoading2) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -69,53 +137,45 @@ const SongCloseScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.songList}>
                         <ScrollView >
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                            <View style={styles.divider} />
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                            <View style={styles.divider} />
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                            <View style={styles.divider} />
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
-                            <View style={styles.divider} />
-                            <SongItemContainer
-                                thumbnail={''}
-                                songTitle={'My Way'}
-                                songArtist={'Frank Sinatra'}
-                                songTime={'4:54'}
-                            />
+                            {
+                                closeSongList.map((item) => (
+                                    <SongItemContainer
+                                        key={item.id}
+                                        thumbnail={''}
+                                        songTitle={item.title}
+                                        songArtist={'Frank Sinatra'}
+                                        songTime={'4:54'}
+                                        removePress={() => {
+                                            Alert.alert(
+                                                "Confirm",
+                                                'Are you sure want to remove this song?',
+                                                [
+                                                    {
+                                                        text: 'ok',
+                                                        onPress: () => {
+                                                            let tempArray = [...closeSongList];
+                                                            delItemFromJson(tempArray, 'id', item.id)
+                                                            setCloseSongList(tempArray);
+                                                            mutate1(['song', item.id]);
+                                                            console.log("You clicked item whose id is ", item.id)
+                                                        }
+                                                    },
+                                                    {
+                                                        text: 'cancel',
+                                                        onPress: () => {
+                                                            console.log('you clickec the cancel button ');
+                                                        }
+                                                    }
+                                                ]
+                                            )
+                                        }}
+                                    />
+                                ))
+                            }
                         </ScrollView>
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>
-                            <IconButton
-                                icon={Images.ic_back}
-                                width={52}
-                                height={52}
-                                onPress={() => {
-                                    console.log('You clicked the back button')
-                                    navigation.navigate('SongProcess')
-                                }}
-                            />
                             <IconButton
                                 icon={Images.ic_home}
                                 width={52}
@@ -126,6 +186,15 @@ const SongCloseScreen = ({ navigation }) => {
                                 }}
                             />
                             <IconButton
+                                icon={Images.ic_back}
+                                width={52}
+                                height={52}
+                                onPress={() => {
+                                    console.log('You clicked the back button')
+                                    navigation.navigate('Gallery')
+                                }}
+                            />
+                            {/* <IconButton
                                 icon={Images.ic_next}
                                 width={52}
                                 height={52}
@@ -133,7 +202,7 @@ const SongCloseScreen = ({ navigation }) => {
                                     console.log('You clicked the back button')
                                     navigation.navigate('Pallbearer')
                                 }}
-                            />
+                            /> */}
                         </View>
                     </View>
                 </View>

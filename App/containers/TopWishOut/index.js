@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
@@ -8,24 +8,62 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
 import OutlineButton from '../../components/OutlineButton';
-import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
+import API from '../../services/API';
 import Colors from '../../utils/Colors';
 import TestReminderModal from '../../components/TestReminderModal';
+import { useQuery } from 'react-query';
 
 const TopWishOutScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
-    const [testReminderModal, setTestReminderModal] = useState(false);
+
+    const { userProfile } = useContext(AuthContext);
+    const userId = userProfile.result.id;
+    const { data, isLoading, status } = useQuery(["getTopWishById", userId], () => API.getTopWishById(userId));
     const [userName, setUserName] = useState("");
+    const [testReminderModal, setTestReminderModal] = useState(false);
     const [topWishList, setTopWishList] = useState([
-        'Get VP Title',
-        'Bora Bora',
-        'Get to 170 lbs',
-        'Help Poor with electricity',
-        'Take Grandkids to Disney World'
+        // 'Get VP Title',
+        // 'Bora Bora',
+        // 'Get to 170 lbs',
+        // 'Help Poor with electricity',
+        // 'Take Grandkids to Disney World'
     ]);
-    const [shareMessage, setShareMessage] = useState('Share what you are planning to do over the next 24 years')
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            data.result.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        content: item.content
+                    }
+                )
+            })
+            setTopWishList(temp);
+        }
+    }, [data])
+
+    if (isLoading)
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+        
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -37,14 +75,14 @@ const TopWishOutScreen = ({ navigation }) => {
                     />
                     <View style={styles.message}>
                         <Text style={styles.notetext}>{"5 Things you still want to do in your life?"}</Text>
-                        {topWishList.map(item => (
-                            <Text style={styles.plannote}>{item}</Text>
+                        {topWishList.map((item) => (
+                            <Text key={item.id} style={styles.plannote}>{item.content}</Text>
                         ))}
                     </View>
                     <View style={styles.testReminderWrapper}>
                         <OutlineButton
                             title="Text reminders"
-                            loading={loading}
+                            loading={false}
                             backColor={Colors.secondaryColor}
                             onPress={() => {
                                 setTestReminderModal(true);
@@ -54,7 +92,7 @@ const TopWishOutScreen = ({ navigation }) => {
                     <View style={styles.loginWrapper}>
                         <OutlineButton
                             title="Next"
-                            loading={loading}
+                            loading={false}
                             onPress={() => {
                                 navigation.navigate('PlanMessage')
                             }}

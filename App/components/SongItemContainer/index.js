@@ -10,7 +10,7 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 
-const SongItemContainer = ({ thumbnail, songTitle, songArtist, songTime }) => {
+const SongItemContainer = ({ thumbnail, songTitle, songArtist, songTime, removePress }) => {
     return (
         <View style={styles.container} >
             <View style={styles.thumbnailWrapper}>
@@ -21,22 +21,19 @@ const SongItemContainer = ({ thumbnail, songTitle, songArtist, songTime }) => {
                     disabled={true}
                 />
             </View>
-            <View style={styles.itemContent}>
-                <View style={styles.songInfo}>
-                    <Text style={styles.songTitle}>{songTitle}</Text>
-                    <View style={styles.divider} />
-                    <Text style={styles.songArtist}>{songArtist}</Text>
-                    <View style={styles.divider} />
-                    <Text style={styles.songTime}>{songTime}</Text>
-                </View>
-                <View style={styles.removeIcon}>
-                    <IconButton
-                        icon={Images.ic_remove}
-                        width={scale(24)}
-                        height={scale(24)}
-                        disabled={true}
-                    />
-                </View>
+            <View style={styles.songInfo}>
+                <Text style={styles.songTitle}>{songTitle}</Text>
+                <Text style={styles.songArtist}>{songArtist}</Text>
+                <Text style={styles.songTime}>{songTime}</Text>
+            </View>
+            <View style={styles.removeIcon}>
+                <IconButton
+                    icon={Images.ic_remove}
+                    width={scale(24)}
+                    height={scale(24)}
+                    onPress={removePress}
+                    disabled={false}
+                />
             </View>
         </View >
     );
@@ -46,7 +43,8 @@ SongItemContainer.propTypes = {
     thumbnail: PropTypes.any,
     songTitle: PropTypes.string,
     songArtist: PropTypes.string,
-    songTime: PropTypes.string
+    songTime: PropTypes.string,
+    removePress: PropTypes.func
 }
 
 export default SongItemContainer;

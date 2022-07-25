@@ -10,25 +10,21 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 
-const SpeakerContainer = ({ thumbnail, speakerName, speakerTopic }) => {
+const SpeakerContainer = ({ thumbnail, speakerName, speakerTopic, removePress }) => {
     return (
         <View style={styles.container} >
             <View style={styles.thumbnailWrapper}>
                 <IconButton
                     icon={Images.default_thumbnail}
-                    width={80}
-                    height={80}
+                    width={scale(80)}
+                    height={scale(80)}
                     disabled={true}
                 />
             </View>
             <View style={styles.speakerContentWrapper}>
                 <View style={styles.speakerContent}>
-                    {/* <View style={styles.speakerNameWrapper}> */}
                     <Text style={styles.speakerName}>{speakerName}</Text>
-                    {/* </View> */}
-                    {/* <View style={styles.speakerTopicWrapper}> */}
                     <Text style={styles.speakerTopic}>{speakerTopic}</Text>
-                    {/* </View> */}
                 </View>
             </View>
             <View style={styles.removeIconWrapper}>
@@ -36,7 +32,8 @@ const SpeakerContainer = ({ thumbnail, speakerName, speakerTopic }) => {
                     icon={Images.ic_remove}
                     width={scale(24)}
                     height={scale(24)}
-                    disabled={true}
+                    onPress={removePress}
+                    disabled={false}
                 />
             </View>
         </View >
@@ -46,7 +43,8 @@ const SpeakerContainer = ({ thumbnail, speakerName, speakerTopic }) => {
 SpeakerContainer.propTypes = {
     thumbnail: PropTypes.any,
     speakerName: PropTypes.string,
-    speakerTopic: PropTypes.string
+    speakerTopic: PropTypes.string,
+    removePress: PropTypes.func
 }
 
 export default SpeakerContainer;

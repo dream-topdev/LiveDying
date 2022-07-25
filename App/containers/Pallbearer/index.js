@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
     Image,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
@@ -14,22 +15,91 @@ import ActionButton from '../../components/ActionButton';
 import IconButton from '../../components/IconButton';
 import PallbearerContainer from '../../components/PallbearerContainer';
 import { scale, scaleVertical } from '../../utils/scale';
-import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
+import Toast from 'react-native-toast-message';
+import { useQuery, useMutation } from 'react-query';
+import API from '../../services/API';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 
+
+const delItemFromJson = (jsonArray, key, value) => {
+    var BreakException = {};
+    var index = 0;
+    try {
+        jsonArray.forEach((item) => {
+            if (item[key] === value) throw BreakException;
+            index++;
+        });
+    } catch (e) {
+        if (e !== BreakException) throw e;
+        jsonArray.splice(index, 1)
+        console.log('you deleted whose item \' index is ', index);
+    }
+}
 const PallbearerScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
-    const [testReminderModal, setTestReminderModal] = useState(false);
-    const [userName, setUserName] = useState("");
-    const [topWishList, setTopWishList] = useState([
-        'Get VP Title',
-        'Bora Bora',
-        'Get to 170 lbs',
-        'Help Poor with electricity',
-        'Take Grandkids to Disney World'
-    ]);
+
+    const { userProfile } = useContext(AuthContext);
+    const userId = userProfile.result.id;
+    console.log('Current Use id is ', userId);
+    const { data, isLoading: isLoading1, status } = useQuery(['getPallbearerByUserId', userId], () => API.getPallbearerByUserId(userId));
+    const [pallbearerList, setPallbearerList] = useState([]);
+    const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deletePallbearerById, {
+        onSuccess: (data) => {
+            console.log('<----------------------------------------->', data)
+            Toast.show({
+                type: 'success',
+                text1: 'Welcome',
+                text2: data.message
+            });
+        },
+        onError: (data) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Sorry',
+                text2: data.message
+            });
+        }
+    });
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            data.contents.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        firstName: item.first_name,
+                        lastName: item.last_name,
+                        userId: item.user_id
+                    }
+                )
+            })
+            setPallbearerList(temp)
+        }
+    }, [data])
+
+    if (isLoading1 || isLoading2) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -66,30 +136,41 @@ const PallbearerScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.pallbearerList}>
                         <ScrollView>
-                            <PallbearerContainer
-                                thumbnail={''}
-                                name={'Mike Smith'}
-                            />
-                            <View style={styles.divider} />
-                            <PallbearerContainer
-                                thumbnail={''}
-                                name={'Robb Parker'}
-                            />
-                            <View style={styles.divider} />
-                            <PallbearerContainer
-                                thumbnail={''}
-                                name={'Mike Jones'}
-                            />
-                            <View style={styles.divider} />
-                            <PallbearerContainer
-                                thumbnail={''}
-                                name={'Jose Darron'}
-                            />
-                            <View style={styles.divider} />
-                            <PallbearerContainer
-                                thumbnail={''}
-                                name={'Jensen Chancey'}
-                            />
+                            {
+                                pallbearerList.map((item) => (
+                                    <PallbearerContainer
+                                        key={item.id}
+                                        thumbnail={''}
+                                        name={item.firstName + ' ' + item.lastName}
+                                        removePress={() => {
+                                            Alert.alert(
+                                                'Confirm',
+                                                'Are you sure want to remove it?',
+                                                [
+                                                    {
+                                                        text: 'OK',
+                                                        onPress: () => {
+                                                            let temp = [...pallbearerList];
+                                                            mutate1(item.id)
+                                                            delItemFromJson(temp, 'id', item.id);
+                                                            setPallbearerList(temp);
+                                                            console.log('you clicked the remove button ', item.id)
+                                                        }
+                                                    },
+                                                    {
+                                                        text: 'Cancel',
+                                                        onPress: () => {
+                                                            console.log('you clocked the cancel button.');
+                                                        },
+                                                        style: 'cancel'
+                                                    },
+                                                ]
+                                            )
+                                        }
+                                        }
+                                    />
+                                ))
+                            }
                         </ScrollView>
                     </View>
                     <View style={styles.footer}>
@@ -100,7 +181,7 @@ const PallbearerScreen = ({ navigation }) => {
                                 height={52}
                                 onPress={() => {
                                     console.log('You clicked the back button')
-                                    navigation.navigate('SongClose')
+                                    navigation.navigate('SongProcess')
                                 }}
                             />
                             <IconButton

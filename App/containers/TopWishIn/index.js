@@ -1,87 +1,102 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
+    ScrollView,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
 import OutlineButton from '../../components/OutlineButton';
 import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
+import { useQuery } from 'react-query';
+import API from '../../services/API';
+import { scale } from '../../utils/scale';
 
 const TopWishInScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
+    const { userProfile } = useContext(AuthContext);
+    const userId = userProfile.result.id;
+    const { data, isLoading, status } = useQuery(["getTopWishById", userId], () => API.getTopWishById(userId));
+    const [topWishList, setTopWishList] = useState([]);
     const [userName, setUserName] = useState("");
-    const [eventHint, setEventHint] = useState('To put in perspective 24 years ago was 1998. What appened in that year ? ');
-    const [shareMessage, setShareMessage] = useState('Share what you are planning to do over the next 24 years')
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            data.result.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        content: item.content
+                    }
+                )
+            })
+            setTopWishList(temp);
+        }
+    }, [data])
+    if (isLoading)
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
     return (
-        <View style={styles.container}>
-            <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+        <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <View style={styles.container}>
                 <View style={styles.containerInner}>
                     <View style={styles.message}>
-                        <Text style={styles.notetext}>{"With just 24 years remaining, what are you going to do with that time?"}</Text>
-                        <Text style={styles.plannote}>{"Plan out your time left by focusing on what is most important."}</Text>
+                        <Text style={styles.notetext}>
+                            {"With just 24 years remaining, what are you going to do with that time?"}
+                        </Text>
+                        <Text style={styles.plannote}>
+                            {"Plan out your time left by focusing on what is most important."}
+                        </Text>
                     </View>
                     <View style={styles.topwishlist}>
-                        <View>
-                            <AuthInput
-                                placeholder='Get vp title'
-                                value={userName}
-                                onChangeText={(v) => setUserName(v)}
-                                borderType={"roundTop"}
-                            />
-                        </View>
-                        <View style={styles.divider}/>
-                        <View>
-                            <AuthInput
-                                placeholder='Bora Bora'
-                                value={userName}
-                                onChangeText={(v) => setUserName(v)}
-                                borderType={"roundTop"}
-                            />
-                        </View>
-                        <View style={styles.divider}/>
-                        <View>
-                            <AuthInput
-                                placeholder='Go to 170lbs'
-                                value={userName}
-                                onChangeText={(v) => setUserName(v)}
-                                borderType={"roundTop"}
-                            />
-                        </View>
-                        <View style={styles.divider}/>
-                        <View>
-                            <AuthInput
-                                placeholder='Help poor with electrtcity'
-                                value={userName}
-                                onChangeText={(v) => setUserName(v)}
-                                borderType={"roundTop"}
-                            />
-                        </View>
-                        <View style={styles.divider}/>
-                        <View>
-                            <AuthInput
-                                placeholder='Take Grandkids to Desney world'
-                                value={userName}
-                                onChangeText={(v) => setUserName(v)}
-                                borderType={"roundTop"}
-                            />
-                        </View>
+                        <ScrollView>
+                            {
+                                topWishList.map((item) => (
+                                    <View key={item.id} style={styles.topwishItenWrapper}>
+                                        <AuthInput
+                                            placeholder='Enter 1st topwish'
+                                            value={item.content}
+                                            onChangeText={(v) => {
+                                                item.content = v;
+                                                console.log(item.id)
+                                            }}
+                                            borderType={"roundTop"}
+                                        />
+                                    </View>
+                                ))
+                            }
+                        </ScrollView>
                     </View>
-                    <View style={styles.divider}/>
+                    <View style={styles.divider} />
                     <View style={styles.loginWrapper}>
                         <OutlineButton
                             title="Next"
-                            loading={loading}
+                            loading={false}
                             onPress={() => {
                                 navigation.navigate('TopWishOut');
                             }}
                         />
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
-        </View>
+            </View>
+        </KeyboardAwareScrollView >
     );
 };
 

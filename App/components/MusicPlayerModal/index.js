@@ -22,26 +22,26 @@ const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
 
 const MusicPlayerModal = ({ tracks, visible, onClose }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  useEffect(() => {
-    if (tracks == undefined || tracks.length == 0)
-      return;
-    TrackPlayer.updateOptions({
-      stopWithApp: true,
-      capabilities: [
-        TrackPlayer.CAPABILITY_PLAY,
-        TrackPlayer.CAPABILITY_PAUSE
-      ],
-      compactCapabilities: [
-        TrackPlayer.CAPABILITY_PLAY,
-        TrackPlayer.CAPABILITY_PAUSE,
-      ],
-    });
-    setUpTrackPlayer();
-  }, [tracks])
+  // useEffect(() => {
+  //   if (tracks == undefined || tracks.length == 0)
+  //     return;
+  //   setUpTrackPlayer();
+  //   TrackPlayer.updateOptions({
+  //     stopWithApp: true,
+  //     capabilities: [
+  //       TrackPlayer.CAPABILITY_PLAY,
+  //       TrackPlayer.CAPABILITY_PAUSE
+  //     ],
+  //     compactCapabilities: [
+  //       TrackPlayer.CAPABILITY_PLAY,
+  //       TrackPlayer.CAPABILITY_PAUSE,
+  //     ],
+  //   });
+  // }, [tracks])
 
-  useEffect(() => {
-    return () => TrackPlayer.destroy();
-  }, []);
+  // useEffect(() => {
+  //   return () => TrackPlayer.destroy();
+  // }, []);
 
   const setUpTrackPlayer = async () => {
     try {
@@ -86,7 +86,7 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
             height={35}
             onPress={() => {
               console.log('You clicked the previous button');
-              TrackPlayer.skipToPrevious();
+              // TrackPlayer.skipToPrevious();
             }}
           />{
             isPlaying
@@ -97,7 +97,7 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
                 height={35}
                 onPress={() => {
                   console.log('You clicked the pause button');
-                  TrackPlayer.pause();
+                  // TrackPlayer.pause();
                   setIsPlaying(false)
                 }}
               />
@@ -108,7 +108,7 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
                 height={40}
                 onPress={() => {
                   console.log('You clicked the play button');
-                  TrackPlayer.play()
+                  // TrackPlayer.play()
                   setIsPlaying(true)
                 }}
               />
@@ -119,7 +119,7 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
             height={35}
             onPress={() => {
               console.log('You clicked the next button');
-              TrackPlayer.skipToNext();
+              // TrackPlayer.skipToNext();
             }}
           />
         </View>

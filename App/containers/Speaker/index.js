@@ -1,35 +1,104 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
     Image,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
-import InlineContainer from '../../components/InlineContainer';
-import ActionButton from '../../components/ActionButton';
-import IconButton from '../../components/IconButton';
 import SpeakerContainer from '../../components/SpeakerContainer';
+import InlineContainer from '../../components/InlineContainer';
+import IconButton from '../../components/IconButton';
 import { scale, scaleVertical } from '../../utils/scale';
-import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
+import Toast from 'react-native-toast-message';
+import { useQuery, useMutation } from 'react-query';
+import API from '../../services/API';
+
+
+const delItemFromJson = (jsonArray, key, value) => {
+    var BreakException = {};
+    var index = 0;
+    try {
+        jsonArray.forEach((item) => {
+            if (item[key] === value) throw BreakException;
+            index++;
+        });
+    } catch (e) {
+        if (e !== BreakException) throw e;
+        jsonArray.splice(index, 1)
+        console.log('you deleted whose item \' index is ', index);
+    }
+}
 
 const SpeakerScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
-    const [testReminderModal, setTestReminderModal] = useState(false);
-    const [userName, setUserName] = useState("");
-    const [topWishList, setTopWishList] = useState([
-        'Get VP Title',
-        'Bora Bora',
-        'Get to 170 lbs',
-        'Help Poor with electricity',
-        'Take Grandkids to Disney World'
-    ]);
+    const { userProfile } = useContext(AuthContext);
+    const userId = userProfile.result.id;
+    console.log('Current Use id is ', userId);
+    const { data, isLoading: isLoading1, status } = useQuery(['getSpeakerByUserId', userId], () => API.getSpeakerByUserId(userId));
+    const [speakerList, setspeakerList] = useState([]);
+    const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deleteSpeakerById, {
+        onSuccess: data => {
+            console.log('<----------------------------------------->', data)
+            Toast.show({
+                type: 'success',
+                text1: 'Welcome',
+                text2: data.message
+            });
+        },
+        onError: (data) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Sorry',
+                text2: data.message
+            });
+        }
+    });
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            console.log('I am expert =========<================>====>', data)
+            data.contents.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        firstName: item.first_name,
+                        lastName: item.last_name,
+                        topic: item.topic,
+                        userId: item.user_id
+                    }
+                )
+            })
+            setspeakerList(temp)
+        }
+    }, [data]);
+
+    if (isLoading1 || isLoading2) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -66,35 +135,41 @@ const SpeakerScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.songList}>
                         <ScrollView >
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Mike Smith'}
-                                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi, Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            />
-                            <View style={styles.divider} />
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Robb Parker'}
-                                speakerTopic={'Lorem ipsum dolor.'}
-                            />
-                            <View style={styles.divider} />
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Mike Jones'}
-                                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            />
-                            <View style={styles.divider} />
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Jose Darron'}
-                                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            />
-                            <View style={styles.divider} />
-                            <SpeakerContainer
-                                thumbnail={''}
-                                speakerName={'Jensen Chancey'}
-                                speakerTopic={'Lorem ipsum dolor sit amet conse adipis elit Assumenda repud eum veniam optio modi'}
-                            />
+                            {
+                                speakerList.map((item) => (
+                                    <SpeakerContainer
+                                        key={item.id}
+                                        thumbnail={''}
+                                        speakerName={`${item.firstName} ${item.lastName}`}
+                                        speakerTopic={item.topic}
+                                        removePress={() => {
+
+                                            Alert.alert(
+                                                "Confirm",
+                                                'Are you sure want to remove?',
+                                                [
+                                                    {
+                                                        text: 'ok',
+                                                        onPress: () => {
+                                                            let temp = [...speakerList];
+                                                            delItemFromJson(temp, 'id', item.id);
+                                                            setspeakerList(temp);
+                                                            mutate1(item.id);
+                                                        }
+                                                    },
+                                                    {
+                                                        text: 'cancel',
+                                                        onPress: () => {
+                                                            console.log('you clicked the remove button ')
+                                                        },
+                                                        style: 'cancel'
+                                                    }
+                                                ]
+                                            )
+                                        }}
+                                    />
+                                ))
+                            }
                         </ScrollView>
                     </View>
                     <View style={styles.footer}>

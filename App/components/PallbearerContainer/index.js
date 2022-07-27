@@ -10,16 +10,16 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 
-const PallbearerContainer = ({ thumbnail, name, removePress }) => {
+const PallbearerContainer = ({ thumbnail, name, onPress, removePress }) => {
     return (
         <View style={styles.container} >
             <View style={styles.thumbnailWrapper}>
                 <IconButton
-                    icon={Images.default_thumbnail}
+                    icon={thumbnail}
                     width={scale(79)}
                     height={scale(79)}
-                    // onPress={removePress}
-                    disabled={true}
+                    disabled={false}
+                    onPress={onPress}
                 />
             </View>
             <View style={styles.itemContent}>
@@ -41,6 +41,7 @@ const PallbearerContainer = ({ thumbnail, name, removePress }) => {
 PallbearerContainer.propTypes = {
     thumbnail: PropTypes.any,
     name: PropTypes.string,
+    onPress: PropTypes.func,
     removePress: PropTypes.func
 }
 

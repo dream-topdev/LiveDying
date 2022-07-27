@@ -115,7 +115,7 @@ export const styles = StyleSheet.create({
         marginTop: scale(74)
     },
     divider: {
-        height: scale(30)
+        height: scale(20)
     },
     testReminderWrapper: {
         width: '100%',

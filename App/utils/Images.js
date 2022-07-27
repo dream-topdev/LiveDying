@@ -49,6 +49,7 @@ export default {
   ic_play: require('./../assets/images/ic_play.png'),
   ic_music: require('./../assets/images/ic_music_symbol.png'),
   ic_video: require('./../assets/images/videoplay.png'),
+  default_avatar: require('./../assets/images/defalut_avatar.png'),
   //test images 
   default_thumbnail: require('./../assets/images/default_thumbnail.png'),
   img_gallery_1: require('./../assets/images/gallery_1.png'),

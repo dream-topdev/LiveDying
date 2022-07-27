@@ -47,7 +47,7 @@ const SignInScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.forgetWrapper}>
                         <LinkButton
-                            title="Forget password?"
+                            title="Forgot password?"
                             underline={false}
                             onPress={() => {
                                 // navigation.navigate("Profile");

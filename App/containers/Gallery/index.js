@@ -191,7 +191,7 @@ const PhotoRoute = () => {
     },
   ]);
   return (
-    <View style={styles.tabContent}>
+    <SafeAreaView style={[styles.tabContent, { flex: 1 }]}>
       <FlatGrid
         itemDimension={130}
         data={photos}
@@ -211,7 +211,7 @@ const PhotoRoute = () => {
           </View>
         )}
       />
-    </View>
+    </SafeAreaView>
   )
 };
 

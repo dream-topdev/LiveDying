@@ -19,9 +19,9 @@ import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import Toast from 'react-native-toast-message';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, parseMutationArgs } from 'react-query';
 import API from '../../services/API';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
+import AddPeopleModal from '../../components/AddPeopleModal';
 
 
 const delItemFromJson = (jsonArray, key, value) => {
@@ -45,6 +45,11 @@ const PallbearerScreen = ({ navigation }) => {
     console.log('Current Use id is ', userId);
     const { data, isLoading: isLoading1, status } = useQuery(['getPallbearerByUserId', userId], () => API.getPallbearerByUserId(userId));
     const [pallbearerList, setPallbearerList] = useState([]);
+    const [addPallbearerModal, setAddPallbearerModal] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [isEdit, setIsEdit] = useState(false);
+    const [currentId, setCurrentId] = useState(null);
     const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deletePallbearerById, {
         onSuccess: (data) => {
             console.log('<----------------------------------------->', data)
@@ -59,6 +64,80 @@ const PallbearerScreen = ({ navigation }) => {
                 type: 'error',
                 text1: 'Sorry',
                 text2: data.message
+            });
+        }
+    });
+    const { mutate: mutate2, isLoading: isLoading3 } = useMutation(API.createPallbearer, {
+        onSuccess: (data) => {
+            console.log('<----------------------------------------->', data)
+            if (data.result == true) {
+                let temp = [];
+                data.contents.forEach((item) => {
+                    temp.push(
+                        {
+                            id: item.id,
+                            firstName: item.first_name,
+                            lastName: item.last_name,
+                            userId: item.user_id
+                        }
+                    )
+                })
+                setPallbearerList(temp)
+                Toast.show({
+                    type: 'success',
+                    text1: 'Welcome',
+                    text2: data.message
+                });
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Welcome',
+                    text2: data.message
+                });
+            }
+        },
+        onError: (data) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Sorry',
+                text2: 'May some issue.'
+            });
+        }
+    });
+    const { mutate: mutate3, isLoading: isLoading4 } = useMutation(API.updatePallbearer, {
+        onSuccess: (data) => {
+            console.log('<----------------------------------------->', data)
+            if (data.result == true) {
+                let temp = [];
+                data.contents.forEach((item) => {
+                    temp.push(
+                        {
+                            id: item.id,
+                            firstName: item.first_name,
+                            lastName: item.last_name,
+                            userId: item.user_id
+                        }
+                    )
+                })
+                setPallbearerList(temp)
+                Toast.show({
+                    type: 'success',
+                    text1: 'Welcome',
+                    text2: data.message
+                });
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Welcome',
+                    text2: data.message
+                });
+            }
+        },
+        onError: (data) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Sorry',
+                text2: 'May some issue.'
             });
         }
     });
@@ -80,7 +159,7 @@ const PallbearerScreen = ({ navigation }) => {
         }
     }, [data])
 
-    if (isLoading1 || isLoading2) {
+    if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
         return (
             <View
                 style={{
@@ -127,6 +206,10 @@ const PallbearerScreen = ({ navigation }) => {
                                         width={35}
                                         height={35}
                                         onPress={() => {
+                                            setIsEdit(false);
+                                            setFirstName('');
+                                            setLastName('');
+                                            setAddPallbearerModal(true);
                                             console.log('You clicked the youtube button');
                                         }}
                                     />
@@ -140,8 +223,16 @@ const PallbearerScreen = ({ navigation }) => {
                                 pallbearerList.map((item) => (
                                     <PallbearerContainer
                                         key={item.id}
-                                        thumbnail={''}
+                                        thumbnail={Images.default_avatar}
                                         name={item.firstName + ' ' + item.lastName}
+                                        onPress={() => {
+                                            setIsEdit(true);
+                                            setCurrentId(item.id)
+                                            setFirstName(item.firstName)
+                                            setLastName(item.lastName)
+                                            setAddPallbearerModal(true)
+                                            console.log('you clicked the main avatar')
+                                        }}
                                         removePress={() => {
                                             Alert.alert(
                                                 'Confirm',
@@ -206,6 +297,49 @@ const PallbearerScreen = ({ navigation }) => {
                     </View>
                 </View>
             </KeyboardAwareScrollView >
+            <AddPeopleModal
+                visible={addPallbearerModal}
+                textAreaVisible={false}
+                firstName={firstName}
+                lastName={lastName}
+                setFirstName={(v) => {
+                    setFirstName(v)
+                }}
+                setLastName={(v) => {
+                    setLastName(v)
+                }}
+                onClose={() => setAddPallbearerModal(false)}
+                onSuccess={() => {
+                    if (isEdit) {
+                        let params = {
+                            userId: userId,
+                            body: {
+                                contents: [
+                                    {
+                                        id: currentId,
+                                        first_name: firstName,
+                                        last_name: lastName,
+                                        user_id: userId
+                                    }
+                                ]
+                            }
+                        }
+                        mutate3(params)
+                        console.log('Update api is called successfully. ');
+                    } else {
+                        let params = {
+                            userId: userId,
+                            body: {
+                                contents: [{
+                                    first_name: firstName,
+                                    last_name: lastName
+                                }]
+                            }
+                        };
+                        mutate2(params);
+                    }
+                }}
+            />
         </View >
     )
 }

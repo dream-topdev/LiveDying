@@ -10,15 +10,16 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 
-const SpeakerContainer = ({ thumbnail, speakerName, speakerTopic, removePress }) => {
+const SpeakerContainer = ({ thumbnail, speakerName, speakerTopic, onPress, removePress }) => {
     return (
         <View style={styles.container} >
             <View style={styles.thumbnailWrapper}>
                 <IconButton
-                    icon={Images.default_thumbnail}
+                    icon={thumbnail}
                     width={scale(80)}
                     height={scale(80)}
-                    disabled={true}
+                    disabled={false}
+                    onPress={onPress}
                 />
             </View>
             <View style={styles.speakerContentWrapper}>
@@ -44,6 +45,7 @@ SpeakerContainer.propTypes = {
     thumbnail: PropTypes.any,
     speakerName: PropTypes.string,
     speakerTopic: PropTypes.string,
+    onPress: PropTypes.func,
     removePress: PropTypes.func
 }
 

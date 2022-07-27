@@ -19,7 +19,8 @@ import Colors from '../../utils/Colors';
 import Toast from 'react-native-toast-message';
 import { useQuery, useMutation } from 'react-query';
 import API from '../../services/API';
-
+import AddPeopleModal from '../../components/AddPeopleModal';
+import { setEnabled } from 'react-native/Libraries/Performance/Systrace';
 
 const delItemFromJson = (jsonArray, key, value) => {
     var BreakException = {};
@@ -42,6 +43,12 @@ const SpeakerScreen = ({ navigation }) => {
     console.log('Current Use id is ', userId);
     const { data, isLoading: isLoading1, status } = useQuery(['getSpeakerByUserId', userId], () => API.getSpeakerByUserId(userId));
     const [speakerList, setspeakerList] = useState([]);
+    const [addSpeakerModal, setAddSpeakerModal] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [topic, setTopic] = useState('');
+    const [isEdit, setIsEdit] = useState(false);
+    const [currentId, setCurrentId] = useState(null);
     const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deleteSpeakerById, {
         onSuccess: data => {
             console.log('<----------------------------------------->', data)
@@ -59,6 +66,82 @@ const SpeakerScreen = ({ navigation }) => {
             });
         }
     });
+    const { mutate: mutate2, isLoading: isLoading3 } = useMutation(API.postSpeaker, {
+        onSuccess: data => {
+            console.log('<----------------------------------------->', data)
+            if (data.result == true) {
+                let temp = [];
+                data.contents.forEach((item) => {
+                    temp.push(
+                        {
+                            id: item.id,
+                            firstName: item.first_name,
+                            lastName: item.last_name,
+                            topic: item.topic,
+                            userId: item.user_id
+                        }
+                    )
+                })
+                setspeakerList(temp)
+                Toast.show({
+                    type: 'success',
+                    text1: 'Welcome',
+                    text2: data.message
+                });
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Welcome',
+                    text2: data.message
+                });
+            }
+        },
+        onError: (data) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Sorry',
+                text2: data.message
+            });
+        }
+    })
+    const { mutate: mutate3, isLoading: isLoading4 } = useMutation(API.updateSpeaker, {
+        onSuccess: data => {
+            console.log('<----------------------------------------->', data)
+            if (data.result == true) {
+                let temp = [];
+                data.contents.forEach((item) => {
+                    temp.push(
+                        {
+                            id: item.id,
+                            firstName: item.first_name,
+                            lastName: item.last_name,
+                            topic: item.topic,
+                            userId: item.user_id
+                        }
+                    )
+                })
+                setspeakerList(temp)
+                Toast.show({
+                    type: 'success',
+                    text1: 'Welcome',
+                    text2: data.message
+                });
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Welcome',
+                    text2: data.message
+                });
+            }
+        },
+        onError: (data) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Sorry',
+                text2: data.message
+            });
+        }
+    })
 
     useEffect(() => {
         if (data != null && status == 'success') {
@@ -79,7 +162,7 @@ const SpeakerScreen = ({ navigation }) => {
         }
     }, [data]);
 
-    if (isLoading1 || isLoading2) {
+    if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
         return (
             <View
                 style={{
@@ -126,6 +209,11 @@ const SpeakerScreen = ({ navigation }) => {
                                         width={35}
                                         height={35}
                                         onPress={() => {
+                                            setIsEdit(false)
+                                            setFirstName('')
+                                            setLastName('')
+                                            setTopic('')
+                                            setAddSpeakerModal(true);
                                             console.log('You clicked the youtube button');
                                         }}
                                     />
@@ -139,11 +227,19 @@ const SpeakerScreen = ({ navigation }) => {
                                 speakerList.map((item) => (
                                     <SpeakerContainer
                                         key={item.id}
-                                        thumbnail={''}
+                                        thumbnail={Images.default_avatar}
                                         speakerName={`${item.firstName} ${item.lastName}`}
                                         speakerTopic={item.topic}
+                                        onPress={() => {
+                                            setIsEdit(true);
+                                            setCurrentId(item.id)
+                                            setFirstName(item.firstName)
+                                            setLastName(item.lastName)
+                                            setTopic(item.topic)
+                                            setAddSpeakerModal(true);
+                                            console.log('you clicked the main avatar');
+                                        }}
                                         removePress={() => {
-
                                             Alert.alert(
                                                 "Confirm",
                                                 'Are you sure want to remove?',
@@ -205,6 +301,56 @@ const SpeakerScreen = ({ navigation }) => {
                     </View>
                 </View>
             </KeyboardAwareScrollView>
+            <AddPeopleModal
+                visible={addSpeakerModal}
+                firstName={firstName}
+                lastName={lastName}
+                topic={topic}
+                setFirstName={(v) => {
+                    setFirstName(v)
+                }}
+                setLastName={(v) => {
+                    setLastName(v)
+                }}
+                setTopic={(v) => {
+                    setTopic(v)
+                }}
+                onSuccess={() => {
+                    if (isEdit) {
+                        let params = {
+                            userId,
+                            body: {
+                                contents: [{
+                                    id: currentId,
+                                    user_id: userId,
+                                    first_name: firstName,
+                                    last_name: lastName,
+                                    topic: topic
+                                }]
+                            }
+                        }
+                        mutate3(params);
+                        console.log('update speaker is updateed successfully. ');
+                    } else {
+
+                        let params = {
+                            userId,
+                            body: {
+                                contents: [{
+                                    first_name: firstName,
+                                    last_name: lastName,
+                                    topic: topic
+                                }]
+                            }
+                        }
+                        mutate2(params)
+                        console.log('you clicked the success button .');
+                    }
+                }}
+                onClose={() => {
+                    setAddSpeakerModal(false);
+                }}
+            />
         </View>
     )
 }

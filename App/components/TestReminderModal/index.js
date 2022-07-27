@@ -16,7 +16,7 @@ import ReminderInput from '../../components/ReminderInput';
 import OutlineButton from '../OutlineButton';
 
 const TestReminderModal = ({ visible, onClose }) => {
-    const durations = ["Every 2 hours", "Every day", "Every week", "Every month"];
+    const durations = ["Every day", "Every week", "Every month", "Annual"];
     const [active, setActive] = React.useState("");
     return (
         <Modal
@@ -52,12 +52,12 @@ const TestReminderModal = ({ visible, onClose }) => {
                 <View style={styles.inputForm}>
                     <ReminderInput
                         description={'Reminder'}
-                        itemList={['every 2 hours', 'every day', 'every week', 'every month']}
+                        itemList={["Every day", "Every week", "Every month",' Semiannual' , "Annual"]}
                     />
                     <View style={styles.divider} />
                     <ReminderInput
                         description={'Alarm Type'}
-                        itemList={['alarm 1', 'alarm 2', 'alarm 3']}
+                        itemList={['Alarm 1', 'Alarm 2', 'Alarm 3']}
                     />
                     <View style={styles.divider} />
                     <OutlineButton

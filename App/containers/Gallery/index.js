@@ -123,6 +123,9 @@ const MusicCard = ({ item, id }) => {
     <>
       <View
         key={item.id.toString()}
+        onPress={() => {
+          console.log('aaaaaaaaaaaaaaaaaaaaaa');
+        }}
         style={{
           backgroundColor: Colors.secondaryBackColor,
           flex: 1,
@@ -132,9 +135,8 @@ const MusicCard = ({ item, id }) => {
           borderWidth: scale(3),
           borderRadius: scale(10),
           marginTop: scale(10),
-          marginLeft: id % 2 === 0 ? scale(0) : scale(10),
+          marginHorizontal: scale(5),
           height: scale(150),
-
         }}>
         <GalleryItemContainer
           url={icMusic}
@@ -156,6 +158,29 @@ const MusicCard = ({ item, id }) => {
   );
 };
 
+const MusicRoute = () => {
+  const renderItem = ({ item }) => {
+    return <MusicCard
+      item={item}
+      id={item.id}
+    />;
+  };
+  return (
+    <SafeAreaView style={styles.tabContent}>
+      <MasonryList
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={<View />}
+        contentContainerStyle={{
+          alignSelf: 'stretch',
+        }}
+        numColumns={2}
+        data={musics}
+        renderItem={renderItem}
+      />
+    </SafeAreaView>
+  )
+};
+
 const VideoCard = ({ item, id }) => {
   const [videoPlayerModal, setVideoPlayerModal] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
@@ -164,16 +189,16 @@ const VideoCard = ({ item, id }) => {
       <View
         key={item.id.toString()}
         style={{
+          flex: 1,
           backgroundColor: Colors.secondaryBackColor,
           height: scale(150),
-          width: '100%',
           justifyContent: 'space-around',
           alignItems: 'center',
           borderColor: Colors.primaryColor,
           borderWidth: scale(3),
           borderRadius: scale(10),
           marginTop: scale(10),
-          marginLeft: id % 2 === 0 ? scale(0) : scale(10)
+          marginHorizontal: scale(5),
         }}>
         <GalleryItemContainer
           url={icVideo}
@@ -196,57 +221,6 @@ const VideoCard = ({ item, id }) => {
   );
 }
 
-const PhotoCard = ({ item, id }) => {
-  return (
-    <View
-      key={item.id.toString()}
-      style={{
-        height: scale(180),
-        width: '100%',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: scale(10),
-        marginLeft: id % 2 === 0 ? scale(0) : scale(10)
-      }}
-    >
-      <GalleryItemContainer
-        url={item.url}
-        width={'100%'}
-        height={scale(150)}
-        onPress={() => {
-          console.log('You clicked' + item.url)
-        }}
-      />
-      <Text style={styles.iamgeTitle}>{item.title}</Text>
-    </View >
-  )
-};
-const MusicRoute = () => {
-  const renderItem = ({ item }) => {
-    return <MusicCard
-      item={item}
-      id={item.id}
-    />;
-  };
-  return (
-    <SafeAreaView style={styles.tabContent}>
-      <MasonryList
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={<View />}
-        contentContainerStyle={{
-          paddingLeft: scale(10),
-          paddingRight: scale(10),
-          alignSelf: 'stretch',
-        }}
-        numColumns={2}
-        data={musics}
-        renderItem={renderItem}
-      />
-    </SafeAreaView>
-  )
-};
-
 const VideoRoute = () => {
   const renderItem = ({ item }) => {
     return <VideoCard
@@ -260,8 +234,6 @@ const VideoRoute = () => {
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={<View />}
         contentContainerStyle={{
-          paddingLeft: scale(10),
-          paddingRight: scale(20),
           alignSelf: 'stretch',
         }}
         numColumns={2}
@@ -269,6 +241,33 @@ const VideoRoute = () => {
         renderItem={renderItem}
       />
     </SafeAreaView>
+  )
+};
+
+const PhotoCard = ({ item, id }) => {
+  return (
+    <View
+      key={item.id.toString()}
+      style={{
+        flex: 1,
+        height: scale(180),
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: scale(10),
+        marginHorizontal: scale(5)
+      }}
+    >
+      <GalleryItemContainer
+        url={item.url}
+        width={'100%'}
+        height={scale(150)}
+        onPress={() => {
+          console.log('You clicked' + item.url)
+        }}
+      />
+      <Text style={styles.iamgeTitle}>{item.title}</Text>
+    </View >
   )
 };
 
@@ -285,8 +284,6 @@ const PhotoRoute = () => {
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={<View />}
         contentContainerStyle={{
-          paddingLeft: scale(10),
-          paddingRight: scale(20),
           alignSelf: 'stretch',
         }}
         numColumns={2}

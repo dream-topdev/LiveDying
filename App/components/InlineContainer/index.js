@@ -36,7 +36,7 @@ const InlineContainer = ({
 
 InlineContainer.propTypes = {
     title: PropTypes.string,
-    actionChild: PropTypes.object.isRequired,
+    actionChild: PropTypes.object,
     backgroundColor: PropTypes.string,
     fontSize: PropTypes.number,
     borderRadius: PropTypes.number,

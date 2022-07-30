@@ -49,9 +49,10 @@ export const styles = StyleSheet.create({
         // backgroundColor: Colors.white
     },
     tabContent: {
-        // flex: 1,
-        // backgroundColor: 'pink',
-        marginTop: scale(5)
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     musicTitle: {
         color: Colors.primaryColor,
@@ -59,14 +60,13 @@ export const styles = StyleSheet.create({
     },
     iamgeTitle: {
         color: Colors.primaryColor,
-        fontSize: scale(20),
-        // alignItems: 'center',
-        // justifyContent: 'center',
+        fontSize: scale(20)
     },
     photoItem: {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: scale(10),
     },
     songItem: {
         flexDirection: 'row',

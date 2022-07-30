@@ -28,13 +28,14 @@ export const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         marginTop: scale(50),
-        borderRadius: scale(20),
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        // flexDirection: 'column',
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
     footer: {
         justifyContent: 'flex-end',
         alignItems: 'center',
+        marginTop:scale(20),
         marginBottom: scale(20)
     },
     footerInner: {

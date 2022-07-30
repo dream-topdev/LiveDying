@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
     Image,
     View,
+    Text,
     TextInput
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -13,11 +14,11 @@ const AuthInput = ({ placeholder, icon, value, onChangeText, borderType, secureT
     return (
         <View style={styles.container}>
             {icon != undefined &&
-            <Image
-                source={icon}
-                style={styles.icon}
-                resizeMode={'contain'}
-            />}
+                <Image
+                    source={icon}
+                    style={styles.icon}
+                    resizeMode={'contain'}
+                />}
             <TextInput
                 placeholder={placeholder}
                 placeholderTextColor={Colors.textInputPlacholder}

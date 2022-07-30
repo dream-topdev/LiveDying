@@ -19,8 +19,8 @@ const GalleryItemContainer = ({ url, width = 150, height = 150, disabled, onPres
         style={[
           styles.image,
           {
-            width: scale(width),
-            height: scale(height)
+            width: width,
+            height: height
           }
         ]}
       />
@@ -30,8 +30,8 @@ const GalleryItemContainer = ({ url, width = 150, height = 150, disabled, onPres
 
 GalleryItemContainer.propTypes = {
   url: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
+  width: PropTypes.any,
+  height: PropTypes.any,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
 }

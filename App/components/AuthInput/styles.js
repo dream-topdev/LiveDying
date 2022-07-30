@@ -1,8 +1,8 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
-import {scale, scaleVertical} from '../../utils/scale';
-import {textScale} from '../../utils/textUtil';
+import { scale, scaleVertical } from '../../utils/scale';
+import { textScale } from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.textInputBackground,
     borderWidth: 0,
     borderRadius: scale(25),
-    padding: scale(14)
+    padding: scale(14),
   },
   borderTop: {
     borderTopRightRadius: scale(15),

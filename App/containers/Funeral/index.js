@@ -43,7 +43,10 @@ const FuneralScreen = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.message}>
-                        {/* <ScrollView> */}
+                        <ScrollView
+                            style={{
+                                width:'100%'
+                            }}>
                             <InlineContainer
                                 title="Opening Songs:"
                                 fontSize={18}
@@ -139,7 +142,7 @@ const FuneralScreen = ({ navigation }) => {
                                     </TouchableOpacity>
                                 }
                             />
-                        {/* </ScrollView> */}
+                        </ScrollView>
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>

@@ -1,11 +1,11 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
-import {scale, scaleVertical} from '../../utils/scale';
+import { scale, scaleVertical } from '../../utils/scale';
 import { textScale } from '../../utils/textUtil';
 import { getDeviceHeight } from '../../utils/extension';
 
-export const styles = StyleSheet.create({  
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
@@ -17,22 +17,29 @@ export const styles = StyleSheet.create({
     minHeight: scale(610),
     marginHorizontal: scale(26)
   },
-  logo: {    
-      marginTop: scale(75),
-      width: scale(246),
-      height: scale(130),
+  footer: {
+    width: '100%',
+    flexDirection: 'column',
+    justifyContent: 'flex-end'
+
+  },
+  logo: {
+    marginTop: scale(75),
+    width: scale(246),
+    height: scale(130),
   },
   divider: {
     height: scale(19)
   },
   inputForm: {
-    marginTop: scale(65)
+    flex: 1,
+    width: '100%',
+    marginTop: scale(30)
   },
-  noteWrapper: {  
+  noteWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
-    position: 'absolute',
-    bottom: scale(47)
+    bottom: scale(20)
   },
   noteText: {
     fontFamily: Fonts.EpilogueBold,
@@ -41,7 +48,8 @@ export const styles = StyleSheet.create({
   },
   loginWrapper: {
     width: '100%',
-    marginTop: scale(46)
+    marginTop: scale(20),
+    marginBottom:scale(40)
   },
   forgetWrapper: {
     width: '100%',

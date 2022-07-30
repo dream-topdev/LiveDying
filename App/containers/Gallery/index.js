@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,9 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
-  useWindowDimensions
+  useWindowDimensions,
+  useColorScheme,
+  StatusBar
 } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { FlatGrid, SectionGrid } from 'react-native-super-grid';
@@ -27,189 +29,269 @@ import Colors from '../../utils/Colors';
 import GalleryItemContainer from '../../components/GalleryItemContainer';
 import VideoPlayerModal from '../../components/VideoPlayerModal';
 import MusicPlayerModal from '../../components/MusicPlayerModal';
+import MasonryList from '@react-native-seoul/masonry-list';
 
 const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
 const icMusic = 'http://livelikeyouaredying.com/assets/images/ic_music_symbol_v2.png';
 const icVideo = 'http://livelikeyouaredying.com/assets/images/videoplay_v1.png';
 
-const MusicRoute = () => {
+
+const musics = [
+  {
+    id: 0,
+    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+    title: "My Way",
+  },
+  {
+    id: 1,
+    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+    title: "My Way",
+  },
+  {
+    id: 2,
+    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+    title: "You Raise Me Up",
+  },
+  {
+    id: 3,
+    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+    title: "If I Die Young",
+  },
+  {
+    id: 4,
+    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+    title: "The Funeral",
+  },
+  {
+    id: 5,
+    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+    title: "Supermarket Flowers",
+  }
+];
+const videos = [
+  {
+    id: 0,
+    url: 'https://vjs.zencdn.net/v/oceans.mp4',
+    title: "bandicam 2022-05-26 16-30-11-462",
+  },
+  {
+    id: 1,
+    url: hostname + 'gallery_video_userid_5_1656719676.mp4',
+    title: "IMG_0417 (1)",
+  },
+  {
+    id: 2,
+    url: hostname + 'gallery_video_userid_4_1656811158.mp4',
+    title: "bandicam 2022-04-03 08-10-10-541",
+  },
+  {
+    id: 3,
+    url: hostname + 'gallery_video_userid_4_1656811173.mp4',
+    title: "bandicam 2022-04-03 08-10-10-541",
+  }
+];
+const photos = [
+  {
+    id: 0,
+    url: hostname + 'gallery_photo_userid_4_1656466481.jpg',
+    title: "Venz",
+  },
+  {
+    id: 1,
+    url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
+    title: "Audi",
+  },
+  {
+    id: 2,
+    url: hostname + 'gallery_photo_userid_4_1656810970.png',
+    title: "Ford",
+  },
+  {
+    id: 3,
+    url: hostname + 'gallery_photo_userid_4_1656466634.jpg',
+    title: "Lexas",
+  },
+  {
+    id: 4,
+    url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
+    title: "Nissan",
+  },
+];
+const MusicCard = ({ item, id }) => {
   const [muisicPlayerModal, setMusicPlayerModal] = useState(false);
-  const [musics, setMusics] = useState([
-    {
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "My Way",
-    },
-    {
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "You Raise Me Up",
-    },
-    {
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "If I Die Young",
-    },
-    {
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "The Funeral",
-    },
-    {
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "Supermarket Flowers",
-    }
-  ])
   return (
-    <SafeAreaView style={styles.tabContent}>
-      <FlatGrid
-        itemDimension={130}
-        data={musics}
-        style={{}}
-        spacing={10}
-        renderItem={({ item }) => (
-          <View
-            kwy={item.url.toString()}
-            style={{
-              backgroundColor: Colors.secondaryBackColor,
-              height: scale(150),
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              borderColor: Colors.primaryColor,
-              borderWidth: scale(3),
-              borderRadius: scale(10)
-            }}>
-            <GalleryItemContainer
-              url={icMusic}
-              width={50}
-              height={50}
-              onPress={() => {
-                setMusicPlayerModal(true)
-                console.log(item.url)
-              }}
-            />
-            <Text style={styles.musicTitle}>{item.title}</Text>
-          </View>
-        )}
-      />
+    <>
+      <View
+        key={item.id.toString()}
+        style={{
+          backgroundColor: Colors.secondaryBackColor,
+          flex: 1,
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          borderColor: Colors.primaryColor,
+          borderWidth: scale(3),
+          borderRadius: scale(10),
+          marginTop: scale(10),
+          marginLeft: id % 2 === 0 ? scale(0) : scale(10),
+          height: scale(150),
+
+        }}>
+        <GalleryItemContainer
+          url={icMusic}
+          width={scale(50)}
+          height={scale(50)}
+          onPress={() => {
+            setMusicPlayerModal(true)
+            console.log(item.url)
+          }}
+        />
+        <Text style={styles.musicTitle}>{item.title}</Text>
+      </View>
       <MusicPlayerModal
         tracks={musics}
         visible={muisicPlayerModal}
         onClose={() => setMusicPlayerModal(false)}
       />
-    </SafeAreaView>
-  )
+    </>
+  );
 };
 
-// const MusicRoute = () => {
-//   return(
-//     <View><Text>{'Hello World'}</Text></View>
-//   )
-// }
-
-const VideoRoute = () => {
+const VideoCard = ({ item, id }) => {
   const [videoPlayerModal, setVideoPlayerModal] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
-  const [videos, setVideos] = useState([
-    {
-      url: 'https://vjs.zencdn.net/v/oceans.mp4',
-      title: "bandicam 2022-05-26 16-30-11-462",
-    },
-    {
-      url: hostname + 'gallery_video_userid_5_1656719676.mp4',
-      title: "IMG_0417 (1)",
-    },
-    {
-      url: hostname + 'gallery_video_userid_4_1656811158.mp4',
-      title: "bandicam 2022-04-03 08-10-10-541",
-    },
-    {
-      url: hostname + 'gallery_video_userid_4_1656811173.mp4',
-      title: "bandicam 2022-04-03 08-10-10-541",
-    }
-  ])
   return (
-    <View style={styles.tabContent}>
-      <FlatGrid
-        itemDimension={130}
-        data={videos}
-        style={{}}
-        spacing={10}
-        renderItem={({ item }) => (
-          <View
-            key={item.url.toString()}
-            style={{
-              backgroundColor: Colors.secondaryBackColor,
-              height: scale(150),
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              borderColor: Colors.primaryColor,
-              borderWidth: scale(3),
-              borderRadius: scale(10)
-            }}>
-            <GalleryItemContainer
-              url={icVideo}
-              width={50}
-              height={50}
-              onPress={() => {
-                setCurrentUrl(item.url);
-                console.log(item.url);
-                setVideoPlayerModal(true);
-
-              }}
-            />
-            <Text style={styles.musicTitle}>{item.title}</Text>
-          </View>
-        )}
-      />
+    <>
+      <View
+        key={item.id.toString()}
+        style={{
+          backgroundColor: Colors.secondaryBackColor,
+          height: scale(150),
+          width: '100%',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          borderColor: Colors.primaryColor,
+          borderWidth: scale(3),
+          borderRadius: scale(10),
+          marginTop: scale(10),
+          marginLeft: id % 2 === 0 ? scale(0) : scale(10)
+        }}>
+        <GalleryItemContainer
+          url={icVideo}
+          width={scale(50)}
+          height={scale(50)}
+          onPress={() => {
+            setCurrentUrl(item.url);
+            console.log(item.url);
+            setVideoPlayerModal(true);
+          }}
+        />
+        <Text style={styles.musicTitle}>{item.title}</Text>
+      </View>
       <VideoPlayerModal
         url={currentUrl}
         visible={videoPlayerModal}
         onClose={() => setVideoPlayerModal(false)}
       />
-    </View>
+    </>
+  );
+}
+
+const PhotoCard = ({ item, id }) => {
+  return (
+    <View
+      key={item.id.toString()}
+      style={{
+        height: scale(180),
+        width: '100%',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: scale(10),
+        marginLeft: id % 2 === 0 ? scale(0) : scale(10)
+      }}
+    >
+      <GalleryItemContainer
+        url={item.url}
+        width={'100%'}
+        height={scale(150)}
+        onPress={() => {
+          console.log('You clicked' + item.url)
+        }}
+      />
+      <Text style={styles.iamgeTitle}>{item.title}</Text>
+    </View >
   )
 };
-``
-const PhotoRoute = () => {
-  const [photos, setPhotos] = useState([
-    {
-      url: hostname + 'gallery_photo_userid_4_1656466481.jpg',
-      title: "Venz",
-    },
-    {
-      url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
-      title: "Audi",
-    },
-    {
-      url: hostname + 'gallery_photo_userid_4_1656810970.png',
-      title: "Ford",
-    },
-    {
-      url: hostname + 'gallery_photo_userid_4_1656466634.jpg',
-      title: "Lexas",
-    },
-    {
-      url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
-      title: "Nissan",
-    },
-  ]);
+const MusicRoute = () => {
+  const renderItem = ({ item }) => {
+    return <MusicCard
+      item={item}
+      id={item.id}
+    />;
+  };
   return (
-    <SafeAreaView style={[styles.tabContent, { flex: 1 }]}>
-      <FlatGrid
-        itemDimension={130}
+    <SafeAreaView style={styles.tabContent}>
+      <MasonryList
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={<View />}
+        contentContainerStyle={{
+          paddingLeft: scale(10),
+          paddingRight: scale(10),
+          alignSelf: 'stretch',
+        }}
+        numColumns={2}
+        data={musics}
+        renderItem={renderItem}
+      />
+    </SafeAreaView>
+  )
+};
+
+const VideoRoute = () => {
+  const renderItem = ({ item }) => {
+    return <VideoCard
+      item={item}
+      id={item.id}
+    />;
+  };
+  return (
+    <SafeAreaView style={styles.tabContent}>
+      <MasonryList
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={<View />}
+        contentContainerStyle={{
+          paddingLeft: scale(10),
+          paddingRight: scale(20),
+          alignSelf: 'stretch',
+        }}
+        numColumns={2}
+        data={videos}
+        renderItem={renderItem}
+      />
+    </SafeAreaView>
+  )
+};
+
+const PhotoRoute = () => {
+  const renderItem = ({ item }) => {
+    return <PhotoCard
+      item={item}
+      id={item.id}
+    />
+  }
+  return (
+    <SafeAreaView style={styles.tabContent}>
+      <MasonryList
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={<View />}
+        contentContainerStyle={{
+          paddingLeft: scale(10),
+          paddingRight: scale(20),
+          alignSelf: 'stretch',
+        }}
+        numColumns={2}
         data={photos}
-        style={{}}
-        spacing={0}
-        renderItem={({ item }) => (
-          <View key={item.url.toString()}
-            style={styles.photoItem}
-          >
-            <GalleryItemContainer
-              url={item.url}
-              onPress={() => {
-                console.log('You clicked' + item.url)
-              }}
-            />
-            <Text style={styles.iamgeTitle}>{item.title}</Text>
-          </View>
-        )}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   )
@@ -223,11 +305,9 @@ const renderScene = SceneMap({
 
 const GalleryScreen = ({ navigation }) => {
   const { loading, login } = useContext(AuthContext);
-  const [testReminderModal, setTestReminderModal] = useState(false);
-  const [userName, setUserName] = useState("");
 
   const layout = useWindowDimensions();
-  const [index, setIndex] = useState(2);
+  const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: 'first', title: 'Music' },
     { key: 'second', title: 'Video' },
@@ -252,7 +332,7 @@ const GalleryScreen = ({ navigation }) => {
       style={{
         elevation: 0,
         shadowColor: Colors.white,
-        shadowOffset: { width: 0, height: 0 },
+        // shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.4,
         shadowRadius: scale(6)
       }}
@@ -260,80 +340,79 @@ const GalleryScreen = ({ navigation }) => {
   );
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-        <View style={styles.containerInner}>
-          <View style={styles.header}>
-            <Text style={styles.notetext}>{'Agenda'}</Text>
-            <Image
-              source={Images.ic_logo}
-              style={styles.logo}
-              resizeMode={'contain'}
+      {/* <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}> */}
+      <View style={styles.containerInner}>
+        <View style={styles.header}>
+          <Text style={styles.notetext}>{'Agenda'}</Text>
+          <Image
+            source={Images.ic_logo}
+            style={styles.logo}
+            resizeMode={'contain'}
+          />
+        </View>
+        <View style={styles.message}>
+          <InlineContainer
+            title={'Life Video:'}
+            backgroundColor={Colors.backgroundColor}
+            fontSize={18}
+            borderRadius={0}
+            paddingRight={5}
+            paddingLeft={0}
+            actionChild={
+              <View style={styles.youtube}>
+                <IconButton
+                  icon={Images.ic_add}
+                  width={35}
+                  height={35}
+                  onPress={() => {
+                    console.log('You clicked the youtube button');
+                  }}
+                />
+              </View>
+            }
+          />
+        </View>
+        <View style={styles.songList}>
+          <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            renderTabBar={renderTabBar}
+            onIndexChange={setIndex}
+          />
+        </View>
+        <View style={styles.footer}>
+          <View style={styles.footerInner}>
+            <IconButton
+              icon={Images.ic_back}
+              width={52}
+              height={52}
+              onPress={() => {
+                console.log('You clicked the back button')
+                navigation.navigate('Speaker')
+              }}
             />
-          </View>
-          <View style={styles.message}>
-            <InlineContainer
-              title={'Life Video:'}
-              backgroundColor={Colors.backgroundColor}
-              fontSize={18}
-              borderRadius={0}
-              paddingRight={5}
-              paddingLeft={0}
-              actionChild={
-                <View style={styles.youtube}>
-                  <IconButton
-                    icon={Images.ic_add}
-                    width={35}
-                    height={35}
-                    onPress={() => {
-                      console.log('You clicked the youtube button');
-                    }}
-                  />
-                </View>
-              }
+            <IconButton
+              icon={Images.ic_home}
+              width={52}
+              height={52}
+              onPress={() => {
+                console.log('You clicked the back button')
+                navigation.navigate('Profile')
+              }}
             />
-          </View>
-          <View style={styles.songList}>
-            <TabView
-              navigationState={{ index, routes }}
-              renderScene={renderScene}
-              renderTabBar={renderTabBar}
-              onIndexChange={setIndex}
-              initialLayout={{ width: layout.width }}
+            <IconButton
+              icon={Images.ic_next}
+              width={52}
+              height={52}
+              onPress={() => {
+                console.log('You clicked the next button')
+                navigation.navigate('SongClose')
+              }}
             />
-          </View>
-          <View style={styles.footer}>
-            <View style={styles.footerInner}>
-              <IconButton
-                icon={Images.ic_back}
-                width={52}
-                height={52}
-                onPress={() => {
-                  console.log('You clicked the back button')
-                  navigation.navigate('Speaker')
-                }}
-              />
-              <IconButton
-                icon={Images.ic_home}
-                width={52}
-                height={52}
-                onPress={() => {
-                  console.log('You clicked the back button')
-                  navigation.navigate('Profile')
-                }}
-              />
-              <IconButton
-                icon={Images.ic_next}
-                width={52}
-                height={52}
-                onPress={() => {
-                  console.log('You clicked the next button')
-                  navigation.navigate('SongClose')
-                }}
-              />
-            </View>
           </View>
         </View>
-      </KeyboardAwareScrollView>
+      </View>
+      {/* </KeyboardAwareScrollView> */}
     </View>
   )
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -14,10 +15,17 @@ import ApplicationStyles from '../../utils/ApplicationStyles';
 import VideoPlayer from 'react-native-video-player';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ToggleButton from '../ToggleButton';
+import { act } from 'react-test-renderer';
 
-const DurationModal = ({ visible, onClose }) => {
+const DurationModal = ({ visible, onClose, onPress, activeItem }) => {
     const durations = ["Everyday", "Once a week", "Once a month"];
-    const [active, setActive] = React.useState("");
+    const [active, setActive] = useState(activeItem);
+    
+    useEffect(() => {
+        console.log('selected the other',active)
+        setActive(activeItem)
+    }, [active]);
+
     return (
         <Modal
             isVisible={visible}
@@ -45,7 +53,12 @@ const DurationModal = ({ visible, onClose }) => {
                         <View key={d} style={styles.toggleWrapper}>
                             <ToggleButton
                                 title={d}
-                                onPress={() => { setActive(d) }}
+                                onPress={() => {
+                                    setActive(d)
+                                    setTimeout(() => {
+                                        onPress()
+                                    }, 100);
+                                }}
                                 active={d == active}
                             />
                         </View>
@@ -58,7 +71,9 @@ const DurationModal = ({ visible, onClose }) => {
 
 DurationModal.propTypes = {
     visible: PropTypes.bool,
+    activeItem: PropTypes.string,
     onClose: PropTypes.func.isRequired,
+    onPress: PropTypes.func
 }
 
 export default DurationModal;

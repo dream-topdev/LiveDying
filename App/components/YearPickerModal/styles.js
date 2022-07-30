@@ -1,14 +1,17 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
-import {scale, scaleVertical} from '../../utils/scale';
-import {textScale} from '../../utils/textUtil';
+import { scale, scaleVertical } from '../../utils/scale';
+import { textScale } from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     borderRadius: scale(8),
-    height: scale(500)
+    height: scale(500),
+
+    paddingVertical: 60,
+    paddingHorizontal: 20,
   },
   label: {
     color: Colors.white,

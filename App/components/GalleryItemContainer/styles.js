@@ -6,9 +6,13 @@ import { textScale } from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
   container: {
+    width: '100%',
+    // height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: Colors.transparent,
   },
   image: {
-    borderRadius: scale(5)
+    // borderRadius: scale(1)
   }
 });

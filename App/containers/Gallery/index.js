@@ -374,7 +374,19 @@ const PhotoCard = ({
     >
       <View
         key={item.id.toString()}
-        style={styles.cardStyle}
+        style={{
+          backgroundColor: Colors.secondaryBackColor,
+          flex: 1,
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          borderColor: Colors.primaryColor,
+          borderWidth: scale(3),
+          borderRadius: scale(8),
+          marginTop: scale(10),
+          marginHorizontal: scale(5),
+          height: scale(180),
+          overflow: 'hidden'
+        }}
       >
         <GalleryItemContainer
           url={item.url}

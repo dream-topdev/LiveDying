@@ -1,18 +1,14 @@
 import * as React from 'react';
-import { useState, useContext, useEffect, useMemo } from 'react';
+import { useState, useContext } from 'react';
 import {
   View,
   Text,
   Image,
-  ScrollView,
   TouchableOpacity,
   SafeAreaView,
   useWindowDimensions,
-  useColorScheme,
-  StatusBar
 } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import { FlatGrid, SectionGrid } from 'react-native-super-grid';
 import VideoPlayer from 'react-native-video-controls';
 import TrackPlayer from "react-native-track-player"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -35,120 +31,96 @@ const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
 const icMusic = 'http://livelikeyouaredying.com/assets/images/ic_music_symbol_v2.png';
 const icVideo = 'http://livelikeyouaredying.com/assets/images/videoplay_v1.png';
 
+const delItemFromJson = (jsonArray, key, value) => {
+  var BreakException = {};
+  var index = 0;
+  try {
+    jsonArray.forEach((item) => {
+      if (item[key] === value) throw BreakException;
+      index++;
+    });
+  } catch (e) {
+    if (e !== BreakException) throw e;
+    jsonArray.splice(index, 1)
+    console.log('you deleted whose item \' index is ', index);
+  }
+}
 
-const musics = [
-  {
-    id: 0,
-    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-    title: "My Way",
-  },
-  {
-    id: 1,
-    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-    title: "My Way",
-  },
-  {
-    id: 2,
-    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-    title: "You Raise Me Up",
-  },
-  {
-    id: 3,
-    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-    title: "If I Die Young",
-  },
-  {
-    id: 4,
-    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-    title: "The Funeral",
-  },
-  {
-    id: 5,
-    url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-    title: "Supermarket Flowers",
-  }
-];
-const videos = [
-  {
-    id: 0,
-    url: 'https://vjs.zencdn.net/v/oceans.mp4',
-    title: "bandicam 2022-05-26 16-30-11-462",
-  },
-  {
-    id: 1,
-    url: hostname + 'gallery_video_userid_5_1656719676.mp4',
-    title: "IMG_0417 (1)",
-  },
-  {
-    id: 2,
-    url: hostname + 'gallery_video_userid_4_1656811158.mp4',
-    title: "bandicam 2022-04-03 08-10-10-541",
-  },
-  {
-    id: 3,
-    url: hostname + 'gallery_video_userid_4_1656811173.mp4',
-    title: "bandicam 2022-04-03 08-10-10-541",
-  }
-];
-const photos = [
-  {
-    id: 0,
-    url: hostname + 'gallery_photo_userid_4_1656466481.jpg',
-    title: "Venz",
-  },
-  {
-    id: 1,
-    url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
-    title: "Audi",
-  },
-  {
-    id: 2,
-    url: hostname + 'gallery_photo_userid_4_1656810970.png',
-    title: "Ford",
-  },
-  {
-    id: 3,
-    url: hostname + 'gallery_photo_userid_4_1656466634.jpg',
-    title: "Lexas",
-  },
-  {
-    id: 4,
-    url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
-    title: "Nissan",
-  },
-];
-const MusicCard = ({ item, id }) => {
+const MusicCard = ({
+  item,
+  musics,
+  handleDelete,
+  disablePlayButton,
+  setDisablePlayButton,
+  currentSelectedId,
+  setCurrentSelectedId
+}) => {
   const [muisicPlayerModal, setMusicPlayerModal] = useState(false);
+  const [hideRemoveButton, setHideRemoveButton] = useState(true);
+  console.log('resresh function is called.')
   return (
     <>
-      <View
-        key={item.id.toString()}
-        onPress={() => {
-          console.log('aaaaaaaaaaaaaaaaaaaaaa');
-        }}
+      <TouchableOpacity
         style={{
-          backgroundColor: Colors.secondaryBackColor,
-          flex: 1,
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          borderColor: Colors.primaryColor,
-          borderWidth: scale(3),
-          borderRadius: scale(10),
-          marginTop: scale(10),
-          marginHorizontal: scale(5),
-          height: scale(150),
-        }}>
-        <GalleryItemContainer
-          url={icMusic}
-          width={scale(50)}
-          height={scale(50)}
-          onPress={() => {
-            setMusicPlayerModal(true)
-            console.log(item.url)
-          }}
-        />
-        <Text style={styles.musicTitle}>{item.title}</Text>
-      </View>
+          position: 'relative'
+        }}
+        onPress={() => {
+          if (currentSelectedId > -1 && currentSelectedId === item.id) {
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa=>')
+            setDisablePlayButton(false);
+            setHideRemoveButton(true);
+            setCurrentSelectedId(-1)
+          } else {
+            console.log('bbbbbbbbbbbbbbbbbbbbbbb=>')
+          }
+        }}
+        onLongPress={() => {
+          if (currentSelectedId === -1) {
+            setDisablePlayButton(true);
+            setHideRemoveButton(false);
+            setCurrentSelectedId(item.id)
+            console.log('Long Press function.')
+          }
+        }}
+      >
+        <View
+          key={item.id.toString()}
+          style={styles.cardStyle}>
+          {
+            !hideRemoveButton &&
+            <View
+              style={{
+                position: 'absolute',
+                right: scale(10),
+                top: scale(10)
+              }}>
+              <IconButton
+                icon={Images.ic_remove}
+                width={scale(24)}
+                height={scale(24)}
+                onPress={() => {
+                  setDisablePlayButton(false);
+                  setCurrentSelectedId(-1)
+                  handleDelete(item.id);
+                  console.log('remove button is clicked. ', item.id)
+                }}
+                disabled={false}
+              />
+            </View>
+          }
+          <GalleryItemContainer
+            url={icMusic}
+            width={scale(50)}
+            height={scale(50)}
+            disabled={disablePlayButton}
+            onPress={() => {
+              setMusicPlayerModal(true)
+              console.log(item.url)
+            }}
+          />
+          <Text style={styles.musicTitle}>{item.title}</Text>
+        </View>
+      </TouchableOpacity>
       <MusicPlayerModal
         tracks={musics}
         visible={muisicPlayerModal}
@@ -159,12 +131,59 @@ const MusicCard = ({ item, id }) => {
 };
 
 const MusicRoute = () => {
+  const [musics, setMusics] = useState([
+    {
+      id: 0,
+      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+      title: "My Way",
+    },
+    {
+      id: 1,
+      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+      title: "My Way",
+    },
+    {
+      id: 2,
+      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+      title: "You Raise Me Up",
+    },
+    {
+      id: 3,
+      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+      title: "If I Die Young",
+    },
+    {
+      id: 4,
+      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+      title: "The Funeral",
+    },
+    {
+      id: 5,
+      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
+      title: "Supermarket Flowers",
+    }
+  ]);
+  const [disablePlayButton, setDisablePlayButton] = useState(false);
+  const [currentSelectedId, setCurrentSelectedId] = useState(-1);
+
   const renderItem = ({ item }) => {
     return <MusicCard
       item={item}
-      id={item.id}
+      musics={musics}
+      handleDelete={handleDelete}
+      disablePlayButton={disablePlayButton}
+      setDisablePlayButton={setDisablePlayButton}
+      currentSelectedId={currentSelectedId}
+      setCurrentSelectedId={setCurrentSelectedId}
     />;
   };
+
+  const handleDelete = (id) => {
+    let tempArray = musics;
+    delItemFromJson(tempArray, 'id', id)
+    setMusics([...tempArray])
+  }
+
   return (
     <SafeAreaView style={styles.tabContent}>
       <MasonryList
@@ -181,53 +200,132 @@ const MusicRoute = () => {
   )
 };
 
-const VideoCard = ({ item, id }) => {
+const VideoCard = ({
+  item,
+  handleDelete,
+  disablePlayButton,
+  setDisablePlayButton,
+  currentSelectedId,
+  setCurrentSelectedId }) => {
   const [videoPlayerModal, setVideoPlayerModal] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
+  const [hideRemoveButton, setHideRemoveButton] = useState(true);
   return (
     <>
-      <View
-        key={item.id.toString()}
+      <TouchableOpacity
         style={{
-          flex: 1,
-          backgroundColor: Colors.secondaryBackColor,
-          height: scale(150),
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          borderColor: Colors.primaryColor,
-          borderWidth: scale(3),
-          borderRadius: scale(10),
-          marginTop: scale(10),
-          marginHorizontal: scale(5),
-        }}>
-        <GalleryItemContainer
-          url={icVideo}
-          width={scale(50)}
-          height={scale(50)}
-          onPress={() => {
-            setCurrentUrl(item.url);
-            console.log(item.url);
-            setVideoPlayerModal(true);
-          }}
+          position: 'relative'
+        }}
+        onPress={() => {
+          if (currentSelectedId > -1 && currentSelectedId === item.id) {
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa=>')
+            setDisablePlayButton(false);
+            setHideRemoveButton(true);
+            setCurrentSelectedId(-1)
+          } else {
+            console.log('bbbbbbbbbbbbbbbbbbbbbbb=>')
+          }
+        }}
+        onLongPress={() => {
+          if (currentSelectedId === -1) {
+            setDisablePlayButton(true);
+            setHideRemoveButton(false);
+            setCurrentSelectedId(item.id)
+            console.log('Long Press function.')
+          }
+        }}
+      >
+        <View
+          key={item.id.toString()}
+          style={styles.cardStyle}>
+          {
+            !hideRemoveButton &&
+            <View
+              style={{
+                position: 'absolute',
+                right: scale(10),
+                top: scale(10)
+              }}>
+              <IconButton
+                icon={Images.ic_remove}
+                width={scale(24)}
+                height={scale(24)}
+                disabled={false}
+                onPress={() => {
+                  setDisablePlayButton(false);
+                  setCurrentSelectedId(-1)
+                  handleDelete(item.id);
+                  console.log('remove button is clicked. ', item.id)
+                }}
+              />
+            </View>
+          }
+          <GalleryItemContainer
+            url={icVideo}
+            width={scale(50)}
+            height={scale(50)}
+            disabled={disablePlayButton}
+            onPress={() => {
+              setCurrentUrl(item.url);
+              setVideoPlayerModal(true);
+              console.log(item.url);
+            }}
+          />
+          <Text style={styles.musicTitle}>{item.title}</Text>
+        </View>
+        <VideoPlayerModal
+          url={currentUrl}
+          visible={videoPlayerModal}
+          onClose={() => setVideoPlayerModal(false)}
         />
-        <Text style={styles.musicTitle}>{item.title}</Text>
-      </View>
-      <VideoPlayerModal
-        url={currentUrl}
-        visible={videoPlayerModal}
-        onClose={() => setVideoPlayerModal(false)}
-      />
+      </TouchableOpacity>
     </>
   );
 }
 
 const VideoRoute = () => {
+  const [videos, setVideos] = useState([
+    {
+      id: 0,
+      url: 'https://vjs.zencdn.net/v/oceans.mp4',
+      title: "bandicam 2022-05-26 16-30-11-462",
+    },
+    {
+      id: 1,
+      url: hostname + 'gallery_video_userid_5_1656719676.mp4',
+      title: "IMG_0417 (1)",
+    },
+    {
+      id: 2,
+      url: hostname + 'gallery_video_userid_4_1656811158.mp4',
+      title: "bandicam 2022-04-03 08-10-10-541",
+    },
+    {
+      id: 3,
+      url: hostname + 'gallery_video_userid_4_1656811173.mp4',
+      title: "bandicam 2022-04-03 08-10-10-541",
+    }
+  ]);
+  const [disablePlayButton, setDisablePlayButton] = useState(false);
+  const [currentSelectedId, setCurrentSelectedId] = useState(-1);
+
   const renderItem = ({ item }) => {
     return <VideoCard
       item={item}
-      id={item.id}
+      handleDelete={handleDelete}
+      disablePlayButton={disablePlayButton}
+      setDisablePlayButton={setDisablePlayButton}
+      currentSelectedId={currentSelectedId}
+      setCurrentSelectedId={setCurrentSelectedId}
     />;
   };
+
+  const handleDelete = (id) => {
+    let tempArray = [...videos];
+    delItemFromJson(tempArray, 'id', id);
+    setVideos(tempArray);
+  };
+
   return (
     <SafeAreaView style={styles.tabContent}>
       <MasonryList
@@ -244,39 +342,119 @@ const VideoRoute = () => {
   )
 };
 
-const PhotoCard = ({ item, id }) => {
+const PhotoCard = ({
+  item,
+  handleDelete,
+  currentSelectedId,
+  setCurrentSelectedId
+}) => {
+  const [hideRemoveButton, setHideRemoveButton] = useState(true);
+
   return (
-    <View
-      key={item.id.toString()}
+    <TouchableOpacity
       style={{
-        flex: 1,
-        height: scale(180),
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: scale(10),
-        marginHorizontal: scale(5)
+        position: 'relative'
+      }}
+      onPress={() => {
+        if (currentSelectedId > -1 && currentSelectedId === item.id) {
+          console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa=>')
+          setHideRemoveButton(true);
+          setCurrentSelectedId(-1)
+        } else {
+          console.log('bbbbbbbbbbbbbbbbbbbbbbb=>')
+        }
+      }}
+      onLongPress={() => {
+        if (currentSelectedId === -1) {
+          setHideRemoveButton(false);
+          setCurrentSelectedId(item.id)
+          console.log('Long Press function.')
+        }
       }}
     >
-      <GalleryItemContainer
-        url={item.url}
-        width={'100%'}
-        height={scale(150)}
-        onPress={() => {
-          console.log('You clicked' + item.url)
-        }}
-      />
-      <Text style={styles.iamgeTitle}>{item.title}</Text>
-    </View >
+      <View
+        key={item.id.toString()}
+        style={styles.cardStyle}
+      >
+        <GalleryItemContainer
+          url={item.url}
+          width={'100%'}
+          height={scale(150)}
+          disabled={true}
+          onPress={() => {
+            console.log('You clicked' + item.url)
+          }}
+        />
+        {
+          !hideRemoveButton &&
+          <View
+            style={{
+              position: 'absolute',
+              right: scale(10),
+              top: scale(10)
+            }}>
+            <IconButton
+              icon={Images.ic_remove}
+              width={scale(24)}
+              height={scale(24)}
+              disabled={false}
+              onPress={() => {
+                setHideRemoveButton(true);
+                setCurrentSelectedId(-1);
+                handleDelete(item.id);
+                console.log('adsfasdfasdf', item.id)
+              }}
+            />
+          </View>
+        }
+        <Text style={styles.iamgeTitle}>{item.title}</Text>
+      </View >
+    </TouchableOpacity>
   )
 };
 
 const PhotoRoute = () => {
+  const [photos, setPhotos] = useState([
+    {
+      id: 0,
+      url: hostname + 'gallery_photo_userid_4_1656466481.jpg',
+      title: "Venz",
+    },
+    {
+      id: 1,
+      url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
+      title: "Audi",
+    },
+    {
+      id: 2,
+      url: hostname + 'gallery_photo_userid_4_1656810970.png',
+      title: "Ford",
+    },
+    {
+      id: 3,
+      url: hostname + 'gallery_photo_userid_4_1656466634.jpg',
+      title: "Lexas",
+    },
+    {
+      id: 4,
+      url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
+      title: "Nissan",
+    },
+  ]);
+  const [currentSelectedId, setCurrentSelectedId] = useState(-1)
+
   const renderItem = ({ item }) => {
     return <PhotoCard
       item={item}
-      id={item.id}
+      handleDelete={handleDelete}
+      currentSelectedId={currentSelectedId}
+      setCurrentSelectedId={setCurrentSelectedId}
     />
+  }
+  const handleDelete = (id) => {
+    let tempArray = [...photos];
+    delItemFromJson(tempArray, 'id', id);
+    setPhotos(tempArray);
   }
   return (
     <SafeAreaView style={styles.tabContent}>

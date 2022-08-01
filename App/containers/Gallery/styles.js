@@ -89,6 +89,18 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'flex-start',
     },
+    cardStyle: {
+        backgroundColor: Colors.secondaryBackColor,
+        flex: 1,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        borderColor: Colors.primaryColor,
+        borderWidth: scale(3),
+        borderRadius: scale(10),
+        marginTop: scale(10),
+        marginHorizontal: scale(5),
+        height: scale(150),
+    },
     songTitle: {
         fontSize: scale(18)
     },

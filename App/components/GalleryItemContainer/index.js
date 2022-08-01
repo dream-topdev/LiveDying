@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 
-const GalleryItemContainer = ({ url, width = 150, height = 150, disabled, onPress }) => {
+const GalleryItemContainer = ({ url, width = 150, height = 150, disabled = false, onPress }) => {
   return (
     <TouchableOpacity
       style={styles.container}

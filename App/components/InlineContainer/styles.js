@@ -1,8 +1,8 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
-import {scale, scaleVertical} from '../../utils/scale';
-import {textScale} from '../../utils/textUtil';
+import { scale, scaleVertical } from '../../utils/scale';
+import { textScale } from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,5 +17,6 @@ export const styles = StyleSheet.create({
     color: Colors.textInputPlacholder,
     fontFamily: Fonts.EpilogueBold,
     fontWeight: '400',
+    flex: 1
   }
 });

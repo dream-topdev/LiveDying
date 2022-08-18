@@ -17,6 +17,7 @@ import SongCloseScreen from '../containers/SongClose';
 import PallbearerScreen from '../containers/Pallbearer';
 import SpeakerScreen from '../containers/Speaker';
 import GalleryScreen from '../containers/Gallery';
+import YoutubeVideoSelectScreen from '../containers/YoutubeVideoSelect';
 
 
 const Stack = createNativeStackNavigator();
@@ -53,6 +54,7 @@ const MainNavigator = () => {
                             <Stack.Screen name="Pallbearer" component={PallbearerScreen} />
                             <Stack.Screen name="Speaker" component={SpeakerScreen} />
                             <Stack.Screen name="Gallery" component={GalleryScreen} />
+                            <Stack.Screen name="YoutubeVideoSelect" component={YoutubeVideoSelectScreen} />
                         </>
                     ) : (
                         <>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
     Text,
+    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -12,6 +13,9 @@ import Colors from '../../utils/Colors';
 const InlineContainer = ({
     title,
     actionChild,
+    editable = false,
+    placeholder = '',
+    onChangeText,
     backgroundColor = Colors.textInputBackground,
     fontSize = 13,
     borderRadius = 25,
@@ -28,7 +32,18 @@ const InlineContainer = ({
                     paddingRight: scale(paddingRight)
                 }]}
         >
-            <Text style={[styles.text, { fontSize: scale(fontSize) }]}>{title}</Text>
+            <TextInput
+                editable={editable}
+                selectTextOnFocus={editable}
+                placeholder={placeholder}
+                onChangeText={onChangeText}
+                style={[
+                    styles.text,
+                    { fontSize: scale(fontSize) }
+                ]}
+            >
+                {title}
+            </TextInput>
             {actionChild}
         </View>
     );
@@ -41,7 +56,10 @@ InlineContainer.propTypes = {
     fontSize: PropTypes.number,
     borderRadius: PropTypes.number,
     paddingleq: PropTypes.number,
-    paddingRight: PropTypes.number
+    paddingRight: PropTypes.number,
+    editable: PropTypes.bool,
+    placeholder: PropTypes.string,
+    onChangeText: PropTypes.func
 }
 
 export default InlineContainer;

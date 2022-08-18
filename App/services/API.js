@@ -5,8 +5,13 @@ const apiInstance = axios.create({
   baseURL: "http://livelikeyouaredying.com",
   timeout: 300000,
 });
-const apiPrefix = "/api/v1";
 
+const youtubeApiInstance = axios.create({
+  baseURL: 'https://www.googleapis.com',
+  timeout: 300000
+})
+const apiPrefix = "/api/v1";
+const youtubeApiPrefix = 'youtube/v3/search';
 
 class API {
   login = async (params) => {
@@ -21,11 +26,20 @@ class API {
     const response = await apiInstance.get(`${apiPrefix}/topwish/${id}`);
     return response.data;
   };
-  // upload file 
+  // get uploaded file 
   getMediaByUserId = async (userid, to, type) => {
     const response = await apiInstance.get(`${apiPrefix}/file/${userid}/${to}/${type}`);
     return response.data;
   };
+  //upload youtube files by userid
+  postYoutubeVideoByUserId = async (params) => {
+    let userid = params.userId;
+    let body = params.body;
+    console.log('the body of api call is ', body);
+    const response = await apiInstance.post(`${apiPrefix}/file/youtube/${userid}`, body);
+    return response.data;
+  }
+  //delete file by media id
   deleteMediaById = async (params) => {
     let to = params[0];
     let id = params[1];
@@ -76,5 +90,16 @@ class API {
     const response = await apiInstance.delete(`${apiPrefix}/speaker/one/${id}`);
     return response.data;
   };
+  getYoutubeVideoByKey = async (params) => {
+    console.log(params);
+    const part = 'snippet'
+    const type = 'video'
+    const maxResults = 10
+    const q = params.keyword
+    const key = 'AIzaSyBh-c0jm7akftL2ISfEqkgWmd7QSmHt2so'
+    const response = await youtubeApiInstance.get(`${youtubeApiPrefix}?part=${part}&type=${type}&maxResults=${maxResults}&q=${q}&key=${key}`);
+    console.log(response.data.items);
+    return response.data;
+  }
 }
 export default new API();

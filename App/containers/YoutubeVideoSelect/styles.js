@@ -31,6 +31,9 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    searchboxWrapper: {
+        marginTop: scale(10)
+    },
     youtube: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -41,7 +44,7 @@ export const styles = StyleSheet.create({
     },
     songList: {
         marginTop: scale(18),
-        flex: 1
+        flex: 5
     },
     songItem: {
         flexDirection: 'row',
@@ -77,10 +80,9 @@ export const styles = StyleSheet.create({
         marginRight: scale(15)
     },
     footer: {
-        // flex: 1,
+        flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginTop:scale(27),
         marginBottom: scale(20)
     },
     footerInner: {
@@ -156,6 +158,11 @@ export const styles = StyleSheet.create({
         width: scale(60),
         height: scale(60),
     },
+    backWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
     inputForm: {
         width: '100%',
         marginTop: scale(74)
@@ -181,5 +188,17 @@ export const styles = StyleSheet.create({
     buttonContent: {
         color: Colors.primaryColor,
         fontSize: scale(14)
-    }
+    },
+    tabContent: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.textInputBackground,
+        borderRadius: scale(10)
+    },
+    imageTitle: {
+        color: Colors.primaryColor,
+        fontSize: scale(20)
+    },
 });

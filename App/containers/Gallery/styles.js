@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         marginTop: scale(40),
     },
     message: {
@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
         color: Colors.primaryColor,
         fontSize: scale(15)
     },
-    iamgeTitle: {
+    imageTitle: {
         color: Colors.primaryColor,
         fontSize: scale(20)
     },
@@ -87,7 +87,7 @@ export const styles = StyleSheet.create({
     songInfo: {
         flexDirection: 'column',
         justifyContent: 'space-around',
-        alignItems: 'flex-start',
+        alignItems: 'center',
     },
     cardStyle: {
         backgroundColor: Colors.secondaryBackColor,

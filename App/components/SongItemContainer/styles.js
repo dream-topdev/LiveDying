@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginHorizontal: scale(15),
     marginVertical: scaleVertical(5)
   },

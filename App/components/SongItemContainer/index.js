@@ -3,6 +3,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    Image
 } from 'react-native';
 import PropTypes from 'prop-types';
 import IconButton from '../IconButton';
@@ -14,12 +15,22 @@ const SongItemContainer = ({ thumbnail, songTitle, songArtist, songTime, removeP
     return (
         <View style={styles.container} >
             <View style={styles.thumbnailWrapper}>
-                <IconButton
-                    icon={Images.default_thumbnail}
-                    width={scale(100)}
-                    height={scale(100)}
+                <TouchableOpacity
+                    style={styles.container}
+                    // onPress={onPress}
                     disabled={true}
-                />
+                >
+                    <Image
+                        source={{ uri: thumbnail }}
+                        style={[
+                            {
+                                width: scale(100),
+                                height: scale(100),
+                                marginRight: scale(0)
+                            }
+                        ]}
+                    />
+                </TouchableOpacity>
             </View>
             <View style={styles.songInfo}>
                 <Text style={styles.songTitle}>{songTitle}</Text>
@@ -40,7 +51,7 @@ const SongItemContainer = ({ thumbnail, songTitle, songArtist, songTime, removeP
 };
 
 SongItemContainer.propTypes = {
-    thumbnail: PropTypes.any,
+    thumbnail: PropTypes.string,
     songTitle: PropTypes.string,
     songArtist: PropTypes.string,
     songTime: PropTypes.string,

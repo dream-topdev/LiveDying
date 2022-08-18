@@ -19,6 +19,7 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import { useMutation, useQuery } from 'react-query';
 import API from '../../services/API';
+import YoutubeVideoSelectModal from '../../components/YoutubeVideoSelectModal';
 
 const delItemFromJson = (jsonArray, key, value) => {
     var BreakException = {};
@@ -42,6 +43,7 @@ const SongProcessScreen = ({ navigation }) => {
     console.log('user id is got ', userId);
     const { data, isLoading: isLoading1, status } = useQuery(['getMediaByUserIdProcess', userId], () => API.getMediaByUserId(userId, 'song', 'process'));
     const [processSongList, setProcessSongList] = useState([]);
+    const [isVisiblYoutubeSelectModal, setIsVisiblYoutubeSelectModal] = useState(false)
     const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
         onSuccess: (data) => {
             Toast.show({
@@ -67,6 +69,7 @@ const SongProcessScreen = ({ navigation }) => {
                     {
                         id: item.id,
                         title: item.title,
+                        thumbnail: item.thumbnail,
                         youtubeUrl: item.youtoube_url,
                         fileUrl: item.file_url,
                         type: item.type,
@@ -124,6 +127,7 @@ const SongProcessScreen = ({ navigation }) => {
                                         width={scale(32)}
                                         height={scale(22)}
                                         onPress={() => {
+                                            setIsVisiblYoutubeSelectModal(true)
                                             console.log('You clicked the  youtube button');
                                         }}
                                     />
@@ -138,7 +142,7 @@ const SongProcessScreen = ({ navigation }) => {
                                     processSongList.map((item) => (
                                         <SongItemContainer
                                             key={item.id}
-                                            thumbnail={''}
+                                            thumbnail={item.thumbnail}
                                             songTitle={item.title}
                                             songArtist={'Frank Sinatra'}
                                             songTime={'4:54'}
@@ -205,6 +209,19 @@ const SongProcessScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
+                <YoutubeVideoSelectModal
+                    visible={isVisiblYoutubeSelectModal}
+                    title={'Select song you want.'}
+                    onClickYoutube={() => {
+                        console.log('you clicked the youtube button on modal');
+                        navigation.navigate('YoutubeVideoSelect', {
+                            to: 'song',
+                            type: 'process',
+                            goback: 'SongProcess'
+                        });
+                    }}
+                    onClose={() => setIsVisiblYoutubeSelectModal(false)}
+                />
             </KeyboardAwareScrollView>
         </View>
     )

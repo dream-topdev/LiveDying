@@ -419,7 +419,7 @@ const PhotoCard = ({
             />
           </View>
         }
-        <Text style={styles.iamgeTitle}>{item.title}</Text>
+        <Text style={styles.imageTitle}>{item.title}</Text>
       </View >
     </TouchableOpacity>
   )

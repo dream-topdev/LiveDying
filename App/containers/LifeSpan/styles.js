@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginTop: scale(20)
   },
   notemeanhead: {

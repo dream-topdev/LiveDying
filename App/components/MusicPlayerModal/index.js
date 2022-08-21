@@ -1,21 +1,14 @@
 import * as React from 'react';
 import {
   View,
-  Image,
-  Text,
   TouchableOpacity,
 } from 'react-native';
 import { useState, useEffect } from 'react';
-import TrackPlayer from "react-native-track-player"
 import PropTypes from 'prop-types';
 import Modal from "react-native-modal";
 import { styles } from './styles';
-import Colors from '../../utils/Colors';
-import ApplicationStyles from '../../utils/ApplicationStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Images from '../../utils/Images';
-import ReminderInput from '../../components/ReminderInput';
-import OutlineButton from '../OutlineButton';
 import IconButton from '../IconButton';
 
 const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
@@ -43,25 +36,25 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
   //   return () => TrackPlayer.destroy();
   // }, []);
 
-  const setUpTrackPlayer = async () => {
-    try {
-      await TrackPlayer.setupPlayer();
-      await TrackPlayer.add(tracks);
-      console.log('Tracks added');
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const setUpTrackPlayer = async () => {
+  //   try {
+  //     await TrackPlayer.setupPlayer();
+  //     await TrackPlayer.add(tracks);
+  //     console.log('Tracks added');
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   return (
     <Modal
       isVisible={visible}
       onBackdropPress={() => {
-        TrackPlayer.pause();
+        // TrackPlayer.pause();
         onClose();
       }}
       onBackButtonPress={() => {
-        TrackPlayer.pause();
+        // TrackPlayer.pause();
         onClose();
       }}
     >

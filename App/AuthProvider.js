@@ -24,21 +24,21 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [chatBadge, setChatBadge] = useState(false);
   const { mutate, isLoading } = useMutation(API.login, {
-    onSuccess: data => {
+    onSuccess: (data) => {
       Toast.show({
         type: 'success',
         text1: 'Welcome',
-        text2: 'Log in success!👋'
+        text2: data.message + '👋'
       });
       if (data.result.id !== undefined) {
         setUserProfile(data);
       }
     },
-    onError: () => {
+    onError: (data) => {
       Toast.show({
         type: 'error',
         text1: 'Sorry',
-        text2: 'You are unregisted user.'
+        text2: data.message
       });
       setLoading(false)
     }

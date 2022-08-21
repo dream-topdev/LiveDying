@@ -233,10 +233,6 @@ const YoutubeVideoSelectScreen = ({ route, navigation }) => {
                             resizeMode={'contain'}
                         />
                     </View>
-                    <Text>Details Screen</Text>
-                    <Text>{JSON.stringify(to)}</Text>
-                    <Text>{JSON.stringify(type)}</Text>
-                    <Text>{JSON.stringify(goback)}</Text>
                     <View style={styles.searchboxWrapper}>
                         <InlineContainer
                             title={''}

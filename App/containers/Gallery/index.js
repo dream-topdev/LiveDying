@@ -9,16 +9,10 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import VideoPlayer from 'react-native-video-controls';
-import TrackPlayer from "react-native-track-player"
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
 import InlineContainer from '../../components/InlineContainer';
-import ActionButton from '../../components/ActionButton';
 import IconButton from '../../components/IconButton';
 import { scale, scaleVertical } from '../../utils/scale';
-import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';

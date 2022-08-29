@@ -218,6 +218,7 @@ const SongCloseScreen = ({ navigation }) => {
                             type: 'close',
                             goback: 'SongClose'
                         });
+                        setIsVisiblYoutubeSelectModal(false);
                     }}
                     onClose={() => setIsVisiblYoutubeSelectModal(false)}
                 />

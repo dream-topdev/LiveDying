@@ -217,6 +217,7 @@ const SongOpenScreen = ({ navigation }) => {
                             type: 'open',
                             goback: 'SongOpen'
                         });
+                        setIsVisiblYoutubeSelectModal(false);
                     }}
                     onClose={() => setIsVisiblYoutubeSelectModal(false)}
                 />

@@ -219,6 +219,7 @@ const SongProcessScreen = ({ navigation }) => {
                             type: 'process',
                             goback: 'SongProcess'
                         });
+                        setIsVisiblYoutubeSelectModal(false);
                     }}
                     onClose={() => setIsVisiblYoutubeSelectModal(false)}
                 />

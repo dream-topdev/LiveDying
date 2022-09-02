@@ -10,41 +10,37 @@ import { styles } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Images from '../../utils/Images';
 import IconButton from '../IconButton';
+import TrackPlayer, { State } from 'react-native-track-player'
 
 const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
 
-const MusicPlayerModal = ({ tracks, visible, onClose }) => {
+const MusicPlayerModal = ({ visible, onClose }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  // useEffect(() => {
-  //   if (tracks == undefined || tracks.length == 0)
-  //     return;
-  //   setUpTrackPlayer();
-  //   TrackPlayer.updateOptions({
-  //     stopWithApp: true,
-  //     capabilities: [
-  //       TrackPlayer.CAPABILITY_PLAY,
-  //       TrackPlayer.CAPABILITY_PAUSE
-  //     ],
-  //     compactCapabilities: [
-  //       TrackPlayer.CAPABILITY_PLAY,
-  //       TrackPlayer.CAPABILITY_PAUSE,
-  //     ],
-  //   });
-  // }, [tracks])
+  const music = [{
+    title: 'death bed',
+    artist: 'Powfu',
+    artwork: 'https://images-na.ssl-images-amazon.com/images/I/A1LVEJikmZL._AC_SX425_.jpg',
+    url: 'https://sample-music.netlify.app/death%20bed.mp3',
+    duration: 2 * 60 + 53,
+    id: '1',
+  },
+  {
+    title: 'bad liar',
+    artist: 'Imagine Dragons',
+    artwork: 'https://images-na.ssl-images-amazon.com/images/I/A1LVEJikmZL._AC_SX425_.jpg',
+    url: 'https://sample-music.netlify.app/Bad%20Liar.mp3',
+    duration: 2 * 60,
+    id: '2',
+    track_number: '2'
+  }
+  ]
+  const trackPlayer = async () => {
+    console.log('track player is called');
+    await TrackPlayer.setupPlayer();
+    await TrackPlayer.add(music);
+  };
 
-  // useEffect(() => {
-  //   return () => TrackPlayer.destroy();
-  // }, []);
-
-  // const setUpTrackPlayer = async () => {
-  //   try {
-  //     await TrackPlayer.setupPlayer();
-  //     await TrackPlayer.add(tracks);
-  //     console.log('Tracks added');
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  trackPlayer();
 
   return (
     <Modal
@@ -90,7 +86,7 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
                 height={35}
                 onPress={() => {
                   console.log('You clicked the pause button');
-                  // TrackPlayer.pause();
+                  TrackPlayer.pause();
                   setIsPlaying(false)
                 }}
               />
@@ -101,7 +97,7 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
                 height={40}
                 onPress={() => {
                   console.log('You clicked the play button');
-                  // TrackPlayer.play()
+                  TrackPlayer.play()
                   setIsPlaying(true)
                 }}
               />
@@ -123,7 +119,6 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
 };
 
 MusicPlayerModal.propTypes = {
-  tracks: PropTypes.array,
   visible: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
 }

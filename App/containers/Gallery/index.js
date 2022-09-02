@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
+  Alert,
   View,
   Text,
   Image,
@@ -20,6 +21,10 @@ import GalleryItemContainer from '../../components/GalleryItemContainer';
 import VideoPlayerModal from '../../components/VideoPlayerModal';
 import MusicPlayerModal from '../../components/MusicPlayerModal';
 import MasonryList from '@react-native-seoul/masonry-list';
+import YoutubeVideoSelectModal from '../../components/YoutubeVideoSelectModal';
+import { useQuery, useMutation } from 'react-query';
+import API from '../../services/API';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
 const icMusic = 'http://livelikeyouaredying.com/assets/images/ic_music_symbol_v2.png';
@@ -94,6 +99,7 @@ const MusicCard = ({
                 height={scale(24)}
                 onPress={() => {
                   setDisablePlayButton(false);
+                  setHideRemoveButton(true);
                   setCurrentSelectedId(-1)
                   handleDelete(item.id);
                   console.log('remove button is clicked. ', item.id)
@@ -116,7 +122,7 @@ const MusicCard = ({
         </View>
       </TouchableOpacity>
       <MusicPlayerModal
-        tracks={musics}
+        // tracks={musics}
         visible={muisicPlayerModal}
         onClose={() => setMusicPlayerModal(false)}
       />
@@ -125,40 +131,28 @@ const MusicCard = ({
 };
 
 const MusicRoute = () => {
-  const [musics, setMusics] = useState([
-    {
-      id: 0,
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "My Way",
-    },
-    {
-      id: 1,
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "My Way",
-    },
-    {
-      id: 2,
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "You Raise Me Up",
-    },
-    {
-      id: 3,
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "If I Die Young",
-    },
-    {
-      id: 4,
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "The Funeral",
-    },
-    {
-      id: 5,
-      url: hostname + 'gallery_music_userid_4_1656820163.mp3',
-      title: "Supermarket Flowers",
-    }
-  ]);
+  const { userProfile } = useContext(AuthContext);
+  const userId = userProfile.result.id;
+  const [musics, setMusics] = useState([]);
   const [disablePlayButton, setDisablePlayButton] = useState(false);
   const [currentSelectedId, setCurrentSelectedId] = useState(-1);
+  const { data: dataMusic, isLoading: isLoading1, status } = useQuery(['getMusciGallery', userId], () => API.getMediaByUserId(userId, 'gallery', 'music'));
+  const { mutate: deleteMusic, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
+    onSuccess: (data) => {
+      Toast.show({
+        type: 'success',
+        text1: 'Music is removed successfully.',
+        text2: data.message
+      })
+    },
+    onerror: (data) => {
+      Toast.show({
+        type: 'error',
+        text1: 'sorry',
+        text2: data.message
+      })
+    }
+  })
 
   const renderItem = ({ item }) => {
     return <MusicCard
@@ -173,9 +167,63 @@ const MusicRoute = () => {
   };
 
   const handleDelete = (id) => {
-    let tempArray = musics;
-    delItemFromJson(tempArray, 'id', id)
-    setMusics([...tempArray])
+    Alert.alert(
+      "Confirm",
+      'Are you sure want to remove this music?',
+      [
+        {
+          text: 'ok',
+          onPress: () => {
+            let temp = [...musics];
+            delItemFromJson(temp, 'id', id);
+            setPhotos(temp);
+            deleteMusic(['gallery', id]);
+          }
+        },
+        {
+          text: 'cancel',
+          onPress: () => {
+            console.log('you clicked the cancel button ');
+          },
+          style: 'cancel'
+        }
+      ]
+    )
+  }
+
+  useEffect(() => {
+    console.log('Get music api is called ', dataMusic);
+    if (dataMusic != null && status == 'success') {
+      let temp = [];
+      dataMusic.contents.forEach((item) => {
+        temp.push({
+          id: item.id,
+          url: hostname + item.file_url,
+          title: item.title
+        })
+      })
+      setMusics(temp)
+    }
+  }, [dataMusic])
+
+  if (isLoading1 || isLoading2) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          style={{
+            fontSize: scale(30)
+          }}>
+          {'Loading...'}
+        </Text>
+      </View>
+    )
   }
 
   return (
@@ -247,6 +295,7 @@ const VideoCard = ({
                 disabled={false}
                 onPress={() => {
                   setDisablePlayButton(false);
+                  setHideRemoveButton(true);
                   setCurrentSelectedId(-1)
                   handleDelete(item.id);
                   console.log('remove button is clicked. ', item.id)
@@ -278,30 +327,46 @@ const VideoCard = ({
 }
 
 const VideoRoute = () => {
-  const [videos, setVideos] = useState([
-    {
-      id: 0,
-      url: 'https://vjs.zencdn.net/v/oceans.mp4',
-      title: "bandicam 2022-05-26 16-30-11-462",
-    },
-    {
-      id: 1,
-      url: hostname + 'gallery_video_userid_5_1656719676.mp4',
-      title: "IMG_0417 (1)",
-    },
-    {
-      id: 2,
-      url: hostname + 'gallery_video_userid_4_1656811158.mp4',
-      title: "bandicam 2022-04-03 08-10-10-541",
-    },
-    {
-      id: 3,
-      url: hostname + 'gallery_video_userid_4_1656811173.mp4',
-      title: "bandicam 2022-04-03 08-10-10-541",
-    }
-  ]);
+  const { userProfile } = useContext(AuthContext);
+  const userId = userProfile.result.id; deleteVideo
+  console.log('user id is ', userId);
+  const [isVisiblYoutubeSelectModal, setIsVisiblYoutubeSelectModal] = useState(false);
+  const [videos, setVideos] = useState([]);
   const [disablePlayButton, setDisablePlayButton] = useState(false);
   const [currentSelectedId, setCurrentSelectedId] = useState(-1);
+  const { data: dataVideo, isLoading: isLoading1, status } = useQuery(['getGalleryVideo', userId], () => API.getMediaByUserId(userId, 'gallery', 'video'));
+  const { mutate: deleteVideo, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
+    onSuccess: (data) => {
+      console.log('delete video api is called ', data);
+      Toast.show({
+        type: 'success',
+        text1: 'Video is deleted successfully.',
+        text2: data.message
+      });
+    },
+    onError: (data) => {
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry',
+        text2: data.message
+      });
+    }
+  })
+
+  useEffect(() => {
+    console.log('======================> ', dataVideo);
+    if (dataVideo != null && status == 'success') {
+      let temp = [];
+      dataVideo.contents.forEach((item) => {
+        temp.push({
+          id: item.id,
+          url: hostname + item.file_url,
+          title: item.title
+        })
+      })
+      setVideos(temp);
+    }
+  }, [dataVideo])
 
   const renderItem = ({ item }) => {
     return <VideoCard
@@ -315,11 +380,49 @@ const VideoRoute = () => {
   };
 
   const handleDelete = (id) => {
-    let tempArray = [...videos];
-    delItemFromJson(tempArray, 'id', id);
-    setVideos(tempArray);
+    Alert.alert(
+      "Confirm",
+      'Are you sure want to remove this video?',
+      [
+        {
+          text: 'ok',
+          onPress: () => {
+            let temp = [...videos];
+            delItemFromJson(temp, 'id', id);
+            setVideos(temp);
+            deleteVideo(['gallery', id]);
+          }
+        },
+        {
+          text: 'cancel',
+          onPress: () => {
+            console.log('you clicked the cancel button ');
+          },
+          style: 'cancel'
+        }
+      ]
+    )
   };
 
+  if (isLoading1 || isLoading2) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          style={{
+            fontSize: scale(30)
+          }}>
+          {'Loading...'}
+        </Text>
+      </View>
+    )
+  }
   return (
     <SafeAreaView style={styles.tabContent}>
       <MasonryList
@@ -420,34 +523,29 @@ const PhotoCard = ({
 };
 
 const PhotoRoute = () => {
-  const [photos, setPhotos] = useState([
-    {
-      id: 0,
-      url: hostname + 'gallery_photo_userid_4_1656466481.jpg',
-      title: "Venz",
-    },
-    {
-      id: 1,
-      url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
-      title: "Audi",
-    },
-    {
-      id: 2,
-      url: hostname + 'gallery_photo_userid_4_1656810970.png',
-      title: "Ford",
-    },
-    {
-      id: 3,
-      url: hostname + 'gallery_photo_userid_4_1656466634.jpg',
-      title: "Lexas",
-    },
-    {
-      id: 4,
-      url: hostname + 'gallery_photo_userid_4_1656466639.jpg',
-      title: "Nissan",
-    },
-  ]);
+  const { userProfile } = useContext(AuthContext);
+  const userId = userProfile.result.id;
+  console.log('Photo current user is ', userId);
+
   const [currentSelectedId, setCurrentSelectedId] = useState(-1)
+  const [photos, setPhotos] = useState([]);
+  const { data: dataPhoto, isLoading: isLoading1, status } = useQuery(['getPhotoGallery', userId], () => API.getMediaByUserId(userId, 'gallery', 'photo'));
+  const { mutate: deletePhoto, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
+    onSuccess: (data) => {
+      Toast.show({
+        type: 'success',
+        text1: 'Photo is deleted successfully.',
+        text2: data.message
+      })
+    },
+    onError: (data) => {
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry',
+        text2: data.message
+      })
+    }
+  })
 
   const renderItem = ({ item }) => {
     return <PhotoCard
@@ -457,11 +555,67 @@ const PhotoRoute = () => {
       setCurrentSelectedId={setCurrentSelectedId}
     />
   }
+
   const handleDelete = (id) => {
-    let tempArray = [...photos];
-    delItemFromJson(tempArray, 'id', id);
-    setPhotos(tempArray);
+    Alert.alert(
+      "Confirm",
+      'Are you sure want to remove this video?',
+      [
+        {
+          text: 'ok',
+          onPress: () => {
+            let temp = [...photos];
+            delItemFromJson(temp, 'id', id);
+            setPhotos(temp);
+            deletePhoto(['gallery', id]);
+          }
+        },
+        {
+          text: 'cancel',
+          onPress: () => {
+            console.log('you clicked the cancel button ');
+          },
+          style: 'cancel'
+        }
+      ]
+    )
   }
+
+  useEffect(() => {
+    console.log('get phot api is called ', dataPhoto);
+    if (dataPhoto != null && status == 'success') {
+      let temp = [];
+      dataPhoto.contents.forEach((item) => {
+        temp.push({
+          id: item.id,
+          url: hostname + item.file_url,
+          title: item.title
+        })
+      });
+      setPhotos(temp);
+    }
+  }, [dataPhoto])
+
+  if (isLoading1 || isLoading2) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          style={{
+            fontSize: scale(30)
+          }}>
+          {'Loading...'}
+        </Text>
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.tabContent}>
       <MasonryList
@@ -485,9 +639,6 @@ const renderScene = SceneMap({
 });
 
 const GalleryScreen = ({ navigation }) => {
-  const { loading, login } = useContext(AuthContext);
-
-  const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: 'first', title: 'Music' },

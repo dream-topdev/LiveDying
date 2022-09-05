@@ -1,25 +1,18 @@
 import * as React from 'react';
+import { useState } from 'react';
 import {
     View,
-    Image,
     Text,
     TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Modal from "react-native-modal";
 import { styles } from './styles';
-import Colors from '../../utils/Colors';
-import ApplicationStyles from '../../utils/ApplicationStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Images from '../../utils/Images';
-import ReminderInput from '../../components/ReminderInput';
-import OutlineButton from '../OutlineButton';
 import IconButton from '../IconButton';
-import { scale } from '../../utils/scale';
 
-const YoutubeVideoSelectModal = ({ visible, title, onClose, onClickYoutube }) => {
-    const durations = ["Every day", "Every week", "Every month", "Annual"];
-    const [active, setActive] = React.useState("");
+const UploadMethodSelectModal = ({ visible, title, onClose, onClickYoutube, onClickLocal }) => {
     return (
         <Modal
             isVisible={visible}
@@ -58,7 +51,7 @@ const YoutubeVideoSelectModal = ({ visible, title, onClose, onClickYoutube }) =>
                         width={64}
                         height={40}
                         onPress={() => {
-                            console.log('You clicked the local device button');
+                            onClickLocal();
                         }}
                     />
                 </View>
@@ -67,11 +60,12 @@ const YoutubeVideoSelectModal = ({ visible, title, onClose, onClickYoutube }) =>
     );
 };
 
-YoutubeVideoSelectModal.propTypes = {
+UploadMethodSelectModal.propTypes = {
     visible: PropTypes.bool,
     title: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
-    onClickYoutube: PropTypes.func.isRequired
+    onClickYoutube: PropTypes.func.isRequired,
+    onClickLocal: PropTypes.func
 }
 
-export default YoutubeVideoSelectModal;
+export default UploadMethodSelectModal;

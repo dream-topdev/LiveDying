@@ -25,7 +25,6 @@ import GalleryItemContainer from '../../components/GalleryItemContainer';
 import InlineContainer from '../../components/InlineContainer';
 
 
-const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
 const YoutubeCard = ({
     item,
     handleDelete,
@@ -190,7 +189,7 @@ const YoutubeVideoSelectScreen = ({ route, navigation }) => {
         delItemFromJson(tempArray, 'id', id);
         setPhotos(tempArray);
     }
-    if (isLoading4) {
+    if (isLoading3 || isLoading4) {
         return (
             <View
                 style={{
@@ -204,7 +203,7 @@ const YoutubeVideoSelectScreen = ({ route, navigation }) => {
                     style={{
                         fontSize: scale(30)
                     }}>
-                    {'Loading...'}
+                    {isLoading4 ? 'Uploading...' : 'Loading...'}
                 </Text>
             </View>
         )
@@ -297,28 +296,45 @@ const YoutubeVideoSelectScreen = ({ route, navigation }) => {
                             loadingContent={<Text style={{ color: Colors.white }}>{'Done'}</Text>}
                             backColor={okButtonBackColor}
                             onPress={() => {
-                                let tempArray = [];
-                                let currentSelectedCardArray = photos.filter((item) => {
-                                    return currentSelectedIdArray.indexOf(item.id) > -1;
-                                })
-                                console.log('this is test version of filter function ', currentSelectedCardArray);
-                                currentSelectedCardArray.forEach((item) => {
-                                    tempArray.push({
-                                        title: item.title,
-                                        url: `https://www.youtube.com/watch?v=${item.videoId}`,
-                                        thumbnail: item.thumbnail
-                                    })
-                                })
-                                let params = {
-                                    userId: userid,
-                                    body: {
-                                        to,
-                                        type,
-                                        contents: tempArray
-                                    }
-                                }
-                                console.log(currentSelectedIdArray);
-                                mutate3(params);
+                                Alert.alert(
+                                    'Confirm',
+                                    'Are you sure want to upload selected files?',
+                                    [
+                                        {
+                                            text: 'ok',
+                                            onPress: () => {
+                                                let tempArray = [];
+                                                let currentSelectedCardArray = photos.filter((item) => {
+                                                    return currentSelectedIdArray.indexOf(item.id) > -1;
+                                                })
+                                                console.log('this is test version of filter function ', currentSelectedCardArray);
+                                                currentSelectedCardArray.forEach((item) => {
+                                                    tempArray.push({
+                                                        title: item.title,
+                                                        url: `https://www.youtube.com/watch?v=${item.videoId}`,
+                                                        thumbnail: item.thumbnail
+                                                    })
+                                                })
+                                                let params = {
+                                                    userId: userid,
+                                                    body: {
+                                                        to,
+                                                        type,
+                                                        contents: tempArray
+                                                    }
+                                                }
+                                                console.log(currentSelectedIdArray);
+                                                mutate3(params);
+                                            }
+                                        },
+                                        {
+                                            text: 'cancel',
+                                            onPress: () => {
+                                            },
+                                            style: 'cancel'
+                                        }
+                                    ]
+                                )
                             }}
                         />
                     </View>

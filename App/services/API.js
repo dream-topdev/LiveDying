@@ -31,6 +31,19 @@ class API {
     const response = await apiInstance.get(`${apiPrefix}/file/${userid}/${to}/${type}`);
     return response.data;
   };
+  //upolad local file by userid 
+  postUploadFileFromLocal = async (params) => {
+    let userid = params.userId;
+    let body = params.body;
+    console.log('current api call user id is ', userid);
+    console.log('Form data is ', body);
+    const response = await apiInstance.post(`${apiPrefix}/file/${userid}`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data; ',
+      }
+    });
+    return response.data;
+  }
   //upload youtube files by userid
   postYoutubeVideoByUserId = async (params) => {
     let userid = params.userId;

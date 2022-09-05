@@ -19,7 +19,7 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import { useMutation, useQuery } from 'react-query';
 import API from '../../services/API';
-import YoutubeVideoSelectModal from '../../components/YoutubeVideoSelectModal';
+import UploadMethodSelectModal from '../../components/UploadMethodSelectModal';
 
 const delItemFromJson = (jsonArray, key, value) => {
     var BreakException = {};
@@ -40,7 +40,7 @@ const SongOpenScreen = ({ navigation }) => {
     const { userProfile } = useContext(AuthContext);
     const userId = userProfile.result.id;
     console.log('user id is got ', userId);
-    const [isVisiblYoutubeSelectModal, setIsVisiblYoutubeSelectModal] = useState(false);
+    const [isVisibleYoutubeSelectModal, setisVisibleYoutubeSelectModal] = useState(false);
     const { data, isLoading: isLoading1, status } = useQuery(['getMediaByUserIdOpen', userId], () => API.getMediaByUserId(userId, 'song', 'open'));
     const [openSongList, setOpenSongList] = useState([]);
     const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
@@ -129,7 +129,7 @@ const SongOpenScreen = ({ navigation }) => {
                                         width={scale(32)}
                                         height={scale(32)}
                                         onPress={() => {
-                                            setIsVisiblYoutubeSelectModal(true);
+                                            setisVisibleYoutubeSelectModal(true);
                                         }}
                                     />
                                 </View>
@@ -207,8 +207,8 @@ const SongOpenScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
-                <YoutubeVideoSelectModal
-                    visible={isVisiblYoutubeSelectModal}
+                <UploadMethodSelectModal
+                    visible={isVisibleYoutubeSelectModal}
                     title={'Select song you want.'}
                     onClickYoutube={() => {
                         console.log('you clicked the youtube button on modal');
@@ -217,8 +217,9 @@ const SongOpenScreen = ({ navigation }) => {
                             type: 'open',
                             goback: 'SongOpen'
                         });
+                        setisVisibleYoutubeSelectModal(false);
                     }}
-                    onClose={() => setIsVisiblYoutubeSelectModal(false)}
+                    onClose={() => setisVisibleYoutubeSelectModal(false)}
                 />
             </KeyboardAwareScrollView>
         </View>

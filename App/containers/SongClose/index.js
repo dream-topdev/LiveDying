@@ -19,7 +19,7 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import { useMutation, useQuery } from 'react-query';
 import API from '../../services/API';
-import YoutubeVideoSelectModal from '../../components/YoutubeVideoSelectModal';
+import UploadMethodSelectModal from '../../components/UploadMethodSelectModal';
 
 const delItemFromJson = (jsonArray, key, value) => {
     var BreakException = {};
@@ -42,7 +42,7 @@ const SongCloseScreen = ({ navigation }) => {
     console.log('user id is got ', userId);
     const { data, isLoading: isLoading1, status } = useQuery(['getMediaByUserIdClose', userId], () => API.getMediaByUserId(userId, 'song', 'close'));
     const [closeSongList, setCloseSongList] = useState([]);
-    const [isVisiblYoutubeSelectModal, setIsVisiblYoutubeSelectModal] = useState(false);
+    const [isVisibleYoutubeSelectModal, setisVisibleYoutubeSelectModal] = useState(false);
     const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
         onSuccess: (data) => {
             console.log('<----------------------------------------->', data)
@@ -124,11 +124,11 @@ const SongCloseScreen = ({ navigation }) => {
                                 <View style={styles.youtube}>
                                     <Text style={styles.textYoutube}>{'Find On'}</Text>
                                     <IconButton
-                                        icon={Images.ic_youtube}
+                                        icon={Images.ic_add}
                                         width={32}
-                                        height={22}
+                                        height={32}
                                         onPress={() => {
-                                            setIsVisiblYoutubeSelectModal(true);
+                                            setisVisibleYoutubeSelectModal(true);
                                             console.log('You clicked the  youtube button');
                                             console.log('doulble scale function', scale(scale(10)))
                                         }}
@@ -208,8 +208,8 @@ const SongCloseScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
-                <YoutubeVideoSelectModal
-                    visible={isVisiblYoutubeSelectModal}
+                <UploadMethodSelectModal
+                    visible={isVisibleYoutubeSelectModal}
                     title={'Select song you want.'}
                     onClickYoutube={() => {
                         console.log('you clicked the youtube button on modal');
@@ -218,8 +218,9 @@ const SongCloseScreen = ({ navigation }) => {
                             type: 'close',
                             goback: 'SongClose'
                         });
+                        setisVisibleYoutubeSelectModal(false);
                     }}
-                    onClose={() => setIsVisiblYoutubeSelectModal(false)}
+                    onClose={() => setisVisibleYoutubeSelectModal(false)}
                 />
             </KeyboardAwareScrollView>
         </View>

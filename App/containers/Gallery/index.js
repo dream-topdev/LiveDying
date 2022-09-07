@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import {
   Alert,
   View,
@@ -175,7 +175,7 @@ const MusicRoute = () => {
           onPress: () => {
             let temp = [...musics];
             delItemFromJson(temp, 'id', id);
-            setPhotos(temp);
+            setMusics(temp);
             deleteMusic(['gallery', id]);
           }
         },
@@ -327,11 +327,43 @@ const VideoCard = ({
 
 const VideoRoute = () => {
   const { userProfile } = useContext(AuthContext);
-  const userId = userProfile.result.id; deleteVideo
+  const userId = userProfile.result.id;
   console.log('V I D E O user id is ', userId);
   const [videos, setVideos] = useState([]);
   const [disablePlayButton, setDisablePlayButton] = useState(false);
   const [currentSelectedId, setCurrentSelectedId] = useState(-1);
+  const { data: dataVideo, isLoading: isLoading1, status } = useQuery(['getMusciGallery', userId], () => API.getMediaByUserId(userId, 'gallery', 'video'));
+  const { mutate: deleteVideo, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
+    onSuccess: (data) => {
+      Toast.show({
+        type: 'success',
+        text1: 'Video is removed successfully.',
+        text2: data.message
+      })
+    },
+    onerror: (data) => {
+      Toast.show({
+        type: 'error',
+        text1: 'sorry',
+        text2: data.message
+      })
+    }
+  })
+
+  useEffect(() => {
+    console.log('Get music api is called ', dataVideo);
+    if (dataVideo != null && status == 'success') {
+      let temp = [];
+      dataVideo.contents.forEach((item) => {
+        temp.push({
+          id: item.id,
+          url: hostname + item.file_url,
+          title: item.title
+        })
+      })
+      setVideos(temp)
+    }
+  }, [dataVideo])
 
   const renderItem = ({ item }) => {
     return <VideoCard

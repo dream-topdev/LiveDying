@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import {
     View,
     Text,
@@ -20,6 +20,7 @@ import Colors from '../../utils/Colors';
 import { useMutation, useQuery } from 'react-query';
 import API from '../../services/API';
 import UploadMethodSelectModal from '../../components/UploadMethodSelectModal';
+import DocumentPicker, { types } from 'react-native-document-picker';
 
 const delItemFromJson = (jsonArray, key, value) => {
     var BreakException = {};
@@ -41,7 +42,7 @@ const SongOpenScreen = ({ navigation }) => {
     const userId = userProfile.result.id;
     console.log('user id is got ', userId);
     const [isVisibleYoutubeSelectModal, setisVisibleYoutubeSelectModal] = useState(false);
-    const { data, isLoading: isLoading1, status } = useQuery(['getMediaByUserIdOpen', userId], () => API.getMediaByUserId(userId, 'song', 'open'));
+    const { data, isLoading: isLoading1, status, refetch } = useQuery(['getMediaByUserIdOpen', userId], () => API.getMediaByUserId(userId, 'song', 'open'));
     const [openSongList, setOpenSongList] = useState([]);
     const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
         onSuccess: (data) => {
@@ -60,6 +61,25 @@ const SongOpenScreen = ({ navigation }) => {
             });
         }
     });
+    const { mutate: uploadFileFromLocal, isLoading: isLoading3 } = useMutation(API.postUploadFileFromLocal, {
+        onSuccess: (data) => {
+            console.log('onSuccess =========>', data);
+            Toast.show({
+                type: "success",
+                text1: 'Uploaded successfully.',
+                text2: data.message
+            })
+            refetch();
+        },
+        onError: (data) => {
+            console.log('onError =========>', data);
+            Toast.show({
+                type: 'error',
+                text1: 'Sorry',
+                text2: data.message
+            })
+        }
+    })
 
     useEffect(() => {
         if (data != null && status == 'success') {
@@ -70,7 +90,7 @@ const SongOpenScreen = ({ navigation }) => {
                         id: item.id,
                         title: item.title,
                         thumbnail: item.thumbnail,
-                        youtubeUrl: item.youtoube_url,
+                        from: item.from,
                         fileUrl: item.file_url,
                         type: item.type,
                         userId: item.user_id
@@ -82,7 +102,61 @@ const SongOpenScreen = ({ navigation }) => {
         }
     }, [data])
 
-    if (isLoading1 || isLoading2) {
+    const handleDocumentSelection = useCallback(async (to) => {
+        try {
+            const response = await DocumentPicker.pick({
+                presentationStyle: 'fullScreen',
+                type: types.video
+            });
+            console.log('F i l e p i c k e r : ', response[0]);
+            const selectedVideoFromLocal = response[0];
+            const formData = new FormData();
+            formData.append('file', {
+                name: selectedVideoFromLocal.name,
+                type: selectedVideoFromLocal.type,
+                uri:
+                    Platform.OS === 'android' ? selectedVideoFromLocal.uri : selectedVideoFromLocal.uri.replace('file://', '')
+            });
+            formData.append('to', 'song');
+            formData.append('type', to);
+            let parms = {
+                userId,
+                body: formData
+            }
+            Alert.alert(
+                "Confirm",
+                'Are you sure want to upload selected 1 file?',
+                [
+                    {
+                        text: 'ok',
+                        onPress: () => {
+                            uploadFileFromLocal(parms);
+                        }
+                    },
+                    {
+                        text: 'cancel',
+                        onPress: () => {
+                        },
+                        style: 'cancel'
+                    }
+                ]
+            )
+        } catch (err) {
+            Alert.alert(
+                "Warning",
+                err.toString(),
+                [
+                    {
+                        text: 'ok',
+                        onPress: () => {
+                        }
+                    }
+                ]
+            )
+        }
+    }, []);
+
+    if (isLoading1 || isLoading2 || isLoading3) {
         return (
             <View
                 style={{
@@ -96,7 +170,7 @@ const SongOpenScreen = ({ navigation }) => {
                     style={{
                         fontSize: scale(30)
                     }}>
-                    {'Loading...'}
+                    {isLoading3 ? 'Uploading...' : 'Loading...'}
                 </Text>
             </View>
         )
@@ -218,6 +292,13 @@ const SongOpenScreen = ({ navigation }) => {
                             goback: 'SongOpen'
                         });
                         setisVisibleYoutubeSelectModal(false);
+                    }}
+                    onClickLocal={() => {
+                        console.log('you clicked the local file');
+                        setisVisibleYoutubeSelectModal(false);
+                        setTimeout(() => {
+                            handleDocumentSelection('open');
+                        }, 890);
                     }}
                     onClose={() => setisVisibleYoutubeSelectModal(false)}
                 />

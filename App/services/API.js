@@ -67,14 +67,22 @@ class API {
   createPallbearer = async (params) => {
     let userid = params.userId;
     let body = params.body;
-    const response = await apiInstance.post(`${apiPrefix}/pallbearer/${userid}`, body);
+    const response = await apiInstance.post(`${apiPrefix}/pallbearer/${userid}`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data; ',
+      }
+    });
     return response.data;
   }
   updatePallbearer = async (params) => {
     let userid = params.userId;
     let body = params.body;
     console.log(userid, body);
-    const response = await apiInstance.put(`${apiPrefix}/pallbearer/${userid}`, body);
+    const response = await apiInstance.post(`${apiPrefix}/pallbearer/update/${userid}`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data; ',
+      }
+    });
     return response.data;
   }
   deletePallbearerById = async (id) => {
@@ -89,14 +97,23 @@ class API {
   postSpeaker = async (params) => {
     let userid = params.userId;
     let body = params.body;
-    const response = await apiInstance.post(`${apiPrefix}/speaker/${userid}`, body);
+    console.log('post api data is ', body);
+    const response = await apiInstance.post(`${apiPrefix}/speaker/${userid}`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data; ',
+      }
+    });
     return response.data;
   }
   updateSpeaker = async (params) => {
     let userid = params.userId;
     let body = params.body;
-    console.log(userid, body);
-    const response = await apiInstance.put(`${apiPrefix}/speaker/${userid}`, body);
+    console.log('adsfasdfasdfasdf', userid, body);
+    const response = await apiInstance.post(`${apiPrefix}/speaker/update/${userid}`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data; ',
+      }
+    });
     return response.data;
   }
   deleteSpeakerById = async (id) => {

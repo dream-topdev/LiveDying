@@ -44,10 +44,13 @@ export const styles = StyleSheet.create({
   toggleWrapper: {
     marginBottom: scale(15)
   },
-  alarm: {
-    width: scale(100),
+  avatar: {
     height: scale(100),
-    borderRadius: scale(50),
+    width: scale(100),
+    overflow: 'hidden',
+    borderColor: Colors.primaryColor,
+    borderWidth: 4,
+    borderRadius: scale(100) / 2,
   },
   editAvatarWrapper: {
     justifyContent: 'center',
@@ -55,9 +58,12 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.secondaryColor,
     width: scale(30),
     height: scale(30),
-    borderRadius: scale(20),
     top: scale(-35),
-    right: scale(-35)
+    right: scale(-35),
+    borderRadius: scale(20),
+    borderColor: Colors.primaryColor,
+    borderWidth: 4,
+    
   },
   editAvatar: {
     width: scale(10),
@@ -75,16 +81,16 @@ export const styles = StyleSheet.create({
     marginTop: scale(25)
   },
   textInput: {
-    width:'100%',
+    width: '100%',
     backgroundColor: Colors.textInputBackground,
     borderRadius: scale(20),
-    paddingHorizontal:scale(30),
+    paddingHorizontal: scale(30),
     paddingVertical: scale(20)
   },
-  textInputWrapper:{
-    width:'100%',
+  textInputWrapper: {
+    width: '100%',
     flexDirection: 'column',
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import Modal from "react-native-modal";
 import { styles } from './styles';
 import Colors from '../../utils/Colors';
-import ApplicationStyles from '../../utils/ApplicationStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Images from '../../utils/Images';
 import ReminderInput from '../../components/ReminderInput';
@@ -19,17 +18,22 @@ import OutlineButton from '../OutlineButton';
 import IconButton from '../IconButton';
 import AuthInput from '../AuthInput';
 
+
 const AddPeopleModal = ({
+  title,
   visible,
   onClose,
   onSuccess,
+  avatarUrl,
   firstName = '',
   lastName = '',
   topic = '',
   setFirstName,
   setLastName,
   setTopic,
-  textAreaVisible = true
+  textAreaVisible = true,
+  onClickEditButton,
+  isOkButtonDisable
 }) => {
   return (
     <Modal
@@ -43,7 +47,7 @@ const AddPeopleModal = ({
     >
       <View style={styles.container}>
         <View>
-          <Text style={styles.title}>{'Add Speaker and Topic'}</Text>
+          <Text style={styles.title}>{title}</Text>
         </View>
         <TouchableOpacity
           style={styles.playCircle}
@@ -57,18 +61,15 @@ const AddPeopleModal = ({
         </TouchableOpacity>
         <View style={styles.alarmWrapper}>
           <Image
-            source={Images.default_avatar}
-            style={styles.alarm}
-            resizeMode={'contain'}
+            source={{ uri: avatarUrl }}
+            style={styles.avatar}
           />
           <View style={styles.editAvatarWrapper}>
             <IconButton
               icon={Images.ic_edit}
               width={25}
               height={25}
-              onPress={() => {
-                console.log('You clicked the edit button');
-              }}
+              onPress={onClickEditButton}
             />
           </View>
         </View>
@@ -107,7 +108,9 @@ const AddPeopleModal = ({
           <View style={styles.divider} />
           <OutlineButton
             title="Done"
-            loading={false}
+            loading={isOkButtonDisable}
+            loadingContent={<Text style={{ color: Colors.white }}>{'Done'}</Text>}
+            backColor={isOkButtonDisable ? Colors.primaryBackColor : Colors.primaryColor}
             onPress={() => {
               onClose();
               onSuccess();
@@ -120,6 +123,7 @@ const AddPeopleModal = ({
 };
 
 AddPeopleModal.propTypes = {
+  title: PropTypes.string,
   visible: PropTypes.bool,
   onSuccess: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -129,7 +133,10 @@ AddPeopleModal.propTypes = {
   setFirstName: PropTypes.func,
   setLastName: PropTypes.func,
   setTopic: PropTypes.func,
-  textAreaVisibleF: PropTypes.bool
+  textAreaVisibleF: PropTypes.bool,
+  onClickEditButton: PropTypes.func,
+  avatarUrl: PropTypes.string,
+  isOkButtonDisable: PropTypes.bool,
 }
 
 export default AddPeopleModal;

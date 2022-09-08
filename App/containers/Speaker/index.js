@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import {
+    useState,
+    useEffect,
+    useContext,
+    useCallback
+} from 'react';
 import {
     View,
     Text,
@@ -17,11 +22,14 @@ import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import Toast from 'react-native-toast-message';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueries } from 'react-query';
 import API from '../../services/API';
 import AddPeopleModal from '../../components/AddPeopleModal';
-import { setEnabled } from 'react-native/Libraries/Performance/Systrace';
+import DocumentPicker, { types } from 'react-native-document-picker'
+import { SectionGrid } from 'react-native-super-grid';
 
+
+const defaultAvatarUrl = 'http://livelikeyouaredying.com/assets/images/default/default_avatar.png';
 const delItemFromJson = (jsonArray, key, value) => {
     var BreakException = {};
     var index = 0;
@@ -41,7 +49,7 @@ const SpeakerScreen = ({ navigation }) => {
     const { userProfile } = useContext(AuthContext);
     const userId = userProfile.result.id;
     console.log('Current Use id is ', userId);
-    const { data, isLoading: isLoading1, status } = useQuery(['getSpeakerByUserId', userId], () => API.getSpeakerByUserId(userId));
+    const { data, isLoading: isLoading1, status, refetch } = useQuery(['getSpeakerByUserId', userId], () => API.getSpeakerByUserId(userId));
     const [speakerList, setspeakerList] = useState([]);
     const [addSpeakerModal, setAddSpeakerModal] = useState(false);
     const [firstName, setFirstName] = useState('');
@@ -49,6 +57,8 @@ const SpeakerScreen = ({ navigation }) => {
     const [topic, setTopic] = useState('');
     const [isEdit, setIsEdit] = useState(false);
     const [currentId, setCurrentId] = useState(null);
+    const [avatarInfo, setAvatarInfo] = useState({});
+    const [isOkButtonDisable, setIsOkButtonDisable] = useState(true)
     const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deleteSpeakerById, {
         onSuccess: data => {
             console.log('<----------------------------------------->', data)
@@ -57,6 +67,7 @@ const SpeakerScreen = ({ navigation }) => {
                 text1: 'Welcome',
                 text2: data.message
             });
+            refetch();
         },
         onError: (data) => {
             Toast.show({
@@ -67,34 +78,14 @@ const SpeakerScreen = ({ navigation }) => {
         }
     });
     const { mutate: mutate2, isLoading: isLoading3 } = useMutation(API.postSpeaker, {
-        onSuccess: data => {
+        onSuccess: (data) => {
             console.log('<----------------------------------------->', data)
-            if (data.result == true) {
-                let temp = [];
-                data.contents.forEach((item) => {
-                    temp.push(
-                        {
-                            id: item.id,
-                            firstName: item.first_name,
-                            lastName: item.last_name,
-                            topic: item.topic,
-                            userId: item.user_id
-                        }
-                    )
-                })
-                setspeakerList(temp)
-                Toast.show({
-                    type: 'success',
-                    text1: 'Welcome',
-                    text2: data.message
-                });
-            } else {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Welcome',
-                    text2: data.message
-                });
-            }
+            Toast.show({
+                type: 'success',
+                text1: 'Welcome',
+                text2: data.message
+            });
+            refetch();
         },
         onError: (data) => {
             Toast.show({
@@ -105,34 +96,14 @@ const SpeakerScreen = ({ navigation }) => {
         }
     })
     const { mutate: mutate3, isLoading: isLoading4 } = useMutation(API.updateSpeaker, {
-        onSuccess: data => {
+        onSuccess: (data) => {
             console.log('<----------------------------------------->', data)
-            if (data.result == true) {
-                let temp = [];
-                data.contents.forEach((item) => {
-                    temp.push(
-                        {
-                            id: item.id,
-                            firstName: item.first_name,
-                            lastName: item.last_name,
-                            topic: item.topic,
-                            userId: item.user_id
-                        }
-                    )
-                })
-                setspeakerList(temp)
-                Toast.show({
-                    type: 'success',
-                    text1: 'Welcome',
-                    text2: data.message
-                });
-            } else {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Welcome',
-                    text2: data.message
-                });
-            }
+            Toast.show({
+                type: 'success',
+                text1: 'Welcome',
+                text2: data.message
+            });
+            refetch();
         },
         onError: (data) => {
             Toast.show({
@@ -151,6 +122,7 @@ const SpeakerScreen = ({ navigation }) => {
                 temp.push(
                     {
                         id: item.id,
+                        avatar: item.avatar,
                         firstName: item.first_name,
                         lastName: item.last_name,
                         topic: item.topic,
@@ -162,6 +134,44 @@ const SpeakerScreen = ({ navigation }) => {
         }
     }, [data]);
 
+    useEffect(() => {
+        console.log('current stat is ', firstName, lastName, topic);
+        setIsOkButtonDisable(!isValidOkButton())
+    }, [firstName, lastName, topic]);
+
+    const handleDocumentSelection = useCallback(async (to) => {
+        try {
+            const response = await DocumentPicker.pick({
+                presentationStyle: 'fullScreen',
+                type: types.images
+            });
+            const selectedAvatar = response[0];
+            console.log('selected avatar information', selectedAvatar);
+            setAvatarInfo({ ...selectedAvatar, 'avatarCreated': true });
+            console.log('F i l e p i c k e r ', selectedAvatar.uri);
+        } catch (err) {
+            Alert.alert(
+                "Warning",
+                err.toString(),
+                [
+                    {
+                        text: 'ok',
+                        onPress: () => {
+                        }
+                    }
+                ]
+            )
+        }
+    }, []);
+
+    const isValidOkButton = () => {
+        if (firstName != null && firstName != '' &&
+            lastName != null && lastName != '' &&
+            topic != null && topic != '') {
+            return true;
+        }
+        return false
+    }
     if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
         return (
             <View
@@ -227,16 +237,18 @@ const SpeakerScreen = ({ navigation }) => {
                                 speakerList.map((item) => (
                                     <SpeakerContainer
                                         key={item.id}
-                                        thumbnail={Images.default_avatar}
+                                        thumbnail={item.avatar}
                                         speakerName={`${item.firstName} ${item.lastName}`}
                                         speakerTopic={item.topic}
                                         onPress={() => {
                                             setIsEdit(true);
-                                            setCurrentId(item.id)
-                                            setFirstName(item.firstName)
-                                            setLastName(item.lastName)
-                                            setTopic(item.topic)
+                                            setAvatarInfo({ 'uri': item.avatar, 'avatarCreated': false });
+                                            setCurrentId(item.id);
+                                            setFirstName(item.firstName);
+                                            setLastName(item.lastName);
+                                            setTopic(item.topic);
                                             setAddSpeakerModal(true);
+                                            setIsOkButtonDisable(true);
                                             console.log('you clicked the main avatar');
                                         }}
                                         removePress={() => {
@@ -302,53 +314,46 @@ const SpeakerScreen = ({ navigation }) => {
                 </View>
             </KeyboardAwareScrollView>
             <AddPeopleModal
+                title={isEdit ? "Edit Speaker" : 'Add New Speaker'}
                 visible={addSpeakerModal}
+                avatarUrl={(avatarInfo.uri == undefined || avatarInfo.uri == null) ? defaultAvatarUrl : avatarInfo.uri}
                 firstName={firstName}
                 lastName={lastName}
                 topic={topic}
-                setFirstName={(v) => {
-                    setFirstName(v)
-                }}
-                setLastName={(v) => {
-                    setLastName(v)
-                }}
-                setTopic={(v) => {
-                    setTopic(v)
+                isOkButtonDisable={isOkButtonDisable}
+                setFirstName={(v) => { setFirstName(v) }}
+                setLastName={(v) => { setLastName(v) }}
+                setTopic={(v) => { setTopic(v) }}
+                onClickEditButton={() => {
+                    console.log('you clicked the edit button.');
+                    handleDocumentSelection('vidoe');
                 }}
                 onSuccess={() => {
-                    if (isEdit) {
-                        let params = {
-                            userId,
-                            body: {
-                                contents: [{
-                                    id: currentId,
-                                    user_id: userId,
-                                    first_name: firstName,
-                                    last_name: lastName,
-                                    topic: topic
-                                }]
-                            }
-                        }
-                        mutate3(params);
-                        console.log('update speaker is updateed successfully. ');
-                    } else {
-
-                        let params = {
-                            userId,
-                            body: {
-                                contents: [{
-                                    first_name: firstName,
-                                    last_name: lastName,
-                                    topic: topic
-                                }]
-                            }
-                        }
-                        mutate2(params)
-                        console.log('you clicked the success button .');
+                    const formData = new FormData();
+                    if (avatarInfo.avatarCreated) {
+                        formData.append('avatar', {
+                            name: avatarInfo.name,
+                            type: avatarInfo.type,
+                            uri:
+                                Platform.OS === 'android' ? avatarInfo.uri : avatarInfo.uri.replace('file://', '')
+                        });
+                    } else if (Object.keys(avatarInfo).length > 0) {
+                        formData.append('avatar', avatarInfo.uri);
                     }
+                    formData.append('id', currentId)
+                    formData.append('first_name', firstName);
+                    formData.append('last_name', lastName);
+                    formData.append('topic', topic);
+                    let params = {
+                        userId,
+                        body: formData
+                    }
+                    isEdit ? mutate3(params) : mutate2(params)
+                    console.log('you clicked the success button .');
                 }}
                 onClose={() => {
                     setAddSpeakerModal(false);
+                    setAvatarInfo({});
                 }}
             />
         </View>

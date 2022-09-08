@@ -9,13 +9,22 @@ import IconButton from '../IconButton';
 import Images from '../../utils/Images';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
+import Colors from '../../utils/Colors';
 
 const PallbearerContainer = ({ thumbnail, name, onPress, removePress }) => {
     return (
         <View style={styles.container} >
-            <View style={styles.thumbnailWrapper}>
+            <View style={thumbnail == null ? styles.thumbnailWrapper : {
+                height: scale(80),
+                width: scale(80),
+                overflow: 'hidden',
+                borderColor: Colors.primaryColor,
+                borderWidth: 4,
+                borderRadius: scale(80) / 2,
+                paddingRight: scale(20)
+            }}>
                 <IconButton
-                    icon={thumbnail}
+                    icon={thumbnail !== null ? { uri: thumbnail } : Images.default_avatar}
                     width={scale(79)}
                     height={scale(79)}
                     disabled={false}

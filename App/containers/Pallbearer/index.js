@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import {
+    useState,
+    useEffect,
+    useContext,
+    useCallback
+} from 'react';
 import {
     View,
     Text,
@@ -22,8 +27,10 @@ import Toast from 'react-native-toast-message';
 import { useQuery, useMutation, parseMutationArgs } from 'react-query';
 import API from '../../services/API';
 import AddPeopleModal from '../../components/AddPeopleModal';
+import DocumentPicker, { types } from 'react-native-document-picker';
 
 
+const defaultAvatarUrl = 'http://livelikeyouaredying.com/assets/images/default/default_avatar.png';
 const delItemFromJson = (jsonArray, key, value) => {
     var BreakException = {};
     var index = 0;
@@ -43,13 +50,15 @@ const PallbearerScreen = ({ navigation }) => {
     const { userProfile } = useContext(AuthContext);
     const userId = userProfile.result.id;
     console.log('Current Use id is ', userId);
-    const { data, isLoading: isLoading1, status } = useQuery(['getPallbearerByUserId', userId], () => API.getPallbearerByUserId(userId));
+    const { data, isLoading: isLoading1, status, refetch } = useQuery(['getPallbearerByUserId', userId], () => API.getPallbearerByUserId(userId));
     const [pallbearerList, setPallbearerList] = useState([]);
     const [addPallbearerModal, setAddPallbearerModal] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [isEdit, setIsEdit] = useState(false);
     const [currentId, setCurrentId] = useState(null);
+    const [avatarInfo, setAvatarInfo] = useState({});
+    const [isOkButtonDisable, setIsOkButtonDisable] = useState(true)
     const { mutate: mutate1, isLoading: isLoading2 } = useMutation(API.deletePallbearerById, {
         onSuccess: (data) => {
             console.log('<----------------------------------------->', data)
@@ -58,6 +67,7 @@ const PallbearerScreen = ({ navigation }) => {
                 text1: 'Welcome',
                 text2: data.message
             });
+            refetch();
         },
         onError: (data) => {
             Toast.show({
@@ -70,31 +80,12 @@ const PallbearerScreen = ({ navigation }) => {
     const { mutate: mutate2, isLoading: isLoading3 } = useMutation(API.createPallbearer, {
         onSuccess: (data) => {
             console.log('<----------------------------------------->', data)
-            if (data.result == true) {
-                let temp = [];
-                data.contents.forEach((item) => {
-                    temp.push(
-                        {
-                            id: item.id,
-                            firstName: item.first_name,
-                            lastName: item.last_name,
-                            userId: item.user_id
-                        }
-                    )
-                })
-                setPallbearerList(temp)
-                Toast.show({
-                    type: 'success',
-                    text1: 'Welcome',
-                    text2: data.message
-                });
-            } else {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Welcome',
-                    text2: data.message
-                });
-            }
+            Toast.show({
+                type: 'success',
+                text1: 'Welcome',
+                text2: data.message
+            });
+            refetch();
         },
         onError: (data) => {
             Toast.show({
@@ -107,31 +98,12 @@ const PallbearerScreen = ({ navigation }) => {
     const { mutate: mutate3, isLoading: isLoading4 } = useMutation(API.updatePallbearer, {
         onSuccess: (data) => {
             console.log('<----------------------------------------->', data)
-            if (data.result == true) {
-                let temp = [];
-                data.contents.forEach((item) => {
-                    temp.push(
-                        {
-                            id: item.id,
-                            firstName: item.first_name,
-                            lastName: item.last_name,
-                            userId: item.user_id
-                        }
-                    )
-                })
-                setPallbearerList(temp)
-                Toast.show({
-                    type: 'success',
-                    text1: 'Welcome',
-                    text2: data.message
-                });
-            } else {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Welcome',
-                    text2: data.message
-                });
-            }
+            Toast.show({
+                type: 'success',
+                text1: 'Welcome',
+                text2: data.message
+            });
+            refetch();
         },
         onError: (data) => {
             Toast.show({
@@ -143,12 +115,14 @@ const PallbearerScreen = ({ navigation }) => {
     });
 
     useEffect(() => {
+        console.log('api call reault', data)
         if (data != null && status == 'success') {
             let temp = [];
             data.contents.forEach((item) => {
                 temp.push(
                     {
                         id: item.id,
+                        avatar: item.avatar,
                         firstName: item.first_name,
                         lastName: item.last_name,
                         userId: item.user_id
@@ -159,6 +133,44 @@ const PallbearerScreen = ({ navigation }) => {
         }
     }, [data])
 
+    useEffect(() => {
+        console.log('current stat is ', firstName, lastName);
+        setIsOkButtonDisable(!isValidOkButton())
+    }, [firstName, lastName]);
+
+    const handleDocumentSelection = useCallback(async (to) => {
+        try {
+            const response = await DocumentPicker.pick({
+                presentationStyle: 'fullScreen',
+                type: types.images
+            });
+            const selectedAvatar = response[0];
+            console.log('selected avatar information', selectedAvatar);
+            setAvatarInfo({ ...selectedAvatar, 'avatarCreated': true });
+            console.log('F i l e p i c k e r ', selectedAvatar.uri);
+        } catch (err) {
+            Alert.alert(
+                "Warning",
+                err.toString(),
+                [
+                    {
+                        text: 'ok',
+                        onPress: () => {
+                            setAvatarInfo({});
+                        }
+                    }
+                ]
+            )
+        }
+    }, []);
+
+    const isValidOkButton = () => {
+        if (firstName != null && firstName != '' &&
+            lastName != null && lastName != '') {
+            return true;
+        }
+        return false
+    }
     if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
         return (
             <View
@@ -223,14 +235,17 @@ const PallbearerScreen = ({ navigation }) => {
                                 pallbearerList.map((item) => (
                                     <PallbearerContainer
                                         key={item.id}
-                                        thumbnail={Images.default_avatar}
+                                        thumbnail={item.avatar}
                                         name={item.firstName + ' ' + item.lastName}
                                         onPress={() => {
+                                            console.log('item avatar url is ', item.avatar === null);
                                             setIsEdit(true);
+                                            setAvatarInfo({ 'uri': item.avatar, 'avatarCreated': false });
                                             setCurrentId(item.id)
                                             setFirstName(item.firstName)
                                             setLastName(item.lastName)
                                             setAddPallbearerModal(true)
+                                            setIsOkButtonDisable(false);
                                             console.log('you clicked the main avatar')
                                         }}
                                         removePress={() => {
@@ -298,46 +313,43 @@ const PallbearerScreen = ({ navigation }) => {
                 </View>
             </KeyboardAwareScrollView >
             <AddPeopleModal
+                title={isEdit ? "Edit Pallbearer" : 'Add New Pallbearer'}
                 visible={addPallbearerModal}
                 textAreaVisible={false}
+                avatarUrl={(avatarInfo.uri == undefined || avatarInfo.uri == null) ? defaultAvatarUrl : avatarInfo.uri}
                 firstName={firstName}
                 lastName={lastName}
-                setFirstName={(v) => {
-                    setFirstName(v)
+                isOkButtonDisable={isOkButtonDisable}
+                setFirstName={(v) => { setFirstName(v) }}
+                setLastName={(v) => { setLastName(v) }}
+                onClickEditButton={() => {
+                    console.log('you clicked the edit button.');
+                    handleDocumentSelection('vidoe');
                 }}
-                setLastName={(v) => {
-                    setLastName(v)
-                }}
-                onClose={() => setAddPallbearerModal(false)}
                 onSuccess={() => {
-                    if (isEdit) {
-                        let params = {
-                            userId: userId,
-                            body: {
-                                contents: [
-                                    {
-                                        id: currentId,
-                                        first_name: firstName,
-                                        last_name: lastName,
-                                        user_id: userId
-                                    }
-                                ]
-                            }
-                        }
-                        mutate3(params)
-                        console.log('Update api is called successfully. ');
-                    } else {
-                        let params = {
-                            userId: userId,
-                            body: {
-                                contents: [{
-                                    first_name: firstName,
-                                    last_name: lastName
-                                }]
-                            }
-                        };
-                        mutate2(params);
+                    const formData = new FormData();
+                    if (avatarInfo.avatarCreated) {
+                        formData.append('avatar', {
+                            name: avatarInfo.name,
+                            type: avatarInfo.type,
+                            uri:
+                                Platform.OS === 'android' ? avatarInfo.uri : avatarInfo.uri.replace('file://', '')
+                        })
+                    } else if (Object.keys(avatarInfo).length > 0) {
+                        formData.append('avatar', avatarInfo.uri);
                     }
+                    formData.append('id', currentId)
+                    formData.append('first_name', firstName);
+                    formData.append('last_name', lastName);
+                    let params = {
+                        userId,
+                        body: formData
+                    }
+                    isEdit ? mutate3(params) : mutate2(params);
+                }}
+                onClose={() => {
+                    setAddPallbearerModal(false)
+                    setAvatarInfo({});
                 }}
             />
         </View >

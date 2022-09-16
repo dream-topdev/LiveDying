@@ -35,7 +35,8 @@ import { MenuProvider } from 'react-native-popup-menu';
 import { AuthProvider } from './App/AuthProvider';
 
 import { LogBox } from "react-native";
-
+import Icons from 'react-native-vector-icons/FontAwesome';
+Icons.loadFont();
 LogBox.ignoreLogs(["EventEmitter.removeListener", 'Animated.event']);
 
 const queryClient = new QueryClient();

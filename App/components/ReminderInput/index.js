@@ -1,27 +1,22 @@
 import * as React from 'react';
 import { useState } from 'react'
 import {
-    Image,
     View,
-    TextInput,
     Text
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { styles } from './styles';
-import Colors from '../../utils/Colors';
 import Images from '../../utils/Images';
 import IconButton from '../../components/IconButton';
-import { string } from 'yargs';
 import { scale, scaleVertical } from '../../utils/scale';
 
 
-const ReminerInput = ({ description, itemList }) => {
-    const [pickerListItem, setPickerListItem] = useState(itemList[0]);
-    const getIndexEqualTo = (array, value) => {
-        const isEqualNumber = (item) => item == value
-        const currentIndex = array.findIndex(isEqualNumber)
-        return currentIndex
-    }
+const ReminerInput = ({ 
+    description, 
+    itemList, 
+    initialIndex, 
+    setPickerListItem
+ }) => {
     return (
         <View style={styles.container}>
             <View style={styles.desc}>
@@ -33,20 +28,19 @@ const ReminerInput = ({ description, itemList }) => {
                     width={scale(24)}
                     height={scale(24)}
                     onPress={() => {
-                        let currentIndex = getIndexEqualTo(itemList, pickerListItem)
-                        let backIndex = (--currentIndex + itemList.length) % itemList.length
-                        setPickerListItem(itemList[backIndex])
+                        setPickerListItem(-1)
                     }}
                 />
-                <Text style={styles.pickerItem}>{pickerListItem}</Text >
+                <Text style={styles.pickerItem}>{itemList[initialIndex]}</Text >
                 <IconButton
                     icon={Images.ic_next}
                     width={scale(24)}
                     height={scale(24)}
                     onPress={() => {
-                        let currentIndex = getIndexEqualTo(itemList, pickerListItem)
-                        let nextIndex = (++currentIndex + itemList.length) % itemList.length
-                        setPickerListItem(itemList[nextIndex])
+                        // let currentIndex = getIndexEqualTo(itemList, pickerListItem);
+                        // let nextIndex = (++currentIndex + itemList.length) % itemList.length;
+                        // setPickerListItem(itemList[nextIndex])
+                        setPickerListItem(1)
                     }}
                 />
             </View>
@@ -56,7 +50,9 @@ const ReminerInput = ({ description, itemList }) => {
 
 ReminerInput.propTypes = {
     description: PropTypes.string,
-    itemList: PropTypes.array
+    itemList: PropTypes.array,
+    initialIndex: PropTypes.number,
+    setPickerListItem: PropTypes.func
 }
 
 export default ReminerInput;

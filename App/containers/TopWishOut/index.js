@@ -3,7 +3,8 @@ import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
-    Image
+    Image,
+    Button
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
@@ -14,21 +15,16 @@ import API from '../../services/API';
 import Colors from '../../utils/Colors';
 import TestReminderModal from '../../components/TestReminderModal';
 import { useQuery } from 'react-query';
+import Notifications from '../../Notifications';
 
 const TopWishOutScreen = ({ navigation }) => {
 
-    const { userProfile } = useContext(AuthContext);
+    const { userProfile, notification } = useContext(AuthContext);
     const userId = userProfile.result.id;
     const { data, isLoading, status } = useQuery(["getTopWishById", userId], () => API.getTopWishById(userId));
-    const [userName, setUserName] = useState("");
     const [testReminderModal, setTestReminderModal] = useState(false);
-    const [topWishList, setTopWishList] = useState([
-        // 'Get VP Title',
-        // 'Bora Bora',
-        // 'Get to 170 lbs',
-        // 'Help Poor with electricity',
-        // 'Take Grandkids to Disney World'
-    ]);
+    const [topWishList, setTopWishList] = useState([]);
+    const [notificationToggle, setNotificationToggle] = useState(notification);
 
     useEffect(() => {
         if (data != null && status == 'success') {
@@ -63,7 +59,7 @@ const TopWishOutScreen = ({ navigation }) => {
                 </Text>
             </View>
         )
-        
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -82,6 +78,8 @@ const TopWishOutScreen = ({ navigation }) => {
                     <View style={styles.testReminderWrapper}>
                         <OutlineButton
                             title="Text reminders"
+                            addIcon={true}
+                            iconSource={notificationToggle ? Images.ic_clock : Images.ic_clock_disable}
                             loading={false}
                             backColor={Colors.secondaryColor}
                             onPress={() => {
@@ -102,6 +100,10 @@ const TopWishOutScreen = ({ navigation }) => {
             </KeyboardAwareScrollView>
             <TestReminderModal
                 visible={testReminderModal}
+                notification={notificationToggle}
+                setNotification={() => {
+                    setNotificationToggle(!notificationToggle)
+                }}
                 onClose={() => setTestReminderModal(false)}
             />
         </View>

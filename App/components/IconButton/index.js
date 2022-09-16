@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 
-const IconButton = ({ icon, width = 18, height = 18, marginRight = 0, disabled, onPress }) => {
+const IconButton = ({ icon, width = 18, height = 18, marginRight = 0, overFlow = 'hidden', disabled, onPress }) => {
     return (
         <TouchableOpacity
             style={styles.container}
@@ -20,7 +20,8 @@ const IconButton = ({ icon, width = 18, height = 18, marginRight = 0, disabled, 
                     {
                         width: scale(width),
                         height: scale(height),
-                        marginRight: scale(marginRight)
+                        marginRight: scale(marginRight),
+                        overflow: overFlow
                     }
                 ]}
             />
@@ -35,6 +36,7 @@ IconButton.propTypes = {
     marginRight: PropTypes.number,
     disabled: PropTypes.bool,
     onPress: PropTypes.func,
+    overFlow: PropTypes.string
 }
 
 export default IconButton;

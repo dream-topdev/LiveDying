@@ -49,14 +49,14 @@ export const styles = StyleSheet.create({
         height: scale(64),
     },
     alarmWrapper: {
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: scale(40),
     },
-
     divider: {
         height: scale(25)
     },
-    inputform:{
-        width:'100%',
-        marginTop:scale(25)
+    inputForm: {
+        width: '100%',
+        marginTop: scale(25)
     }
 });

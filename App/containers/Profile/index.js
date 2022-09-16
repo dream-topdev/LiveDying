@@ -34,6 +34,7 @@ const stringToBoolean = (str) => {
 
 const ProfileScreen = ({ navigation }) => {
     const { userProfile } = React.useContext(AuthContext);
+    console.log('usecontext progiel is ', userProfile);
     const userId = userProfile.result.id;
     const { data, isLoading, status } = useQuery(["getProfileById", userId], () => API.getProfileById(userId));
     const [birthday, setBirthday] = useState(new Date());

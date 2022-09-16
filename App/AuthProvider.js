@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [chatBadge, setChatBadge] = useState(false);
+  const [notification, setNotification] = useState(false);
   const { mutate, isLoading } = useMutation(API.login, {
     onSuccess: (data) => {
       Toast.show({
@@ -51,6 +52,7 @@ export const AuthProvider = ({ children }) => {
         userProfile,
         loading,
         chatBadge,
+        notification,
         setBadge: (b) => {
           setChatBadge(b);
         },

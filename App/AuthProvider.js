@@ -5,9 +5,10 @@ import {
   AppState
 } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { setUserOnline } from './services/FirebaseService';
+import { getUserProfile, setUserOnline } from './services/FirebaseService';
 import API from './services/API';
 import { useMutation } from 'react-query';
+import { RNFetchBlobFetchPolyfill } from 'rn-fetch-blob';
 export const AuthContext = createContext({});
 
 const validateEmail = (email) => {
@@ -24,7 +25,24 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [chatBadge, setChatBadge] = useState(false);
   const [notification, setNotification] = useState(false);
-  const { mutate, isLoading } = useMutation(API.login, {
+  const { mutate: fetchProfile } = useMutation(API.getProfileById, {
+    onSuccess: (data) => {
+      console.log('======>', data);
+      setUserProfile({ result: data });
+      setNotification(data.is_reminder);
+      setLoading(false);
+    },
+    onError: (Data) => {
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry',
+        text2: 'Some issue is occured'
+      });
+      setLoading(false);
+    }
+  });
+
+  const { mutate } = useMutation(API.login, {
     onSuccess: (data) => {
       Toast.show({
         type: 'success',
@@ -33,6 +51,7 @@ export const AuthProvider = ({ children }) => {
       });
       if (data.result.id !== undefined) {
         setUserProfile(data);
+        setNotification(data.result.is_reminder);
       }
     },
     onError: (data) => {
@@ -53,6 +72,10 @@ export const AuthProvider = ({ children }) => {
         loading,
         chatBadge,
         notification,
+        fetchProfile: (userid) => {
+          setLoading(true);
+          fetchProfile(userid);
+        },
         setBadge: (b) => {
           setChatBadge(b);
         },

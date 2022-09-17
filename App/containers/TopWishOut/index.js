@@ -3,8 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
-    Image,
-    Button
+    Image
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
@@ -15,16 +14,18 @@ import API from '../../services/API';
 import Colors from '../../utils/Colors';
 import TestReminderModal from '../../components/TestReminderModal';
 import { useQuery } from 'react-query';
-import Notifications from '../../Notifications';
+
 
 const TopWishOutScreen = ({ navigation }) => {
 
-    const { userProfile, notification } = useContext(AuthContext);
+    const { userProfile,notification } = useContext(AuthContext);
     const userId = userProfile.result.id;
+    // const notification = userProfile.result.is_reminder;
+    console.log(notification);
     const { data, isLoading, status } = useQuery(["getTopWishById", userId], () => API.getTopWishById(userId));
     const [testReminderModal, setTestReminderModal] = useState(false);
     const [topWishList, setTopWishList] = useState([]);
-    const [notificationToggle, setNotificationToggle] = useState(notification);
+    const [notificationToggle, setNotificationToggle] = useState(!!+notification);
 
     useEffect(() => {
         if (data != null && status == 'success') {
@@ -79,7 +80,7 @@ const TopWishOutScreen = ({ navigation }) => {
                         <OutlineButton
                             title="Text reminders"
                             addIcon={true}
-                            iconSource={notificationToggle ? Images.ic_clock : Images.ic_clock_disable}
+                            iconSource={!!+notification ? Images.ic_clock : Images.ic_clock_disable}
                             loading={false}
                             backColor={Colors.secondaryColor}
                             onPress={() => {
@@ -101,6 +102,8 @@ const TopWishOutScreen = ({ navigation }) => {
             <TestReminderModal
                 visible={testReminderModal}
                 notification={notificationToggle}
+                initRepeatTypeIndex={parseInt(userProfile.result.repeat_type_index)}
+                initSoundNameIndex={parseInt(userProfile.result.repeat_sound_index)}
                 setNotification={() => {
                     setNotificationToggle(!notificationToggle)
                 }}

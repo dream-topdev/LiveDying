@@ -87,7 +87,7 @@ class Notifications {
 
         PushNotification.createChannel(
             {
-                channelId: 'reminders', // (required)
+                channelId: 'livelikeyouaredying', // (required)
                 channelName: 'Task reminder notifications', // (required)
                 channelDescription: 'Reminder for any tasks',
                 playSound: true,
@@ -104,21 +104,21 @@ class Notifications {
 
     schduleNotification(date, type, soundName) {
         PushNotification.localNotificationSchedule({
-            channelId: 'reminders',
+            channelId: 'livelikeyouaredying',
             title: '🔔 Notification!',
             message: 'Remember your biggest wish in life!',
             date,
             vibrate: true,
             vibration: 300,
-            repeatType: 'minute',
+            repeatType: type,
             repeatTime: '1',
             playSound: true,
-            soundName: 'alarm1.wav'
+            soundName
         });
     }
     schduleNotificationIOS(date, type, soundName) {
         PushNotificationIOS.addNotificationRequest({
-            id: 'reminders',
+            id: 'livelikeyouaredying',
             title: '🔔 Notification!',
             subtitle: 'Remember your biggest wish in life!',
             fireDate: date,
@@ -129,7 +129,7 @@ class Notifications {
     deleteNotification(id) {
         PushNotification.channelExists(id, function (exists) {
             if (exists) {
-                PushNotification.deleteChannel('reminders')
+                PushNotification.deleteChannel('livelikeyouaredying')
                 console.log('Current channel is deleted successfully');
             } else {
                 console.log('Channeld is not existing now. ');

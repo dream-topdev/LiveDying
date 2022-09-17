@@ -18,6 +18,13 @@ class API {
     const response = await apiInstance.post(`${apiPrefix}/user/login`, params);
     return response.data;
   };
+  setReminder = async (params) => {
+    const id = params.userid;
+    const body = params.body;
+    console.log('===================>', id , body)
+    const response = await apiInstance.post(`${apiPrefix}/user/${id}/reminder`, body);
+    return response.data;
+  }
   getProfileById = async (id) => {
     const response = await apiInstance.get(`${apiPrefix}/user/${id}`);
     return response.data;

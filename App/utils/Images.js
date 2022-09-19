@@ -53,4 +53,5 @@ export default {
   ic_share_disable : require('./../assets/images/share_disable.png'),
   ic_account_active : require('./../assets/images/account_active.png'),
   ic_account_disable : require('./../assets/images/account_disable.png'),
+  ic_eye_active : require('./../assets/images/eye_active.png')
 };

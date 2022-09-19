@@ -18,15 +18,20 @@ export const styles = StyleSheet.create({
         paddingHorizontal: scale(27),
         width: '100%',
     },
-    messageWrapper: {
-        flex: 1,
-        justifyContent: 'flex-start',
+    logoWrapper: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: scale(46),
     },
-    message: {
+    logo: {
+        width: scale(246),
+        height: scale(130),
+    },
+    notetextWrapper: {
         width: '100%',
-        marginTop: scale(50),
-        paddingHorizontal: scale(25),
-        paddingVertical: scale(25),
+        marginTop: scale(33),
+        paddingHorizontal: scale(28),
+        paddingVertical: scale(28),
         borderRadius: scale(20),
         shadowColor: '#404d4d',
         shadowOffset: {
@@ -41,90 +46,77 @@ export const styles = StyleSheet.create({
         fontFamily: Fonts.EpilogueBold,
         fontSize: scale(18),
         lineHeight: scale(30),
-        color: Colors.black,
-        marginBottom: scale(10)
-    },
-    plannote: {
-        marginTop: scale(8),
-        fontFamily: Fonts.EpilogueBold,
-        fontSize: scale(18),
-        lineHeight: scale(30),
-        textAlign: 'left',
-        color: Colors.primaryColor
-    },
-    topwishlist: {
-        width: '100%',
-        marginTop: scale(30),
-        // justifyContent: 'center',
-        backgroundColor: Colors.backgroundColor,
-    },
-    notemeanhead: {
-        fontFamily: Fonts.EpilogueBold,
-        fontSize: scale(18),
-        color: Colors.black,
-        marginBottom: scale(3)
-    },
-    notemean: {
-        fontFamily: Fonts.Light,
-        fontSize: scale(18),
-        color: Colors.primaryTextColor,
-        lineHeight: scale(27),
-        marginTop: 15
-    },
-    eventhint: {
-        width: '100%',
-        marginTop: scale(30),
-        paddingHorizontal: scale(52),
-        paddingVertical: scale(15),
-        borderRadius: scale(10),
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Colors.primaryBackColor,
-    },
-    noteeventhint: {
-        fontFamily: Fonts.EpilogueBold,
-        fontSize: scale(17),
-        textAlign: 'center',
-        lineHeight: scale(27),
         color: Colors.primaryColor,
     },
-    sharemessage: {
+    shareContainter: {
+        // flex: 1,
+        marginTop: scale(44),
         width: '100%',
-        marginTop: scale(15),
-        paddingHorizontal: scale(74),
-        paddingVertical: scale(16),
-        borderRadius: scale(10),
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Colors.secondaryBackColor,
-        opacity: 0.1
-    },
-    logo: {
-        marginTop: scale(46),
-        width: scale(246),
-        height: scale(130),
-    },
-    inputForm: {
-        width: '100%',
-        marginTop: scale(74)
-    },
-    divider: {
-        height: scale(18)
-    },
-    testReminderWrapper: {
-        width: '100%',
-        marginTop: scale(83),
-    },
-    loginWrapper: {
-        width: '100%',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignitem: 'center',
-        justifyContent: 'flex-end',
-        marginVertical: scale(20),
+        // marginBottom: scale(30)
     },
-    forgetWrapper: {
-        marginTop: scale(24),
-        width: '100%',
-        alignItems: 'flex-end'
+    shareYouWrapper: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderRadius: scale(30),
+        borderWidth: scale(5),
+        borderColor: Colors.primaryColor,
+        paddingHorizontal: scale(20),
+        paddingTop: scale(20)
+    },
+    shareWrapper: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: "center",
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: scale(96),
+        height: scale(96),
+        borderWidth: scale(2),
+        borderColor: Colors.primaryColor,
+        backgroundColor: Colors.primaryBackColor,
+        borderRadius: scale(48)
+    },
+    shareContentWrapper: {
+        marginTop: scale(14),
+        marginBottom: scale(30),
+        width: scale(100),
+        alignItems: 'center'
+    },
+    shareContent: {
+        color: Colors.primaryColor,
+        fontFamily: Fonts.EpilogueBold,
+        fontWeight: 'bold',
+        fontSize: 18
+    },
+    seeOtherWrapper: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderRadius: scale(30),
+        borderWidth: scale(5),
+        borderColor: Colors.secondaryColor,
+        paddingHorizontal: scale(20),
+        paddingTop: scale(20)
+    },
+    seeWrapper: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: "center",
+        flexDirection: 'column',
+        justifyContent: 'center',
+        width: scale(96),
+        height: scale(96),
+        borderWidth: scale(2),
+        borderColor: Colors.secondaryColor,
+        backgroundColor: Colors.secondaryBackColor,
+        borderRadius: scale(48)
+    },
+    seeContent: {
+        color: Colors.secondaryColor,
+        fontFamily: Fonts.EpilogueBold,
+        fontWeight: 'bold',
+        fontSize: 18
     },
 });

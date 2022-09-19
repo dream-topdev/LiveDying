@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Image, Text } from 'react-native';
+import Images from '../utils/Images';
 import Colors from '../utils/Colors';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AuthContext } from '../AuthProvider';
 import SplashScreen from '../containers/Splash';
 import SignInScreen from '../containers/SignIn';
 import SignUpScreen from '../containers/SignUp';
-import { AuthContext } from '../AuthProvider';
 import ProfileScreen from '../containers/Profile';
 import LifeSpanScreen from '../containers/LifeSpan';
 import TopWishInScreen from '../containers/TopWishIn';
@@ -21,9 +22,12 @@ import PallbearerScreen from '../containers/Pallbearer';
 import SpeakerScreen from '../containers/Speaker';
 import GalleryScreen from '../containers/Gallery';
 import YoutubeVideoSelectScreen from '../containers/YoutubeVideoSelect';
-import ShareHome from '../containers/ShareHome';
-import Setting from '../containers/Setting';
-import Images from '../utils/Images';
+import ShareHomeScreen from '../containers/ShareHome';
+import ShareSelfScreen from '../containers/ShareSelf';
+import SharedUserFirstScreen from '../containers/SharedUserFirst';
+import SharedUserSecondScreen from '../containers/SharedUserSecond';
+import SeeOtherScreen from '../containers/SeeOther';
+import SettingScreen from '../containers/Setting';
 
 
 const Stack = createNativeStackNavigator();
@@ -67,7 +71,11 @@ const ShareStack = () => {
             initialRouteName={'ShareHome'}
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name="ShareHome" component={ShareHome} />
+            <Stack.Screen name="ShareHome" component={ShareHomeScreen} />
+            <Stack.Screen name="ShareSelf" component={ShareSelfScreen} />
+            <Stack.Screen name="SeeOther" component={SeeOtherScreen} />
+            <Stack.Screen name="SharedUserFirst" component={SharedUserFirstScreen} />
+            <Stack.Screen name="SharedUserSecond" component={SharedUserSecondScreen} />
         </Stack.Navigator>
     )
 }
@@ -78,7 +86,7 @@ const SettingStack = () => {
             initialRouteName={'Setting'}
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name="Setting" component={Setting} />
+            <Stack.Screen name="Setting" component={SettingScreen} />
         </Stack.Navigator>
     )
 }

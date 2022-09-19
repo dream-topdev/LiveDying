@@ -108,7 +108,7 @@ const YoutubeCard = ({
 const YoutubeVideoSelectScreen = ({ route, navigation }) => {
     const { userProfile } = useContext(AuthContext);
     const userid = userProfile.result.id;
-    const { to, type, goback } = route.params;;
+    const { to, type, goback } = route.params;
     const [photos, setPhotos] = useState([]);
     const [keyword, setKeyword] = useState('');
     const [currentSelectedIdArray, setCurrentSelectedIdArray] = useState([]);

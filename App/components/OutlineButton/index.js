@@ -8,7 +8,8 @@ import {
 import PropTypes from 'prop-types';
 import { styles } from './styles';
 import Colors from '../../utils/Colors';
-import Images from '../../utils/Images';
+import { scale } from '../../utils/scale';
+
 
 const defaultLoadingContent = < ActivityIndicator size="small" color="white" />;
 const OutlineButton = ({ title,
@@ -42,6 +43,7 @@ const OutlineButton = ({ title,
 								height:24,
 								borderRadius: 12,
 								borderWidth: 2,
+								left: scale(40)
 							}}
 							source={iconSource}
 						/>

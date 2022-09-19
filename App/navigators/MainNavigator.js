@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Image, Text } from 'react-native';
+import Colors from '../utils/Colors';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from '../containers/Splash';
 import SignInScreen from '../containers/SignIn';
 import SignUpScreen from '../containers/SignUp';
@@ -18,9 +21,67 @@ import PallbearerScreen from '../containers/Pallbearer';
 import SpeakerScreen from '../containers/Speaker';
 import GalleryScreen from '../containers/Gallery';
 import YoutubeVideoSelectScreen from '../containers/YoutubeVideoSelect';
+import ShareHome from '../containers/ShareHome';
+import Setting from '../containers/Setting';
+import Images from '../utils/Images';
 
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const LifeSpanStack = () => {
+    return (
+        <Stack.Navigator
+            initialRouteName={"Profile"}
+            screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="LifeSpan" component={LifeSpanScreen} />
+            <Stack.Screen name="TopWishIn" component={TopWishInScreen} />
+            <Stack.Screen name="TopWishOut" component={TopWishOutScreen} />
+            <Stack.Screen name="PlanMessage" component={PlanMessageScreen} />
+        </Stack.Navigator>
+    );
+}
+
+const FuneralStack = () => {
+    return (
+        <Stack.Navigator
+            initialRouteName={'Funeral'}
+            screenOptions={{ headerShown: false }}
+        >
+            <Stack.Screen name="Funeral" component={FuneralScreen} />
+            <Stack.Screen name="SongOpen" component={SongOpenScreen} />
+            <Stack.Screen name="SongProcess" component={SongProcessScreen} />
+            <Stack.Screen name="SongClose" component={SongCloseScreen} />
+            <Stack.Screen name="Pallbearer" component={PallbearerScreen} />
+            <Stack.Screen name="Speaker" component={SpeakerScreen} />
+            <Stack.Screen name="Gallery" component={GalleryScreen} />
+            <Stack.Screen name="YoutubeVideoSelect" component={YoutubeVideoSelectScreen} />
+        </Stack.Navigator>
+    );
+}
+
+const ShareStack = () => {
+    return (
+        <Stack.Navigator
+            initialRouteName={'ShareHome'}
+            screenOptions={{ headerShown: false }}
+        >
+            <Stack.Screen name="ShareHome" component={ShareHome} />
+        </Stack.Navigator>
+    )
+}
+
+const SettingStack = () => {
+    return (
+        <Stack.Navigator
+            initialRouteName={'Setting'}
+            screenOptions={{ headerShown: false }}
+        >
+            <Stack.Screen name="Setting" component={Setting} />
+        </Stack.Navigator>
+    )
+}
 
 const MainNavigator = () => {
     const { user, userProfile } = useContext(AuthContext);
@@ -38,32 +99,77 @@ const MainNavigator = () => {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {
-                    userProfile ? (
-                        <>
-                            <Stack.Screen name="Profile" component={ProfileScreen} />
-                            <Stack.Screen name="LifeSpan" component={LifeSpanScreen} />
-                            <Stack.Screen name="TopWishIn" component={TopWishInScreen} />
-                            <Stack.Screen name="TopWishOut" component={TopWishOutScreen} />
-                            <Stack.Screen name="PlanMessage" component={PlanMessageScreen} />
-                            <Stack.Screen name="Funeral" component={FuneralScreen} />
-                            <Stack.Screen name="SongOpen" component={SongOpenScreen} />
-                            <Stack.Screen name="SongProcess" component={SongProcessScreen} />
-                            <Stack.Screen name="SongClose" component={SongCloseScreen} />
-                            <Stack.Screen name="Pallbearer" component={PallbearerScreen} />
-                            <Stack.Screen name="Speaker" component={SpeakerScreen} />
-                            <Stack.Screen name="Gallery" component={GalleryScreen} />
-                            <Stack.Screen name="YoutubeVideoSelect" component={YoutubeVideoSelectScreen} />
-                        </>
-                    ) : (
-                        <>
+            {
+                userProfile ? (
+                    <>
+                        <Tab.Navigator
+                            screenOptions={{
+                                headerShown: false,
+                            }}
+                        >
+                            <Tab.Screen
+                                name="LifeSpanStack"
+                                component={LifeSpanStack}
+                                options={{
+                                    tabBarLabel: ({focused, color, size}) => (
+                                        <Text style={{color: focused ? Colors.primaryColor : color}}>{'Lifespan'}</Text>
+                                      ),
+                                    tabBarIcon: ({ focused }) => (
+                                        <Image source={focused ? Images.ic_lifespan_active : Images.ic_lifespan_disable} />
+                                    )
+                                }}
+                            />
+                            <Tab.Screen
+                                name="FuneralStack"
+                                component={FuneralStack}
+                                options={{
+                                    tabBarLabel: ({focused, color, size}) => (
+                                        <Text style={{color: focused ? Colors.primaryColor : color}}>{'Funeral'}</Text>
+                                      ),
+                                    tabBarIcon: ({ focused }) => (
+                                        <Image source={focused ? Images.ic_funeral_active : Images.ic_funeral_disable} />
+                                    )
+                                }}
+                            />
+                            <Tab.Screen
+                                name="ShareStack"
+                                component={ShareStack}
+                                options={{
+                                    tabBarLabel: ({focused, color, size}) => (
+                                        <Text style={{color: focused ? Colors.primaryColor : color}}>{'Share'}</Text>
+                                      ),
+                                    tabBarIcon: ({ focused }) => (
+                                        <Image source={focused ? Images.ic_share_active : Images.ic_share_disable} />
+                                    )
+                                }}
+                            />
+                            <Tab.Screen
+                                name="SettingStack"
+                                component={SettingStack}
+                                options={{
+                                    tabBarLabel: ({focused, color, size}) => (
+                                        <Text style={{color: focused ? Colors.primaryColor : color}}>{'Setting'}</Text>
+                                      ),
+                                    tabBarIcon: ({ focused }) => (
+                                        <Image source={focused ? Images.ic_account_active : Images.ic_account_disable} />
+                                    )
+                                }}
+                            />
+                        </Tab.Navigator>
+                    </>
+                ) : (
+                    <>
+                        <Stack.Navigator
+                            initialRouteName={'SignIn'}
+                            screenOptions={{ headerShown: false }}
+                        >
                             <Stack.Screen name="SignIn" component={SignInScreen} />
                             <Stack.Screen name="SignUp" component={SignUpScreen} />
-                        </>
-                    )
-                }
-            </Stack.Navigator>
+                        </Stack.Navigator>
+                    </>
+                )
+            }
+
         </NavigationContainer>
     );
 };

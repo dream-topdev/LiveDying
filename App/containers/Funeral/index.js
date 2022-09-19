@@ -144,46 +144,6 @@ const FuneralScreen = ({ navigation }) => {
                             />
                         </ScrollView>
                     </View>
-                    <View style={styles.footer}>
-                        <View style={styles.footerInner}>
-                            <IconButton
-                                icon={Images.ic_back}
-                                width={52}
-                                height={52}
-                                onPress={() => {
-                                    console.log('You clicked the back button')
-                                    navigation.navigate('PlanMessage')
-                                }}
-                            />
-                            <IconButton
-                                icon={Images.ic_home}
-                                width={52}
-                                height={52}
-                                onPress={() => {
-                                    console.log('You clicked the back button')
-                                    navigation.navigate('Profile')
-                                }}
-                            />
-                            <IconButton
-                                icon={Images.ic_share}
-                                width={52}
-                                height={52}
-                                onPress={() => {
-                                    console.log('You clicked the back button')
-                                }}
-                            />
-                            <IconButton
-                                icon={Images.ic_next}
-                                width={52}
-                                height={52}
-                                onPress={() => {
-                                    console.log('You clicked the back button')
-                                    navigation.navigate('SongOpen')
-
-                                }}
-                            />
-                        </View>
-                    </View>
                 </View>
             </KeyboardAwareScrollView>
         </View>

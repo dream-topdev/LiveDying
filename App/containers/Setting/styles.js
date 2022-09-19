@@ -11,44 +11,38 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.backgroundColor,
     },
     containerInner: {
+        alignItems: 'center',
         position: 'relative',
         flex: 1,
-        flexDirection: 'column',
         minHeight: scale(610),
         paddingHorizontal: scale(27),
         width: '100%',
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop: scale(40),
+    messageWrapper: {
+        flex: 1,
+        justifyContent: 'flex-start',
     },
     message: {
-        flex: 1,
         width: '100%',
-        marginTop: scale(50)
-    },
-    footer: {
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginTop:scale(20),
-        marginBottom: scale(20)
-    },
-    footerInner: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: scale(0),
+        marginTop: scale(50),
+        paddingHorizontal: scale(25),
+        paddingVertical: scale(25),
+        borderRadius: scale(20),
+        shadowColor: '#404d4d',
+        shadowOffset: {
+            width: 0,
+            height: scale(10),
+        },
+        shadowOpacity: 0.8,
+        shadowRadius: scale(12),
+        elevation: scale(5),
     },
     notetext: {
         fontFamily: Fonts.EpilogueBold,
-        fontSize: scale(30),
+        fontSize: scale(18),
+        lineHeight: scale(30),
         color: Colors.black,
-    },
-    buttonEnter: {
-        backgroundColor: Colors.primaryBackColor
+        marginBottom: scale(10)
     },
     plannote: {
         marginTop: scale(8),
@@ -61,6 +55,7 @@ export const styles = StyleSheet.create({
     topwishlist: {
         width: '100%',
         marginTop: scale(30),
+        // justifyContent: 'center',
         backgroundColor: Colors.backgroundColor,
     },
     notemeanhead: {
@@ -105,33 +100,31 @@ export const styles = StyleSheet.create({
         opacity: 0.1
     },
     logo: {
-        width: scale(60),
-        height: scale(60),
+        marginTop: scale(46),
+        width: scale(246),
+        height: scale(130),
     },
     inputForm: {
         width: '100%',
         marginTop: scale(74)
     },
     divider: {
-        height: scale(20)
+        height: scale(18)
     },
     testReminderWrapper: {
         width: '100%',
         marginTop: scale(83),
+    },
+    loginWrapper: {
+        width: '100%',
+        flexDirection: 'column',
+        alignitem: 'center',
+        justifyContent: 'flex-end',
+        marginVertical: scale(20),
     },
     forgetWrapper: {
         marginTop: scale(24),
         width: '100%',
         alignItems: 'flex-end'
     },
-    enterButton: {
-        backgroundColor: Colors.primaryBackColor,
-        paddingHorizontal: scale(26),
-        paddingVertical: scale(7),
-        borderRadius: scale(8)
-    },
-    buttonContent: {
-        color: Colors.primaryColor,
-        fontSize: scale(14)
-    }
 });

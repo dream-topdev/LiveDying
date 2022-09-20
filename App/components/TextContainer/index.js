@@ -10,7 +10,7 @@ import Colors from '../../utils/Colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-const TextContainer = ({ text, onPress, color = Colors.primaryColor }) => {
+const TextContainer = ({ text, onPress, color = Colors.primaryColor, close = true }) => {
     return (
         <TouchableOpacity
             style={[styles.container, {
@@ -26,22 +26,26 @@ const TextContainer = ({ text, onPress, color = Colors.primaryColor }) => {
                 }]}>
                 {text}
             </Text>
-            <Icon
-                name={'close'}
-                style={[styles.closeIcon, {
-                    color,
-                }]}
-                onPress={() => {
-                    console.log('clickethe close button')
-                }}
-            />
+            {
+                close &&
+                < Icon
+                    name={'close'}
+                    style={[styles.closeIcon, {
+                        color,
+                    }]}
+                    onPress={() => {
+                        console.log('clickethe close button')
+                    }}
+                />
+            }
         </TouchableOpacity>
     )
 }
 TextContainer.propTypes = {
     text: PropTypes.string.isRequired,
     onPress: PropTypes.func,
-    color: PropTypes.any
+    color: PropTypes.any,
+    close: PropTypes.bool
 }
 
 export default TextContainer;

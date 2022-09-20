@@ -72,7 +72,7 @@ const ShareSelfScreen = ({ navigation }) => {
                                         text={item.address}
                                         color={Colors.secondaryColor}
                                         onPress={() => {
-                                            navigation.navigate('SharedUserFirst');
+                                            navigation.navigate('SharedUserHome');
                                             console.log('You clicked the email container ')
                                         }}
                                     />

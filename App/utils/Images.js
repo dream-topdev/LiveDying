@@ -53,5 +53,10 @@ export default {
   ic_share_disable : require('./../assets/images/share_disable.png'),
   ic_account_active : require('./../assets/images/account_active.png'),
   ic_account_disable : require('./../assets/images/account_disable.png'),
-  ic_eye_active : require('./../assets/images/eye_active.png')
+  ic_eye_active : require('./../assets/images/eye_active.png'),
+  ic_top_wish : require('./../assets/images/topwish.png'),
+  ic_funeral_song : require('./../assets/images/song.png'),
+  ic_speaker : require('./../assets/images/speaker.png'),
+  ic_pallbearer : require('./../assets/images/pallbearer.png'),
+  ic_lifevideo : require('./../assets/images/lifevideo.png'),
 };

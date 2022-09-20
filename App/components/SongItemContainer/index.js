@@ -11,7 +11,14 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 
-const SongItemContainer = ({ thumbnail, songTitle, songArtist, songTime, removePress }) => {
+const SongItemContainer = ({
+    thumbnail,
+    songTitle,
+    songArtist,
+    songTime,
+    removePress,
+    isRemove = true
+}) => {
     return (
         <View style={styles.container} >
             <View style={styles.thumbnailWrapper}>
@@ -37,15 +44,16 @@ const SongItemContainer = ({ thumbnail, songTitle, songArtist, songTime, removeP
                 <Text style={styles.songArtist}>{songArtist}</Text>
                 <Text style={styles.songTime}>{songTime}</Text>
             </View>
-            <View style={styles.removeIcon}>
-                <IconButton
-                    icon={Images.ic_remove}
-                    width={scale(24)}
-                    height={scale(24)}
-                    onPress={removePress}
-                    disabled={false}
-                />
-            </View>
+            {isRemove &&
+                <View style={styles.removeIcon}>
+                    <IconButton
+                        icon={Images.ic_remove}
+                        width={scale(24)}
+                        height={scale(24)}
+                        onPress={removePress}
+                        disabled={false}
+                    />
+                </View>}
         </View >
     );
 };
@@ -55,7 +63,8 @@ SongItemContainer.propTypes = {
     songTitle: PropTypes.string,
     songArtist: PropTypes.string,
     songTime: PropTypes.string,
-    removePress: PropTypes.func
+    removePress: PropTypes.func,
+    isRemove: PropTypes.bool
 }
 
 export default SongItemContainer;

@@ -24,9 +24,11 @@ import GalleryScreen from '../containers/Gallery';
 import YoutubeVideoSelectScreen from '../containers/YoutubeVideoSelect';
 import ShareHomeScreen from '../containers/ShareHome';
 import ShareSelfScreen from '../containers/ShareSelf';
-import SharedUserFirstScreen from '../containers/SharedUserFirst';
-import SharedUserSecondScreen from '../containers/SharedUserSecond';
 import SeeOtherScreen from '../containers/SeeOther';
+import SharedUserHomeScreen from '../containers/SharedUserHome';
+import SharedTopWishScreen from '../containers/SharedTopWish';
+import SharedFuneralSongScreen from '../containers/SharedFuneralSong';
+import SharedSpeakerScreen from '../containers/SharedSpeaker';
 import SettingScreen from '../containers/Setting';
 
 
@@ -74,8 +76,10 @@ const ShareStack = () => {
             <Stack.Screen name="ShareHome" component={ShareHomeScreen} />
             <Stack.Screen name="ShareSelf" component={ShareSelfScreen} />
             <Stack.Screen name="SeeOther" component={SeeOtherScreen} />
-            <Stack.Screen name="SharedUserFirst" component={SharedUserFirstScreen} />
-            <Stack.Screen name="SharedUserSecond" component={SharedUserSecondScreen} />
+            <Stack.Screen name="SharedTopWish" component={SharedTopWishScreen} />
+            <Stack.Screen name="SharedFuneralSong" component={SharedFuneralSongScreen} />
+            <Stack.Screen name="SharedUserHome" component={SharedUserHomeScreen} />
+            <Stack.Screen name="SharedSpeaker" component={SharedSpeakerScreen} />
         </Stack.Navigator>
     )
 }

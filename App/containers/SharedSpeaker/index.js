@@ -45,7 +45,7 @@ const renderScene = SceneMap({
     third: MediaRoute
 });
 
-const SharedUserScreen = ({ navigation }) => {
+const SharedSpeakerScreen = ({ navigation }) => {
     const { loading, login } = useContext(AuthContext);
     const [testReminderModal, setTestReminderModal] = useState(false);
     const [isVisibleSendEmailModal, setIsVisibleEmailModal] = useState(false);
@@ -101,7 +101,7 @@ const SharedUserScreen = ({ navigation }) => {
                                 marginRight={10}
                                 disabled={false}
                                 onPress={() => {
-                                    navigation.navigate("SeeOther")
+                                    navigation.navigate("SharedUserHome")
                                 }}
                             />
                             <Text style={styles.notetext}>{'Micle John'}</Text>
@@ -160,4 +160,4 @@ const SharedUserScreen = ({ navigation }) => {
         </View>
     )
 }
-export default SharedUserScreen;
+export default SharedSpeakerScreen;

@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: scale(20),
         paddingHorizontal: scale(25),
-        paddingVertical: scale(25),
+        paddingVertical: scale(15),
         borderRadius: scale(20),
         shadowColor: '#404d4d',
         shadowOffset: {
@@ -149,6 +149,10 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: scale(12),
         elevation: scale(5),
+        backgroundColor:'pink'
+    },
+    nextButtonWrapper :{
+        marginBottom: scale(20)
     },
     footer: {
         justifyContent: 'flex-end',

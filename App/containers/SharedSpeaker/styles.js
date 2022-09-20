@@ -149,9 +149,9 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: scale(12),
         elevation: scale(5),
-        backgroundColor:'pink'
+        backgroundColor: 'pink'
     },
-    nextButtonWrapper :{
+    nextButtonWrapper: {
         marginVertical: scale(20)
     },
     footer: {
@@ -271,5 +271,12 @@ export const styles = StyleSheet.create({
     buttonContent: {
         color: Colors.primaryColor,
         fontSize: scale(14)
-    }
+    },
+    tabContent: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: scale(20),
+    },
 });

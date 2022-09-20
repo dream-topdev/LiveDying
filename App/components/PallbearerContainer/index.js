@@ -11,7 +11,13 @@ import { styles } from './styles';
 import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
 
-const PallbearerContainer = ({ thumbnail, name, onPress, removePress }) => {
+const PallbearerContainer = ({
+    thumbnail,
+    name,
+    onPress,
+    removePress,
+    isRemove = true
+}) => {
     return (
         <View style={styles.container} >
             <View style={thumbnail == null ? styles.thumbnailWrapper : {
@@ -34,15 +40,17 @@ const PallbearerContainer = ({ thumbnail, name, onPress, removePress }) => {
             <View style={styles.itemContent}>
                 <Text style={styles.name}>{name}</Text>
             </View>
-            <View style={styles.removeIcon}>
-                <IconButton
-                    icon={Images.ic_remove}
-                    width={scale(24)}
-                    height={scale(24)}
-                    onPress={removePress}
-                    disabled={false}
-                />
-            </View>
+            {isRemove &&
+                <View style={styles.removeIcon}>
+                    <IconButton
+                        icon={Images.ic_remove}
+                        width={scale(24)}
+                        height={scale(24)}
+                        onPress={removePress}
+                        disabled={false}
+                    />
+                </View>
+            }
         </View >
     );
 };
@@ -51,7 +59,8 @@ PallbearerContainer.propTypes = {
     thumbnail: PropTypes.any,
     name: PropTypes.string,
     onPress: PropTypes.func,
-    removePress: PropTypes.func
+    removePress: PropTypes.func,
+    isRemove: PropTypes.bool
 }
 
 export default PallbearerContainer;

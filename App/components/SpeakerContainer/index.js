@@ -12,7 +12,14 @@ import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
 
 
-const SpeakerContainer = ({ thumbnail, speakerName, speakerTopic, onPress, removePress }) => {
+const SpeakerContainer = ({
+    thumbnail,
+    speakerName,
+    speakerTopic,
+    onPress,
+    removePress,
+    isRemove = true
+}) => {
     return (
         <View style={styles.container} >
             <View style={thumbnail == null ? styles.thumbnailWrapper : {
@@ -38,15 +45,18 @@ const SpeakerContainer = ({ thumbnail, speakerName, speakerTopic, onPress, remov
                     <Text style={styles.speakerTopic}>{speakerTopic}</Text>
                 </View>
             </View>
-            <View style={styles.removeIconWrapper}>
-                <IconButton
-                    icon={Images.ic_remove}
-                    width={scale(24)}
-                    height={scale(24)}
-                    onPress={removePress}
-                    disabled={false}
-                />
-            </View>
+            {
+                isRemove &&
+                <View style={styles.removeIconWrapper}>
+                    <IconButton
+                        icon={Images.ic_remove}
+                        width={scale(24)}
+                        height={scale(24)}
+                        onPress={removePress}
+                        disabled={false}
+                    />
+                </View>
+            }
         </View >
     );
 };
@@ -56,7 +66,8 @@ SpeakerContainer.propTypes = {
     speakerName: PropTypes.string,
     speakerTopic: PropTypes.string,
     onPress: PropTypes.func,
-    removePress: PropTypes.func
+    removePress: PropTypes.func,
+    isRemove: PropTypes.bool
 }
 
 export default SpeakerContainer;

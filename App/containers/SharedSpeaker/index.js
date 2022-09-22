@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
     View,
     Text,
@@ -23,105 +23,71 @@ import TextContainer from '../../components/TextContainer';
 import SpeakerContainer from '../../components/SpeakerContainer';
 import SongItemContainer from '../../components/SongItemContainer';
 import PallbearerContainer from '../../components/PallbearerContainer';
+import API from '../../services/API';
+import { useQuery, useMutation } from 'react-query';
 
+const SpeakerRoute = ({ }) => {
+    const { friendProfile } = useContext(AuthContext)
+    const friendid = friendProfile.result.id;
+    const { data, isLoading, status, refetch } = useQuery(['getSpeakerFriendId', friendid], () => API.getSpeakerByUserId(friendid));
+    const [sharedSpeaker, setSharedSpeaker] = useState([]);
 
-const SpeakerRoute = ({ text }) => {
-    const [sharedSpeaker, setSharedSpeaker] = useState([
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/speaker_userid_5_1662602470.png",
-            created_at: "2022-07-26T22:20:05.000000Z",
-            first_name: "Miclesdsdfs",
-            id: 64,
-            last_name: "Jhondfsdf",
-            topic: "I am aslo sad to his passing away",
-            updated_at: "2022-09-08T02:01:10.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: null,
-            created_at: "2022-07-27T01:28:33.000000Z",
-            first_name: "Micle",
-            id: 65,
-            last_name: "Jhonafadsfasdfasd",
-            topic: "I am aslo sad to his passing away",
-            updated_at: "2022-09-08T08:09:39.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: null,
-            created_at: "2022-07-29T00:43:12.000000Z",
-            first_name: "Update_speaker",
-            id: 68,
-            last_name: "last_name_update",
-            topic: "Update speaker topic",
-            updated_at: "2022-09-08T08:08:22.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/speaker_userid_5_1662584222.jpg",
-            created_at: "2022-09-07T20:57:02.000000Z",
-            first_name: "aaa",
-            id: 69,
-            last_name: "aa",
-            topic: "aaaaa",
-            updated_at: "2022-09-07T20:57:02.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/speaker_userid_5_1662588671.jpg",
-            created_at: "2022-09-07T22:11:11.000000Z",
-            first_name: "a",
-            id: 70,
-            last_name: "d",
-            topic: "n",
-            updated_at: "2022-09-07T22:11:11.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/speaker_userid_5_1662589398.jpg",
-            created_at: "2022-09-07T22:23:18.000000Z",
-            first_name: "aaa",
-            id: 71,
-            last_name: "bb",
-            topic: "acc",
-            updated_at: "2022-09-07T22:23:18.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/speaker_userid_5_1662589659.jpg",
-            created_at: "2022-09-07T22:27:39.000000Z",
-            first_name: "ddd",
-            id: 72,
-            last_name: "ddd",
-            topic: "a",
-            updated_at: "2022-09-07T22:27:39.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/speaker_userid_5_1662623481.png",
-            created_at: "2022-09-08T07:50:15.000000Z",
-            first_name: "Anton_tested_emptyaaaaaa",
-            id: 78,
-            last_name: "aaaaaaa",
-            topic: "aaa",
-            updated_at: "2022-09-08T07:51:21.000000Z",
-            user_id: "5"
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            console.log('I am expert =========<================>====>', data)
+            data.contents.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        avatar: item.avatar,
+                        firstName: item.first_name,
+                        lastName: item.last_name,
+                        topic: item.topic,
+                        userId: item.user_id
+                    }
+                )
+            })
+            setSharedSpeaker(temp)
         }
-    ]);
+    }, [data]);
+
     const renderItem = ({ item }) => {
         return (
             <SpeakerContainer
                 key={item.id.toString()}
                 thumbnail={item.avatar}
-                speakerName={`${item.first_name} ${item.last_name}`}
+                speakerName={`${item.firstName} ${item.lastName}`}
                 speakerTopic={item.topic}
                 isRemove={false}
             />
         );
     }
+
+    if (isLoading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <SafeAreaView style={styles.tabContent}>
             <MasonryList
+                keyExtractor={(item) => item.id.toString()}
                 ListHeaderComponent={<View />}
                 contentContainerStyle={{
                     alignSelf: 'stretch',
@@ -133,96 +99,65 @@ const SpeakerRoute = ({ text }) => {
         </SafeAreaView >
     );
 }
-const PallbearerRoute = ({ text }) => {
-    const [sharedProcessionSong, setSharedProcessionSong] = useState([
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/pallbearer_userid_5_1662624480.jpg",
-            created_at: "2022-07-26T22:33:35.000000Z",
-            first_name: "Jackson",
-            id: 45,
-            last_name: "Hunter",
-            updated_at: "2022-09-08T08:08:00.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/pallbearer_userid_5_1662624468.png",
-            created_at: "2022-07-27T02:06:38.000000Z",
-            first_name: "Up",
-            id: 48,
-            last_name: "S",
-            updated_at: "2022-09-08T08:07:48.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/pallbearer_userid_5_1662612626.jpg",
-            created_at: "2022-09-08T04:50:26.000000Z",
-            first_name: "Anton",
-            id: 54,
-            last_name: "Hrytsiuk",
-            updated_at: "2022-09-08T04:50:26.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/pallbearer_userid_5_1662613787.jpg",
-            created_at: "2022-09-08T05:09:47.000000Z",
-            first_name: "A",
-            id: 55,
-            last_name: "DFASDFASD",
-            updated_at: "2022-09-08T05:09:47.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/pallbearer_userid_5_1662620153.jpg",
-            created_at: "2022-09-08T06:55:53.000000Z",
-            first_name: "sa",
-            id: 56,
-            last_name: "as",
-            updated_at: "2022-09-08T06:55:53.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/pallbearer_userid_5_1662623035.jpg",
-            created_at: "2022-09-08T07:34:36.000000Z",
-            first_name: "Anton_empty_avatar",
-            id: 57,
-            last_name: "test",
-            updated_at: "2022-09-08T07:43:55.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: "http://livelikeyouaredying.com/uploads/avatar/pallbearer_userid_5_1662622932.jpg",
-            created_at: "2022-09-08T07:39:02.000000Z",
-            first_name: "aaaaa",
-            id: 58,
-            last_name: "avvvva",
-            updated_at: "2022-09-08T07:42:12.000000Z",
-            user_id: "5"
-        },
-        {
-            avatar: null,
-            created_at: "2022-09-08T07:42:23.000000Z",
-            first_name: "adsfasdadsfaaaa",
-            id: 59,
-            last_name: "asdfasdfasdfaaa",
-            updated_at: "2022-09-08T07:55:25.000000Z",
-            user_id: "5"
+const PallbearerRoute = ({ }) => {
+    const { friendProfile } = useContext(AuthContext)
+    const friendid = friendProfile.result.id;
+    const [sharedProcessionSong, setSharedProcessionSong] = useState([]);
+    const { data, isLoading, status, refetch } = useQuery(['getPallbearerByFriendId', friendid], () => API.getPallbearerByUserId(friendid));
+
+    useEffect(() => {
+        console.log('api call reault', data)
+        if (data != null && status == 'success') {
+            let temp = [];
+            data.contents.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        avatar: item.avatar,
+                        firstName: item.first_name,
+                        lastName: item.last_name,
+                        userId: item.user_id
+                    }
+                )
+            })
+            setSharedProcessionSong(temp)
         }
-    ]);
+    }, [data])
+
     const renderItem = ({ item }) => {
         return (
             <PallbearerContainer
-                key={item.id}
+                key={item.id.toString()}
                 thumbnail={item.avatar}
-                name={item.first_name + ' ' + item.last_name}
+                name={item.firstName + ' ' + item.lastName}
                 isRemove={false}
             />
         );
     }
+
+    if (isLoading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <SafeAreaView style={styles.tabContent}>
             <MasonryList
-                style={{
-                }}
                 keyExtractor={(item) => item.id.toString()}
                 ListHeaderComponent={<View />}
                 contentContainerStyle={{
@@ -237,12 +172,12 @@ const PallbearerRoute = ({ text }) => {
 }
 
 const renderScene = SceneMap({
-    first: () => <SpeakerRoute text={'My test props'} />,
+    first: () => <SpeakerRoute />,
     second: () => < PallbearerRoute />
 });
 
 const SharedSpeakerScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
+    const { friendProfile } = useContext(AuthContext);
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         { key: 'first', title: 'Speaker' },
@@ -290,7 +225,13 @@ const SharedSpeakerScreen = ({ navigation }) => {
                                 navigation.navigate("SharedUserHome")
                             }}
                         />
-                        <Text style={styles.notetext}>{'Micle John'}</Text>
+                        <Text style={styles.notetext}>
+                            {
+                                friendProfile.result.first_name +
+                                " " +
+                                friendProfile.result.last_name
+                            }
+                        </Text>
                     </View>
                     <Image
                         source={Images.ic_logo}

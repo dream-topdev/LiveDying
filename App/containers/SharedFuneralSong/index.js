@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
     View,
     Text,
     Image,
-    Dimensions,
     SafeAreaView,
-    TouchableOpacity,
-    ScrollView,
-    StyleSheet
 } from 'react-native';
 import { AuthContext } from '../../AuthProvider';
 import IconButton from '../../components/IconButton';
@@ -18,60 +14,38 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import MasonryList from '@react-native-seoul/masonry-list';
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
-import TextContainer from '../../components/TextContainer';
-import SpeakerContainer from '../../components/SpeakerContainer';
 import SongItemContainer from '../../components/SongItemContainer';
+import API from '../../services/API';
+import { useQuery, useMutation } from 'react-query';
 
 
 const OpenRoute = ({ text }) => {
-    const [sharedOpenSong, setSharedOpenSong] = useState([
-        {
-            fileUrl: "https://www.youtube.com/watch?v=zYrED1KokgE",
-            from: "youtube",
-            id: 64,
-            thumbnail: "https://i.ytimg.com/vi/zYrED1KokgE/default.jpg",
-            title: "【網知系列 EP07】JQuery是什麼？和JavaScript有些麼差異呢？",
-            type: "open",
-            userId: "5"
-        },
-        {
-            fileUrl: "https://www.youtube.com/watch?v=PkZNo7MFNFg",
-            from: "youtube",
-            id: 68,
-            thumbnail: "https://i.ytimg.com/vi/PkZNo7MFNFg/default.jpg",
-            title: "Learn JavaScript - Full Course for Beginners",
-            type: "open",
-            userId: "5"
-        },
-        {
-            fileUrl: "https://www.youtube.com/watch?v=3nrLc_JOF7k",
-            from: "youtube",
-            id: 69,
-            thumbnail: "https://i.ytimg.com/vi/3nrLc_JOF7k/default.jpg",
-            title: "jQuery Crash Course [1] - Intro &amp; Selectors",
-            type: "open",
-            userId: "5"
-        },
-        {
-            fileUrl: "song_open_userid_5_1662394502.mp4",
-            from: "local",
-            id: 70,
-            thumbnail: "http://livelikeyouaredying.com/assets/images/default/music.png",
-            title: "TestVideo_3.mp4",
-            type: "open",
-            userId: "5"
-        },
-        {
-            fileUrl: "song_open_userid_5_1662395470.mp4",
-            from: "local",
-            id: 71,
-            thumbnail: "http://livelikeyouaredying.com/assets/images/default/music.png",
-            title: "TestVideo_1.mp4",
-            type: "open",
-            userId: "5"
+    const { friendProfile } = useContext(AuthContext)
+    const friendid = friendProfile.result.id;
+    const [sharedOpenSong, setSharedOpenSong] = useState([]);
+    const { data, isLoading, status, refetch } = useQuery(['getMediaByFriendIdOpen', friendid], () => API.getMediaByUserId(friendid, 'song', 'open'));
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            data.contents.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        title: item.title,
+                        thumbnail: item.thumbnail,
+                        from: item.from,
+                        fileUrl: item.file_url,
+                        type: item.type,
+                        userId: item.user_id
+                    }
+                )
+            })
+            console.log('data is following up', temp)
+            setSharedOpenSong(temp)
         }
-    ]);
+    }, [data])
+
     const renderItem = ({ item }) => {
         return (
             <SongItemContainer
@@ -84,6 +58,27 @@ const OpenRoute = ({ text }) => {
             />
         );
     }
+
+    if (isLoading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <SafeAreaView style={styles.tabContent}>
             <MasonryList
@@ -102,53 +97,32 @@ const OpenRoute = ({ text }) => {
     );
 }
 const ProcessionRoute = ({ text }) => {
-    const [sharedProcessionSong, setSharedProcessionSong] = useState([
-        {
-            fileUrl: "https://www.youtube.com/watch?v=zYrED1KokgE",
-            from: "youtube",
-            id: 64,
-            thumbnail: "https://i.ytimg.com/vi/zYrED1KokgE/default.jpg",
-            title: "【網知系列 EP07】JQuery是什麼？和JavaScript有些麼差異呢？",
-            type: "open",
-            userId: "5"
-        },
-        {
-            fileUrl: "https://www.youtube.com/watch?v=PkZNo7MFNFg",
-            from: "youtube",
-            id: 68,
-            thumbnail: "https://i.ytimg.com/vi/PkZNo7MFNFg/default.jpg",
-            title: "Learn JavaScript - Full Course for Beginners",
-            type: "open",
-            userId: "5"
-        },
-        {
-            fileUrl: "https://www.youtube.com/watch?v=3nrLc_JOF7k",
-            from: "youtube",
-            id: 69,
-            thumbnail: "https://i.ytimg.com/vi/3nrLc_JOF7k/default.jpg",
-            title: "jQuery Crash Course [1] - Intro &amp; Selectors",
-            type: "open",
-            userId: "5"
-        },
-        {
-            fileUrl: "song_open_userid_5_1662394502.mp4",
-            from: "local",
-            id: 70,
-            thumbnail: "http://livelikeyouaredying.com/assets/images/default/music.png",
-            title: "TestVideo_3.mp4",
-            type: "open",
-            userId: "5"
-        },
-        {
-            fileUrl: "song_open_userid_5_1662395470.mp4",
-            from: "local",
-            id: 71,
-            thumbnail: "http://livelikeyouaredying.com/assets/images/default/music.png",
-            title: "TestVideo_1.mp4",
-            type: "open",
-            userId: "5"
+    const { friendProfile } = useContext(AuthContext)
+    const friendid = friendProfile.result.id;
+    const { data, isLoading, status, refetch } = useQuery(['getMediaByFriendIdProcess', friendid], () => API.getMediaByUserId(friendid, 'song', 'process'));
+    const [sharedProcessionSong, setSharedProcessionSong] = useState([]);
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            data.contents.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        title: item.title,
+                        thumbnail: item.thumbnail,
+                        from: item.from,
+                        fileUrl: item.file_url,
+                        type: item.type,
+                        userId: item.user_id
+                    }
+                )
+            })
+            console.log('data is following up', temp)
+            setSharedProcessionSong(temp)
         }
-    ]);
+    }, [data]);
+
     const renderItem = ({ item }) => {
         return (
             <SongItemContainer
@@ -161,6 +135,27 @@ const ProcessionRoute = ({ text }) => {
             />
         );
     }
+
+    if (isLoading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <SafeAreaView style={styles.tabContent}>
             <MasonryList
@@ -179,6 +174,9 @@ const ProcessionRoute = ({ text }) => {
     );
 }
 const CloseRoute = () => {
+    const { friendProfile } = useContext(AuthContext)
+    const friendid = friendProfile.result.id;
+    const { data, isLoading, status, refetch } = useQuery(['getMediaByFriendIdClose', friendid], () => API.getMediaByUserId(friendid, 'song', 'close'));
     const [sharedCloseSong, setSharedCloseSong] = useState([
         {
             fileUrl: "https://www.youtube.com/watch?v=zYrED1KokgE",
@@ -226,6 +224,28 @@ const CloseRoute = () => {
             userId: "5"
         }
     ]);
+
+    useEffect(() => {
+        if (data != null && status == 'success') {
+            let temp = [];
+            data.contents.forEach((item) => {
+                temp.push(
+                    {
+                        id: item.id,
+                        title: item.title,
+                        thumbnail: item.thumbnail,
+                        from: item.from,
+                        fileUrl: item.file_url,
+                        type: item.type,
+                        userId: item.user_id
+                    }
+                )
+            })
+            console.log('data is following up', temp)
+            setSharedCloseSong(temp)
+        }
+    }, [data]);
+
     const renderItem = ({ item }) => {
         return (
             <SongItemContainer
@@ -238,6 +258,27 @@ const CloseRoute = () => {
             />
         );
     }
+
+    if (isLoading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <SafeAreaView style={styles.tabContent}>
             <MasonryList
@@ -262,7 +303,7 @@ const renderScene = SceneMap({
 });
 
 const SharedFuneralSongScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
+    const { friendProfile } = useContext(AuthContext)
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         { key: 'first', title: 'open' },
@@ -311,7 +352,13 @@ const SharedFuneralSongScreen = ({ navigation }) => {
                                 navigation.navigate("SharedUserHome")
                             }}
                         />
-                        <Text style={styles.notetext}>{'Micle John'}</Text>
+                        <Text style={styles.notetext}>
+                            {
+                                friendProfile.result.first_name +
+                                ' ' +
+                                friendProfile.result.last_name
+                            }
+                        </Text>
                     </View>
                     <Image
                         source={Images.ic_logo}

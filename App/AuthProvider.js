@@ -1,14 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {
-  AppState
-} from 'react-native';
 import Toast from 'react-native-toast-message';
 import { getUserProfile, setUserOnline } from './services/FirebaseService';
 import API from './services/API';
 import { useMutation } from 'react-query';
-import { RNFetchBlobFetchPolyfill } from 'rn-fetch-blob';
 export const AuthContext = createContext({});
 
 const validateEmail = (email) => {
@@ -22,6 +18,7 @@ const validateEmail = (email) => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [friendProfile, setFriendProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [chatBadge, setChatBadge] = useState(false);
   const [notification, setNotification] = useState(false);
@@ -42,7 +39,23 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
-  const { mutate } = useMutation(API.login, {
+  const { mutate: fetchFriendProfile } = useMutation(API.getProfileById, {
+    onSuccess: (data) => {
+      console.log('fetch profile <======>', data);
+      setFriendProfile({ result: data });
+      setLoading(false);
+    },
+    onError: () => {
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry',
+        text2: 'Some issue is occured'
+      });
+      setLoading(false);
+    }
+  });
+
+  const { mutate: login } = useMutation(API.login, {
     onSuccess: (data) => {
       Toast.show({
         type: 'success',
@@ -53,6 +66,7 @@ export const AuthProvider = ({ children }) => {
         setUserProfile(data);
         setNotification(data.result.is_reminder);
       }
+      setLoading(false);
     },
     onError: (data) => {
       Toast.show({
@@ -69,12 +83,20 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         userProfile,
+        friendProfile,
         loading,
         chatBadge,
         notification,
+        setFriendId: (id) => {
+          setFriendId(id);
+        },
         fetchProfile: (userid) => {
           setLoading(true);
           fetchProfile(userid);
+        },
+        fetchFriendProfile: (friendid) => {
+          setLoading(true);
+          fetchFriendProfile(friendid);
         },
         setBadge: (b) => {
           setChatBadge(b);
@@ -86,7 +108,7 @@ export const AuthProvider = ({ children }) => {
               email,
               password
             };
-            mutate(userCred);
+            login(userCred);
           }
           else if (!validateEmail(email)) {
             Toast.show({

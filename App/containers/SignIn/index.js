@@ -14,7 +14,8 @@ import { styles } from './styles';
 
 const SignInScreen = ({ navigation }) => {
     const { loading, login } = React.useContext(AuthContext);
-    const [userName, setUserName] = React.useState('anton@gmail.com');
+    // const [userName, setUserName] = React.useState('anton@gmail.com');
+    const [userName, setUserName] = React.useState('tyrannosaurus.rex@gmail.com');
     const [password, setPassword] = React.useState('qweasdzxc');
     // tyrannosaurus.rex@gmail.com
     // qweasdzxc

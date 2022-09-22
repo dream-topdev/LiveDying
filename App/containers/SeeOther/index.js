@@ -19,23 +19,49 @@ import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
+import { useQuery, useMutation } from 'react-query';
 import PropTypes from 'prop-types';
 import TextContainer from '../../components/TextContainer';
 import SendEmailModal from '../../components/SendEmailModal';
+import API from '../../services/API';
+import { useEffect } from 'react';
 
 
 const ShareSelfScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
-    const [testReminderModal, setTestReminderModal] = useState(false);
-    const [isVisibleSendEmailModal, setIsVisibleEmailModal] = useState(false);
-    const [emailAddress, SetEmailAddress] = useState('')
-    const shareList = [
-        { id: 0, address: "AntonW@gmail.com" },
-        { id: 1, address: "Tyrannosaurus.rex.523@gmail.com" },
-        { id: 2, address: "devwithsuccess@gmail.com" },
-        { id: 3, address: "nikilayyanposlski@gmail.com" },
-        { id: 4, address: "dog.cat.523@gmailc.com" },
-    ];
+    const { userProfile, fetchFriendProfile, loading } = useContext(AuthContext);
+    const userid = userProfile.result.id;
+    console.log('current user is ', userid);
+    const { data, isLoading, status } = useQuery(['getSharedTo', userid], () => API.getShareToByUserId(userid));
+
+    const [sharedToList, setSharedToList] = useState([]);
+
+    useEffect(() => {
+        if (data != undefined && status == 'success') {
+            console.log('api call is ', data.contents);
+            setSharedToList(data.contents);
+        }
+    }, [data])
+
+    if (isLoading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -66,12 +92,14 @@ const ShareSelfScreen = ({ navigation }) => {
                     <View style={styles.messageWrapper}>
                         <ScrollView style={styles.message}>
                             {
-                                shareList.map((item) => (
+                                sharedToList.map((item) => (
                                     <TextContainer
                                         key={item.id}
-                                        text={item.address}
+                                        text={item.email}
                                         color={Colors.secondaryColor}
+                                        close={false}
                                         onPress={() => {
+                                            fetchFriendProfile(item.id);
                                             navigation.navigate('SharedUserHome');
                                             console.log('You clicked the email container ')
                                         }}

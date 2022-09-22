@@ -1,69 +1,42 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import {
     View,
     Text,
     Image,
     TouchableOpacity,
-    ScrollView,
-    Modal
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
-import InlineContainer from '../../components/InlineContainer';
-import ActionButton from '../../components/ActionButton';
 import IconButton from '../../components/IconButton';
 import { scale, scaleVertical } from '../../utils/scale';
-import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 
-const SharedUserHome = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
-    const [testReminderModal, setTestReminderModal] = useState(false);
-    const [isVisibleSendEmailModal, setIsVisibleEmailModal] = useState(false);
-    const [emailAddress, SetEmailAddress] = useState('');
-    const [index, setIndex] = useState(0);
-    const [routes] = useState([
-        { key: 'first', title: 'song' },
-        { key: 'second', title: 'people' },
-        { key: 'third', title: 'media' }
-    ]);
-    const topWIshList = [
-        { id: 1, content: "Get VP Title" },
-        { id: 2, content: "Bora Bora" },
-        { id: 3, content: "Get to 170 lbs" },
-        { id: 4, content: "Help Poor with electricity" },
-        { id: 5, content: "Take Grandkids to Disney World" },
-    ];
-    const renderTabBar = (props) => (
-        <TabBar
-            {...props}
-            activeColor={Colors.black}
-            inactiveColor={Colors.black}
-            tabStyle={{
-                fontSize: scale(21) // This is not working and  I have to fix it and I will ping yo wen IU have done it 
-            }}
-            indicatorStyle={{
-                borderBottomWidth: scale(3),
-                borderColor: Colors.primaryColor
-            }}
-            indicatorContainerStyle={{
-                backgroundColor: Colors.white,
-            }}
-            style={{
-                elevation: 0,
-                shadowColor: Colors.white,
-                // shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.4,
-                shadowRadius: scale(6)
-            }}
-        />
-    );
+const SharedUserHome = ({ route, navigation }) => {
+    const { userProfile, friendProfile, loading } = useContext(AuthContext);
+
+    if (loading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: scale(30)
+                    }}>
+                    {'Loading...'}
+                </Text>
+            </View>
+        )
+    }
 
     return (
         <View style={styles.container}>
@@ -81,7 +54,13 @@ const SharedUserHome = ({ navigation }) => {
                                     navigation.navigate("SeeOther")
                                 }}
                             />
-                            <Text style={styles.notetext}>{'Micle John'}</Text>
+                            <Text style={styles.notetext}>
+                                {
+                                    friendProfile.result.first_name +
+                                    ' ' +
+                                    friendProfile.result.last_name
+                                }
+                            </Text>
                         </View>
                         <Image
                             source={Images.ic_logo}
@@ -106,9 +85,12 @@ const SharedUserHome = ({ navigation }) => {
                             </View>
                         </View>
                     </View>
-                    <ScrollView style={{
+                    <View style={{
                         flex: 1,
-                        marginTop: scale(30)
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                        // marginTop: scale(80)
                     }}>
                         <View style={{
                             flexDirection: 'row',
@@ -124,7 +106,9 @@ const SharedUserHome = ({ navigation }) => {
                                     navigation.navigate('SharedTopWish');
                                 }}
                             >
-                                <Image source={Images.ic_top_wish} />
+                                <View >
+                                    <Image source={Images.ic_top_wish} />
+                                </View>
                                 <Text style={{
                                     color: Colors.primaryColor
                                 }}>{'Top Wish'}</Text>
@@ -138,7 +122,9 @@ const SharedUserHome = ({ navigation }) => {
                                     navigation.navigate('SharedFuneralSong');
                                 }}
                             >
-                                <Image source={Images.ic_funeral_song} />
+                                <View >
+                                    <Image source={Images.ic_funeral_song} />
+                                </View>
                                 <Text style={{
                                     color: Colors.primaryColor
                                 }}>{'Funeral Song'}</Text>
@@ -159,62 +145,31 @@ const SharedUserHome = ({ navigation }) => {
                                     navigation.navigate('SharedSpeaker')
                                 }}
                             >
-                                <Image source={Images.ic_speaker} />
+                                <View >
+                                    <Image source={Images.ic_pallbearer} />
+                                </View>
                                 <Text style={{
                                     color: Colors.primaryColor
-                                }}>{'Speaker'}</Text>
+                                }}>{'Funeral People'}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{
-                                width: '50%',
-                                alignItems: 'center'
-                            }}>
-                                <Image source={Images.ic_pallbearer} />
-                                <Text style={{
-                                    color: Colors.primaryColor
-                                }}>{'Pallbearer'}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            width: '50%'
-                        }}>
-                            <TouchableOpacity style={{
-                                width: '100%',
-                                alignItems: 'center'
-                            }}>
-                                <Image source={Images.ic_lifevideo} />
+                            <TouchableOpacity
+                                style={{
+                                    width: '50%',
+                                    alignItems: 'center'
+                                }}
+                                onPress={() => {
+                                    navigation.navigate('SharedLifeVideo');
+                                }}
+                            >
+                                <View >
+                                    <Image source={Images.ic_lifevideo} />
+                                </View>
                                 <Text style={{
                                     color: Colors.primaryColor
                                 }}>{'Life Video'}</Text>
                             </TouchableOpacity>
                         </View>
-                    </ScrollView>
-                    {/* <View style={styles.topWish}>
-                        <View style={styles.topWishBadgeWrapper}>
-                            <Text style={styles.topWishBadge}>{'Top wish'}</Text>
-                        </View>
-                        <View style={styles.topWishBody}>
-                            {topWIshList.map((item) => (
-                                <View style={styles.topWishItem} key={item.id}>
-                                    <View style={styles.topWishIdWrapper}>
-                                        <Text style={styles.topWishId}>{item.id}</Text>
-                                    </View>
-                                    <View style={styles.topWishContentWrapper}>
-                                        <Text style={styles.topWishContent}>{item.content}</Text>
-                                    </View>
-                                </View>
-                            ))}
-                        </View>
-                    </View> */}
-                    {/* <View style={styles.nextButtonWrapper}>
-                        <OutlineButton
-                            title="Click to see age you'll likely die"
-                            loading={false}
-                            onPress={() => {
-                                navigation.navigate('SharedUserSecond');
-                            }}
-                        />
-                    </View> */}
+                    </View>
                 </View>
             </KeyboardAwareScrollView>
         </View>

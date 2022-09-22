@@ -1,5 +1,6 @@
 import axios from "axios";
 import { parseMutationArgs } from "react-query/build/cjs/packages/react-query/src";
+import ApplicationStyles from "../utils/ApplicationStyles";
 axios.defaults.withCredentials = true;
 const apiInstance = axios.create({
   baseURL: "http://livelikeyouaredying.com",
@@ -21,7 +22,7 @@ class API {
   setReminder = async (params) => {
     const id = params.userid;
     const body = params.body;
-    console.log('===================>', id , body)
+    console.log('===================>', id, body)
     const response = await apiInstance.post(`${apiPrefix}/user/${id}/reminder`, body);
     return response.data;
   }
@@ -136,6 +137,28 @@ class API {
     const key = 'AIzaSyBh-c0jm7akftL2ISfEqkgWmd7QSmHt2so'
     const response = await youtubeApiInstance.get(`${youtubeApiPrefix}?part=${part}&type=${type}&maxResults=${maxResults}&q=${q}&key=${key}`);
     console.log(response.data.items);
+    return response.data;
+  };
+  // share function
+  postRequestShareByUserId = async (params) => {
+    let body = params.body;
+    console.log('post api call to share your infomation body is ', body);
+    const response =await apiInstance.post(`${apiPrefix}/share`, body);
+    return response.data;
+  }
+  getShareFromByUserId = async (userid) => {
+    const resposne = await apiInstance.get(`${apiPrefix}/share/from/${userid}`);
+    return resposne.data;
+  }
+  getShareToByUserId = async (userid) => {
+    const response = await apiInstance.get(`${apiPrefix}/share/to/${userid}`);
+    return response.data;
+  }
+  removeShareInfo = async (params) => {
+    const from = params.from;
+    const to = params.to;
+    console.log(from, to);
+    const response = await apiInstance.delete(`${apiPrefix}/share/${from}/${to}`)
     return response.data;
   }
 }

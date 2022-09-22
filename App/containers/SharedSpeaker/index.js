@@ -1,14 +1,9 @@
-import * as React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     Text,
     Image,
-    Dimensions,
-    SafeAreaView,
-    TouchableOpacity,
-    ScrollView,
-    StyleSheet
+    SafeAreaView
 } from 'react-native';
 import { AuthContext } from '../../AuthProvider';
 import IconButton from '../../components/IconButton';
@@ -18,10 +13,7 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import MasonryList from '@react-native-seoul/masonry-list';
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
-import TextContainer from '../../components/TextContainer';
 import SpeakerContainer from '../../components/SpeakerContainer';
-import SongItemContainer from '../../components/SongItemContainer';
 import PallbearerContainer from '../../components/PallbearerContainer';
 import API from '../../services/API';
 import { useQuery, useMutation } from 'react-query';

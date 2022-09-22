@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     },
     message: {
         width: '100%',
-        marginTop: scale(70),
+        marginTop: scale(20),
         borderRadius: scale(20),
         justifyContent: 'center',
         alignItems: 'center',
@@ -122,6 +122,11 @@ export const styles = StyleSheet.create({
         color: Colors.primaryTextColor,
         lineHeight: scale(27),
         marginTop: 15
+    },
+    backWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     eventhint: {
         width: '100%',

@@ -20,22 +20,13 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 
 const FuneralScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
-    const [testReminderModal, setTestReminderModal] = useState(false);
-    const [userName, setUserName] = useState("");
-    const [topWishList, setTopWishList] = useState([
-        'Get VP Title',
-        'Bora Bora',
-        'Get to 170 lbs',
-        'Help Poor with electricity',
-        'Take Grandkids to Disney World'
-    ]);
+    const { userProfile } = useContext(AuthContext);
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                 <View style={styles.containerInner}>
                     <View style={styles.header}>
-                        <Text style={styles.notetext}>{'Agenda'}</Text>
+                        <Text style={styles.notetext}>{'Funeral'}</Text>
                         <Image
                             source={Images.ic_logo}
                             style={styles.logo}
@@ -45,7 +36,7 @@ const FuneralScreen = ({ navigation }) => {
                     <View style={styles.message}>
                         <ScrollView
                             style={{
-                                width:'100%'
+                                width: '100%'
                             }}>
                             <InlineContainer
                                 title="Opening Songs:"

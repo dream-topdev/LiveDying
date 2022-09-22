@@ -187,7 +187,19 @@ const SongCloseScreen = ({ navigation }) => {
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                 <View style={styles.containerInner}>
                     <View style={styles.header}>
-                        <Text style={styles.notetext}>{'Agenda'}</Text>
+                        <View style={styles.backWrapper}>
+                            <IconButton
+                                icon={Images.ic_chevron_left}
+                                width={25}
+                                height={30}
+                                marginRight={10}
+                                disabled={false}
+                                onPress={() => {
+                                    navigation.navigate('Gallery')
+                                }}
+                            />
+                            <Text style={styles.notetext}>{'Agenda'}</Text>
+                        </View>
                         <Image
                             source={Images.ic_logo}
                             style={styles.logo}
@@ -260,7 +272,7 @@ const SongCloseScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>
-                            <IconButton
+                            {/* <IconButton
                                 icon={Images.ic_home}
                                 width={52}
                                 height={52}
@@ -268,8 +280,8 @@ const SongCloseScreen = ({ navigation }) => {
                                     console.log('You clicked the back button')
                                     navigation.navigate('Profile')
                                 }}
-                            />
-                            <IconButton
+                            /> */}
+                            {/* <IconButton
                                 icon={Images.ic_back}
                                 width={52}
                                 height={52}
@@ -277,8 +289,8 @@ const SongCloseScreen = ({ navigation }) => {
                                     console.log('You clicked the back button')
                                     navigation.navigate('Gallery')
                                 }}
-                            />
-                            {/* <IconButton
+                            /> */}
+                            <IconButton
                                 icon={Images.ic_next}
                                 width={52}
                                 height={52}
@@ -286,7 +298,7 @@ const SongCloseScreen = ({ navigation }) => {
                                     console.log('You clicked the back button')
                                     navigation.navigate('Pallbearer')
                                 }}
-                            /> */}
+                            />
                         </View>
                     </View>
                 </View>

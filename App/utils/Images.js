@@ -59,4 +59,5 @@ export default {
   ic_speaker : require('./../assets/images/speaker.png'),
   ic_pallbearer : require('./../assets/images/pallbearer.png'),
   ic_lifevideo : require('./../assets/images/lifevideo.png'),
+  ic_logout: require('./../assets/images/logout.png')
 };

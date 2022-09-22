@@ -11,11 +11,18 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundColor,
   },
   containerInner: {
-    alignItems: 'center',
     position: 'relative',
     flex: 1,
+    flexDirection: 'column',
     minHeight: scale(610),
-    marginHorizontal: scale(26)
+    paddingHorizontal: scale(27),
+    width: '100%',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: scale(40),
   },
   footer: {
     width: '100%',
@@ -24,9 +31,8 @@ export const styles = StyleSheet.create({
 
   },
   logo: {
-    marginTop: scale(75),
-    width: scale(246),
-    height: scale(130),
+    width: scale(60),
+    height: scale(60),
   },
   divider: {
     height: scale(19)
@@ -41,18 +47,23 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     bottom: scale(20)
   },
-  noteText: {
+  notetext: {
     fontFamily: Fonts.EpilogueBold,
-    fontSize: 15,
-    color: Colors.primaryColor
+    fontSize: scale(30),
+    color: Colors.black,
   },
   loginWrapper: {
     width: '100%',
     marginTop: scale(20),
-    marginBottom:scale(40)
+    marginBottom: scale(40)
   },
   forgetWrapper: {
     width: '100%',
     marginTop: scale(24)
+  },
+  backWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
   }
 });

@@ -78,6 +78,14 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  const { mutate: signup } = useMutation(API.signup, {
+    onSuccess: (data) => {
+
+    },
+    onError: (data) => {
+
+    }
+  })
   return (
     <AuthContext.Provider
       value={{
@@ -108,7 +116,7 @@ export const AuthProvider = ({ children }) => {
               email,
               password
             };
-            login(userCred);
+            await login(userCred);
           }
           else if (!validateEmail(email)) {
             Toast.show({
@@ -124,7 +132,7 @@ export const AuthProvider = ({ children }) => {
             });
           }
         },
-        register: async (displayName, email, password) => {
+        signup: async (displayName, email, password) => {
           setLoading(true);
           try {
             await auth().createUserWithEmailAndPassword(email, password)
@@ -139,8 +147,7 @@ export const AuthProvider = ({ children }) => {
         },
         logout: async () => {
           try {
-            await setUserOnline(user.uid, false);
-            await auth().signOut();
+            await setUserProfile(null);
           } catch (e) {
             console.error(e);
           }

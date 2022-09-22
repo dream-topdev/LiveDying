@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     },
     message: {
         width: '100%',
-        marginTop: scale(70),
+        marginTop: scale(20),
         borderRadius: scale(20),
         justifyContent: 'center',
         alignItems: 'center',
@@ -80,7 +80,7 @@ export const styles = StyleSheet.create({
         // flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginTop:scale(27),
+        marginTop: scale(27),
         marginBottom: scale(20)
     },
     footerInner: {
@@ -110,6 +110,11 @@ export const styles = StyleSheet.create({
         width: '100%',
         marginTop: scale(30),
         backgroundColor: Colors.backgroundColor,
+    },
+    backWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     notemeanhead: {
         fontFamily: Fonts.EpilogueBold,

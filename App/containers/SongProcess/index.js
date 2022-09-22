@@ -181,7 +181,19 @@ const SongProcessScreen = ({ navigation }) => {
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                 <View style={styles.containerInner}>
                     <View style={styles.header}>
-                        <Text style={styles.notetext}>{'Agenda'}</Text>
+                        <View style={styles.backWrapper}>
+                            <IconButton
+                                icon={Images.ic_chevron_left}
+                                width={25}
+                                height={30}
+                                marginRight={10}
+                                disabled={false}
+                                onPress={() => {
+                                    navigation.navigate('SongOpen')
+                                }}
+                            />
+                            <Text style={styles.notetext}>{'Agenda'}</Text>
+                        </View>
                         <Image
                             source={Images.ic_logo}
                             style={styles.logo}
@@ -256,7 +268,7 @@ const SongProcessScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.footerInner}>
-                            <IconButton
+                            {/* <IconButton
                                 icon={Images.ic_back}
                                 width={52}
                                 height={52}
@@ -273,7 +285,7 @@ const SongProcessScreen = ({ navigation }) => {
                                     console.log('You clicked the back button')
                                     navigation.navigate('Profile')
                                 }}
-                            />
+                            /> */}
                             <IconButton
                                 icon={Images.ic_next}
                                 width={52}

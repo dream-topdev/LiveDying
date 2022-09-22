@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useContext } from 'react';
 import {
     SafeAreaView,
     Image,
@@ -7,26 +8,37 @@ import {
     ScrollView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { AuthContext } from '../../AuthProvider';
 import AuthInput from '../../components/AuthInput';
 import LinkButton from '../../components/LinkButton';
 import OutlineButton from '../../components/OutlineButton';
 import Images from '../../utils/Images';
 import { styles } from './styles';
 
+
+
 const SignUpScreen = ({ navigation }) => {
-    const [firstName, setFirstName] = React.useState("test_first_name");
-    const [email, setEmail] = React.useState("test@test.com");
-    const [lastName, setLastName] = React.useState("test_last_name");
-    const [password, setPassword] = React.useState("qweasdzxc");
+    const { signup } = useContext(AuthContext);
+    const [firstName, setFirstName] = useState("test_first_name");
+    const [email, setEmail] = useState("test@test.com");
+    const [lastName, setLastName] = useState("test_last_name");
+    const [password, setPassword] = useState("qweasdzxc");
+    const [confirmPassword, setConfirmPassword] = useState("qweasdzxc");
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                 <View style={styles.containerInner}>
-                    <Image
-                        source={Images.ic_full_logo}
-                        style={styles.logo}
-                        resizeMode={'contain'}
-                    />
+                    <View style={styles.header}>
+                        <View style={styles.backWrapper}>
+
+                            <Text style={styles.notetext}>{'Sigin up'}</Text>
+                        </View>
+                        <Image
+                            source={Images.ic_logo}
+                            style={styles.logo}
+                            resizeMode={'contain'}
+                        />
+                    </View>
                     <View style={styles.inputForm}>
                         <ScrollView>
                             <AuthInput
@@ -49,7 +61,7 @@ const SignUpScreen = ({ navigation }) => {
                                 placeholder='Email'
                                 icon={Images.ic_email}
                                 value={email}
-                                onChangeText={(v) => setPassword(v)}
+                                onChangeText={(v) => setEmail(v)}
                                 borderType={"roundBottom"}
                             />
                             <View style={styles.divider} />
@@ -65,8 +77,8 @@ const SignUpScreen = ({ navigation }) => {
                             <AuthInput
                                 placeholder='Confirm Password'
                                 icon={Images.ic_password}
-                                value={password}
-                                onChangeText={(v) => setPassword(v)}
+                                value={confirmPassword}
+                                onChangeText={(v) => setConfirmPassword(v)}
                                 borderType={"roundBottom"}
                                 secureTextEntry={true}
                             />

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { AuthContext } from '../../AuthProvider';
 import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
+import { scale } from '../../utils/scale';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';

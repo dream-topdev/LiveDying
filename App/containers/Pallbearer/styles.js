@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     },
     message: {
         width: '100%',
-        marginTop: scale(70),
+        marginTop: scale(20),
         borderRadius: scale(20),
         justifyContent: 'center',
         alignItems: 'center',
@@ -171,6 +171,11 @@ export const styles = StyleSheet.create({
         marginTop: scale(24),
         width: '100%',
         alignItems: 'flex-end'
+    },
+    backWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     enterButton: {
         backgroundColor: Colors.primaryBackColor,

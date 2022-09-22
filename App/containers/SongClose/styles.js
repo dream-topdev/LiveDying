@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     },
     message: {
         width: '100%',
-        marginTop: scale(70),
+        marginTop: scale(20),
         borderRadius: scale(20),
         justifyContent: 'center',
         alignItems: 'center',
@@ -180,5 +180,10 @@ export const styles = StyleSheet.create({
     buttonContent: {
         color: Colors.primaryColor,
         fontSize: scale(14)
+    },
+    backWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     }
 });

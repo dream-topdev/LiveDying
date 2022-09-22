@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     },
     message: {
         width: '100%',
-        marginTop: scale(70),
+        marginTop: scale(20),
         borderRadius: scale(20),
         justifyContent: 'center',
         alignItems: 'center',
@@ -42,7 +42,6 @@ export const styles = StyleSheet.create({
         marginRight: scale(10)
     },
     songList: {
-        marginTop: scale(18),
         flex: 1
     },
     tabView: {
@@ -68,6 +67,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: scale(10),
+    },
+    backWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     songItem: {
         flexDirection: 'row',
@@ -118,8 +122,8 @@ export const styles = StyleSheet.create({
         // flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginTop: scale(27),
-        marginBottom: scale(20)
+        marginTop: scale(10),
+        marginBottom: scale(10)
     },
     footerInner: {
         width: '100%',

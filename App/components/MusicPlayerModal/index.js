@@ -21,9 +21,11 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
       return;
     setUpTrackPlayer();
   }, [tracks])
+
   useEffect(() => {
     return () => TrackPlayer.destroy();
   }, []);
+
   const setUpTrackPlayer = async () => {
     try {
       await TrackPlayer.add(tracks);
@@ -32,6 +34,7 @@ const MusicPlayerModal = ({ tracks, visible, onClose }) => {
       console.log("setUpTrackPlayer", e);
     }
   };
+
   return (
     <Modal
       isVisible={visible}

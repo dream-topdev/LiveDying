@@ -56,7 +56,7 @@ const MusicCard = ({
 }) => {
   const [muisicPlayerModal, setMusicPlayerModal] = useState(false);
   const [hideRemoveButton, setHideRemoveButton] = useState(true);
-  console.log('resresh function is called.')
+  console.log('resresh function is called.', item)
   return (
     <>
       <TouchableOpacity
@@ -122,7 +122,7 @@ const MusicCard = ({
         </View>
       </TouchableOpacity>
       <MusicPlayerModal
-        // tracks={musics}
+        tracks={[item]}
         visible={muisicPlayerModal}
         onClose={() => setMusicPlayerModal(false)}
       />

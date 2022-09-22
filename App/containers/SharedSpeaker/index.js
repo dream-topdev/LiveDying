@@ -18,10 +18,7 @@ import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import MasonryList from '@react-native-seoul/masonry-list';
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
-import TextContainer from '../../components/TextContainer';
 import SpeakerContainer from '../../components/SpeakerContainer';
-import SongItemContainer from '../../components/SongItemContainer';
 import PallbearerContainer from '../../components/PallbearerContainer';
 
 

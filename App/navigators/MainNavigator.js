@@ -29,6 +29,7 @@ import SharedUserHomeScreen from '../containers/SharedUserHome';
 import SharedTopWishScreen from '../containers/SharedTopWish';
 import SharedFuneralSongScreen from '../containers/SharedFuneralSong';
 import SharedSpeakerScreen from '../containers/SharedSpeaker';
+import SharedLifeVideoScreen from '../containers/SharedLifeVideo';
 import SettingScreen from '../containers/Setting';
 
 
@@ -80,6 +81,7 @@ const ShareStack = () => {
             <Stack.Screen name="SharedFuneralSong" component={SharedFuneralSongScreen} />
             <Stack.Screen name="SharedUserHome" component={SharedUserHomeScreen} />
             <Stack.Screen name="SharedSpeaker" component={SharedSpeakerScreen} />
+            <Stack.Screen name="SharedLifeVideo" component={SharedLifeVideoScreen} />
         </Stack.Navigator>
     )
 }
@@ -123,9 +125,9 @@ const MainNavigator = () => {
                                 name="LifeSpanStack"
                                 component={LifeSpanStack}
                                 options={{
-                                    tabBarLabel: ({focused, color, size}) => (
-                                        <Text style={{color: focused ? Colors.primaryColor : color}}>{'Lifespan'}</Text>
-                                      ),
+                                    tabBarLabel: ({ focused, color, size }) => (
+                                        <Text style={{ color: focused ? Colors.primaryColor : color }}>{'Lifespan'}</Text>
+                                    ),
                                     tabBarIcon: ({ focused }) => (
                                         <Image source={focused ? Images.ic_lifespan_active : Images.ic_lifespan_disable} />
                                     )
@@ -135,9 +137,9 @@ const MainNavigator = () => {
                                 name="FuneralStack"
                                 component={FuneralStack}
                                 options={{
-                                    tabBarLabel: ({focused, color, size}) => (
-                                        <Text style={{color: focused ? Colors.primaryColor : color}}>{'Funeral'}</Text>
-                                      ),
+                                    tabBarLabel: ({ focused, color, size }) => (
+                                        <Text style={{ color: focused ? Colors.primaryColor : color }}>{'Funeral'}</Text>
+                                    ),
                                     tabBarIcon: ({ focused }) => (
                                         <Image source={focused ? Images.ic_funeral_active : Images.ic_funeral_disable} />
                                     )
@@ -147,9 +149,9 @@ const MainNavigator = () => {
                                 name="ShareStack"
                                 component={ShareStack}
                                 options={{
-                                    tabBarLabel: ({focused, color, size}) => (
-                                        <Text style={{color: focused ? Colors.primaryColor : color}}>{'Share'}</Text>
-                                      ),
+                                    tabBarLabel: ({ focused, color, size }) => (
+                                        <Text style={{ color: focused ? Colors.primaryColor : color }}>{'Share'}</Text>
+                                    ),
                                     tabBarIcon: ({ focused }) => (
                                         <Image source={focused ? Images.ic_share_active : Images.ic_share_disable} />
                                     )
@@ -159,9 +161,9 @@ const MainNavigator = () => {
                                 name="SettingStack"
                                 component={SettingStack}
                                 options={{
-                                    tabBarLabel: ({focused, color, size}) => (
-                                        <Text style={{color: focused ? Colors.primaryColor : color}}>{'Setting'}</Text>
-                                      ),
+                                    tabBarLabel: ({ focused, color, size }) => (
+                                        <Text style={{ color: focused ? Colors.primaryColor : color }}>{'Setting'}</Text>
+                                    ),
                                     tabBarIcon: ({ focused }) => (
                                         <Image source={focused ? Images.ic_account_active : Images.ic_account_disable} />
                                     )

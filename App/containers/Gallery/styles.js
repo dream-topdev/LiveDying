@@ -55,6 +55,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     musicTitle: {
+        marginHorizontal: scale(10),
         color: Colors.primaryColor,
         fontSize: scale(15)
     },

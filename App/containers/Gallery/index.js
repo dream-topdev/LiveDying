@@ -332,7 +332,7 @@ const VideoRoute = () => {
   const [videos, setVideos] = useState([]);
   const [disablePlayButton, setDisablePlayButton] = useState(false);
   const [currentSelectedId, setCurrentSelectedId] = useState(-1);
-  const { data: dataVideo, isLoading: isLoading1, status } = useQuery(['getMusciGallery', userId], () => API.getMediaByUserId(userId, 'gallery', 'video'));
+  const { data: dataVideo, isLoading: isLoading1, status } = useQuery(['getVideoGallery', userId], () => API.getMediaByUserId(userId, 'gallery', 'video'));
   const { mutate: deleteVideo, isLoading: isLoading2 } = useMutation(API.deleteMediaById, {
     onSuccess: (data) => {
       Toast.show({
@@ -351,7 +351,7 @@ const VideoRoute = () => {
   })
 
   useEffect(() => {
-    console.log('Get music api is called ', dataVideo);
+    console.log('Get video api is called ', dataVideo);
     if (dataVideo != null && status == 'success') {
       let temp = [];
       dataVideo.contents.forEach((item) => {
@@ -576,7 +576,7 @@ const PhotoRoute = () => {
   }
 
   useEffect(() => {
-    console.log('get phot api is called ', dataPhoto);
+    console.log('get photo api is called ', dataPhoto);
     if (dataPhoto != null && status == 'success') {
       let temp = [];
       dataPhoto.contents.forEach((item) => {

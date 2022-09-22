@@ -80,8 +80,10 @@ export const styles = StyleSheet.create({
         marginBottom: scale(20)
     },
     topWish: {
-        flex: 1,
-        marginVertical: scale(20),
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'flex-start',
+        marginTop: scale(20),
         paddingHorizontal: scale(25),
         paddingVertical: scale(25),
         borderRadius: scale(20),
@@ -105,8 +107,7 @@ export const styles = StyleSheet.create({
         borderRadius: scale(20),
         borderColor: Colors.primaryColor,
         borderWidth: scale(2),
-        alignItems: 'center',
-        marginTop: scale(20)
+        alignItems: 'center'
     },
     topWishBadge: {
         color: Colors.primaryColor,
@@ -114,8 +115,7 @@ export const styles = StyleSheet.create({
         marginVertical: scale(5)
     },
     topWishBody: {
-        flex: 1,
-        // marginTop: scale(20)
+        marginTop: scale(20)
     },
     topWishIdWrapper: {
         backgroundColor: Colors.primaryBackColor,
@@ -149,10 +149,6 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: scale(12),
         elevation: scale(5),
-        backgroundColor: 'pink'
-    },
-    nextButtonWrapper: {
-        marginVertical: scale(20)
     },
     footer: {
         justifyContent: 'flex-end',
@@ -271,5 +267,33 @@ export const styles = StyleSheet.create({
     buttonContent: {
         color: Colors.primaryColor,
         fontSize: scale(14)
-    }
+    },
+    tabContent: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: scale(20)
+    },
+    cardStyle: {
+        backgroundColor: Colors.secondaryBackColor,
+        flex: 1,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        borderColor: Colors.primaryColor,
+        borderWidth: scale(3),
+        borderRadius: scale(10),
+        marginTop: scale(10),
+        marginHorizontal: scale(5),
+        height: scale(150),
+    },
+    musicTitle: {
+        marginHorizontal: scale(10),
+        color: Colors.primaryColor,
+        fontSize: scale(15)
+    },
+    imageTitle: {
+        color: Colors.primaryColor,
+        fontSize: scale(20)
+    },
 });

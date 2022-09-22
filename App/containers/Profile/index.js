@@ -45,6 +45,7 @@ const ProfileScreen = ({ navigation }) => {
     const [yearModal, setYearModal] = useState(false);
     const [durationModal, setDurationModal] = useState(false);
     useEffect(() => {
+        console.log(data);
         if (data != null && status == 'success') {
             console.log('profile api calling', data)
             setBirthday(new Date(data.birthday));

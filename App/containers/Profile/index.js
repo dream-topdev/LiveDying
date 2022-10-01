@@ -16,11 +16,9 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
-import YearPickerModal from '../../components/YearPickerModal';
 import DurationModal from '../../components/DurationModal';
 import { useQuery } from "react-query";
 import API from '../../services/API';
-import MonthPicker from 'react-native-month-year-picker-inf';
 import moment from 'moment';
 
 

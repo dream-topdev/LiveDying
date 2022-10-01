@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import {
   Alert,
   View,

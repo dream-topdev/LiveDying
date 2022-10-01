@@ -14,9 +14,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
 import InlineContainer from '../../components/InlineContainer';
-import ActionButton from '../../components/ActionButton';
 import IconButton from '../../components/IconButton';
 import PallbearerContainer from '../../components/PallbearerContainer';
 import { scale, scaleVertical } from '../../utils/scale';
@@ -24,7 +22,7 @@ import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import Toast from 'react-native-toast-message';
-import { useQuery, useMutation, parseMutationArgs } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import API from '../../services/API';
 import AddPeopleModal from '../../components/AddPeopleModal';
 import DocumentPicker, { types } from 'react-native-document-picker';

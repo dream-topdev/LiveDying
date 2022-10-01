@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
     SafeAreaView,
     Image,
-    View,
   } from 'react-native';
 import Images from '../../utils/Images';
 import {styles} from './styles';

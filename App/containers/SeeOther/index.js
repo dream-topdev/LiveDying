@@ -1,30 +1,21 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
     Image,
-    TouchableOpacity,
-    ScrollView,
-    Modal
+    ScrollView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
-import InlineContainer from '../../components/InlineContainer';
-import ActionButton from '../../components/ActionButton';
 import IconButton from '../../components/IconButton';
 import { scale, scaleVertical } from '../../utils/scale';
-import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
 import { useQuery, useMutation } from 'react-query';
-import PropTypes from 'prop-types';
 import TextContainer from '../../components/TextContainer';
-import SendEmailModal from '../../components/SendEmailModal';
 import API from '../../services/API';
-import { useEffect } from 'react';
 
 
 const ShareSelfScreen = ({ navigation }) => {

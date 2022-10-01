@@ -9,15 +9,10 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
 import InlineContainer from '../../components/InlineContainer';
-import ActionButton from '../../components/ActionButton';
-import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
-import AuthInput from '../../components/AuthInput';
-import { styles } from './styles';
 import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
+import { styles } from './styles';
+
 
 const FuneralScreen = ({ navigation }) => {
     const { userProfile } = useContext(AuthContext);

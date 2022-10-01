@@ -1,0 +1,4 @@
+export default {
+    stripe_pub_key: 'pk_test_51LkscRBh7irzyJPIreqsIQOb87l0e76733N5nkHV0anb5ZycYthRqnmWrTRwITtKtLD3IG6boPo0iZzA8jQFnwcm00XqBvjopA',
+    stripe_sec_key: 'sk_test_51LkscRBh7irzyJPI9nj65R57yydDBkzakByiR0tE757oHtJbFqnFe9Jbx33CcdqkzUhiIUHPVZJk06xKAIqsvjrB00f6GiGaUi'
+};

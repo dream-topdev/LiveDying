@@ -12,7 +12,6 @@ import { styles } from './styles';
 import { scale, scaleVertical } from '../../utils/scale';
 import Colors from '../../utils/Colors';
 import ApplicationStyles from '../../utils/ApplicationStyles';
-import VideoPlayer from 'react-native-video-player';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ToggleButton from '../ToggleButton';
 import { act } from 'react-test-renderer';

@@ -3,17 +3,14 @@ import { useState, useContext } from 'react';
 import {
     View,
     Text,
-    Image,
-    ScrollView
+    Image
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
 import OutlineButton from '../../components/OutlineButton';
-import AuthInput from '../../components/AuthInput';
 import { styles } from './styles';
 import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
-import TestReminderModal from '../../components/TestReminderModal';
+
 
 const TopWishOutScreen = ({ navigation }) => {
     const { loading, login } = useContext(AuthContext);

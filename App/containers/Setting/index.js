@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import {
     View,
     Text,
@@ -7,12 +7,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import OutlineButton from '../../components/OutlineButton';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import { AuthContext } from '../../AuthProvider';
-import Colors from '../../utils/Colors';
-import { scale } from '../../utils/scale';
 
 const SettingScreen = ({ }) => {
     const { userProfile, logout } = useContext(AuthContext);

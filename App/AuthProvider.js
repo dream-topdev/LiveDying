@@ -1,8 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
-import { getUserProfile, setUserOnline } from './services/FirebaseService';
 import API from './services/API';
 import { useMutation } from 'react-query';
 export const AuthContext = createContext({});

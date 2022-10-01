@@ -8,17 +8,12 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import AuthInput from '../../components/AuthInput';
-import InlineContainer from '../../components/InlineContainer';
-import LinkButton from '../../components/LinkButton';
-import OutlineButton from '../../components/OutlineButton';
-import IconButton from '../../components/IconButton';
-import Images from '../../utils/Images';
+import { useQuery } from "react-query";
 import { styles } from './styles';
 import { scale } from '../../utils/scale';
-import Colors from '../../utils/Colors';
-import { useQuery } from "react-query";
+import OutlineButton from '../../components/OutlineButton';
 import API from '../../services/API';
+
 
 const LifeSpanScreen = ({ navigation }) => {
     // const { loading, login } = useContext(AuthContext);

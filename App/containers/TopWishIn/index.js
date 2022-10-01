@@ -19,7 +19,6 @@ const TopWishInScreen = ({ navigation }) => {
     const userId = userProfile.result.id;
     const { data, isLoading, status } = useQuery(["getTopWishById", userId], () => API.getTopWishById(userId));
     const [topWishList, setTopWishList] = useState([]);
-    const [userName, setUserName] = useState("");
 
     useEffect(() => {
         if (data != null && status == 'success') {

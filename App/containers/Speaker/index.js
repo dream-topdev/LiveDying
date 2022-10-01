@@ -26,7 +26,6 @@ import { useQuery, useMutation, useQueries } from 'react-query';
 import API from '../../services/API';
 import AddPeopleModal from '../../components/AddPeopleModal';
 import DocumentPicker, { types } from 'react-native-document-picker'
-import { SectionGrid } from 'react-native-super-grid';
 
 
 const defaultAvatarUrl = 'http://livelikeyouaredying.com/assets/images/default/default_avatar.png';

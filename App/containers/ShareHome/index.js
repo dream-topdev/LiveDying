@@ -11,8 +11,13 @@ import OutlineButton from '../../components/OutlineButton';
 import { styles } from './styles';
 import Images from '../../utils/Images';
 import { scale } from '../../utils/scale';
+import { AuthContext } from '../../AuthProvider';
 
 const ShareHomeScreen = ({ navigation }) => {
+    const { userProfile } = useContext(AuthContext);
+    console.log(userProfile);
+    const isPurchased =  new Boolean(userProfile.result.is_purchased);
+    console.log("Purchase status ", isPurchased);
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -34,7 +39,12 @@ const ShareHomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={styles.shareWrapper}
                                 onPress={() => {
-                                    navigation.navigate('ShareSelf')
+                                    !isPurchased ? (
+                                        navigation.navigate('ShareSelf')
+
+                                    ) : (
+                                        navigation.navigate("Payment")
+                                    )
                                     console.log('Test')
                                 }}
                             >
@@ -50,7 +60,11 @@ const ShareHomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={styles.seeWrapper}
                                 onPress={() => {
-                                    navigation.navigate('SeeOther')
+                                    isPurchased ? (
+                                        navigation.navigate('SeeOther')
+                                    ) : (
+                                        navigation.navigate('Payment')
+                                    )
                                     console.log('Test')
                                 }}
                             >

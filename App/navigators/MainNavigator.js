@@ -31,7 +31,7 @@ import SharedFuneralSongScreen from '../containers/SharedFuneralSong';
 import SharedSpeakerScreen from '../containers/SharedSpeaker';
 import SharedLifeVideoScreen from '../containers/SharedLifeVideo';
 import SettingScreen from '../containers/Setting';
-
+import PaymentScreen from '../containers/Payment';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,6 +82,7 @@ const ShareStack = () => {
             <Stack.Screen name="SharedUserHome" component={SharedUserHomeScreen} />
             <Stack.Screen name="SharedSpeaker" component={SharedSpeakerScreen} />
             <Stack.Screen name="SharedLifeVideo" component={SharedLifeVideoScreen} />
+            <Stack.Screen name="Payment" component={PaymentScreen} />
         </Stack.Navigator>
     )
 }

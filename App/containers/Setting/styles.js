@@ -1,9 +1,7 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
 import { scale, scaleVertical } from '../../utils/scale';
-import { textScale } from '../../utils/textUtil';
-import { getDeviceHeight } from '../../utils/extension';
 
 export const styles = StyleSheet.create({
     container: {

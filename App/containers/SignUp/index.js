@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState, useContext } from 'react';
 import {
-    SafeAreaView,
     Image,
     View,
     Text,
@@ -14,7 +13,6 @@ import LinkButton from '../../components/LinkButton';
 import OutlineButton from '../../components/OutlineButton';
 import Images from '../../utils/Images';
 import { styles } from './styles';
-
 
 
 const SignUpScreen = ({ navigation }) => {

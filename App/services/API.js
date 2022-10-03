@@ -143,7 +143,7 @@ class API {
   postRequestShareByUserId = async (params) => {
     let body = params.body;
     console.log('post api call to share your infomation body is ', body);
-    const response =await apiInstance.post(`${apiPrefix}/share`, body);
+    const response = await apiInstance.post(`${apiPrefix}/share`, body);
     return response.data;
   }
   getShareFromByUserId = async (userid) => {
@@ -159,6 +159,12 @@ class API {
     const to = params.to;
     console.log(from, to);
     const response = await apiInstance.delete(`${apiPrefix}/share/${from}/${to}`)
+    return response.data;
+  }
+  fetchPaymentIntentClientSecret = async (parmas) => {
+    const body = parmas.body;
+    console.log('api puchase ', body);
+    const response = await apiInstance.post(`${apiPrefix}/share/purchase`, body);
     return response.data;
   }
 }

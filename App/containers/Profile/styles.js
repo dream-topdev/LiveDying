@@ -17,10 +17,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: scale(27),
     width: '100%',
   },
-  logo: {
-    marginTop: scale(46),
-    width: scale(246),
-    height: scale(130),
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: scale(40),
+    paddingHorizontal: scale(27),
   },
   inputForm: {
     flex: 1,
@@ -36,10 +39,14 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     bottom: scale(47)
   },
-  noteText: {
+  notetext: {
     fontFamily: Fonts.EpilogueBold,
-    fontSize: 15,
-    color: Colors.primaryColor
+    fontSize: scale(30),
+    color: Colors.black,
+  },
+  logo: {
+    width: scale(60),
+    height: scale(60),
   },
   loginWrapper: {
     width: '100%',

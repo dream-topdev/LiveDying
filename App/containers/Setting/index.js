@@ -55,14 +55,14 @@ const SettingScreen = ({ }) => {
                                                 style={styles.settingIcon}
                                                 source={Images.ic_user}
                                             />
-                                            <Text>{'Profile'}</Text>
+                                            <Text style={styles.settingContent}>{'Profile'}</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity style={styles.settingItem}>
                                             <Image
                                                 style={styles.settingIcon}
                                                 source={Images.ic_password}
                                             />
-                                            <Text>{'Reset password'}</Text>
+                                            <Text style={styles.settingContent}>{'Reset password'}</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={styles.settingItem}
@@ -74,7 +74,7 @@ const SettingScreen = ({ }) => {
                                                 style={styles.settingIcon}
                                                 source={Images.ic_logout}
                                             />
-                                            <Text>{'Log out'}</Text>
+                                            <Text style={styles.settingContent}>{'Log out'}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>

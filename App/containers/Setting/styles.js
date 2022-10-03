@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
 import { scale, scaleVertical } from '../../utils/scale';
+import { textScale } from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
     container: {
@@ -45,8 +46,10 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     setting: {
-        marginLeft: scale(60),
-        marginTop: scale(30),
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: scale(20)
     },
     settingItem: {
         marginBottom: scale(15),
@@ -55,9 +58,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     settingIcon: {
-        width: scale(20),
-        height: scale(20),
+        width: scale(25),
+        height: scale(25),
         marginRight: scale(20)
+    },
+    settingContent: {
+        fontSize: textScale(22)
     },
     headerLeft: {
         flexDirection: 'row',
@@ -100,7 +106,7 @@ export const styles = StyleSheet.create({
     userNameWrapper: {
     },
     userName: {
-        fontSize: scale(20),
+        fontSize: scale(24),
         color: Colors.black
     },
     userEmailWrapper: {

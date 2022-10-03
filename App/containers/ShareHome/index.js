@@ -16,7 +16,7 @@ import { AuthContext } from '../../AuthProvider';
 const ShareHomeScreen = ({ navigation }) => {
     const { userProfile } = useContext(AuthContext);
     console.log(userProfile);
-    const isPurchased =  new Boolean(userProfile.result.is_purchased);
+    const isPurchased = new Boolean(userProfile.result.is_purchased);
     console.log("Purchase status ", isPurchased);
     return (
         <View style={styles.container}>
@@ -39,12 +39,7 @@ const ShareHomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={styles.shareWrapper}
                                 onPress={() => {
-                                    !isPurchased ? (
-                                        navigation.navigate('ShareSelf')
-
-                                    ) : (
-                                        navigation.navigate("Payment")
-                                    )
+                                    navigation.navigate('ShareSelf')
                                     console.log('Test')
                                 }}
                             >
@@ -60,11 +55,7 @@ const ShareHomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={styles.seeWrapper}
                                 onPress={() => {
-                                    isPurchased ? (
-                                        navigation.navigate('SeeOther')
-                                    ) : (
-                                        navigation.navigate('Payment')
-                                    )
+                                    navigation.navigate('SeeOther')
                                     console.log('Test')
                                 }}
                             >
@@ -83,8 +74,8 @@ const ShareHomeScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
-        </View>
+            </KeyboardAwareScrollView >
+        </View >
     )
 }
 export default ShareHomeScreen;

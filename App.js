@@ -13,7 +13,6 @@ import { MenuProvider } from 'react-native-popup-menu';
 import { AuthProvider } from './App/AuthProvider';
 import { LogBox, NativeModules } from "react-native";
 import Icons from 'react-native-vector-icons/FontAwesome';
-import TrackPlayer, { Capability } from 'react-native-track-player';
 import { StripeProvider } from '@stripe/stripe-react-native';
 
 
@@ -22,27 +21,6 @@ LogBox.ignoreLogs(["EventEmitter.removeListener", 'Animated.event']);
 const queryClient = new QueryClient();
 
 const App = () => {
-  useEffect(() => {
-    TrackPlayer.setupPlayer()
-      .then(async () => {
-        await TrackPlayer.updateOptions({
-          // Media controls capabilities
-          capabilities: [
-            Capability.Play,
-            Capability.Pause,
-            Capability.SkipToNext,
-            Capability.SkipToPrevious,
-            Capability.Stop,
-          ],
-          // Capabilities that will show up when the notification is in the compact form on Android
-          compactCapabilities: [Capability.Play, Capability.Pause],
-        });
-      })
-      .catch(() => {
-        console.log("Track Player already set up.")
-      })
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <MenuProvider>

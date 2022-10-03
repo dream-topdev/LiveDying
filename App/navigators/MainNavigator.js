@@ -69,20 +69,31 @@ const FuneralStack = () => {
 }
 
 const ShareStack = () => {
+    const { userProfile } = useContext(AuthContext);
+    const isPurchased = userProfile.result.is_purchased;
     return (
         <Stack.Navigator
             initialRouteName={'ShareHome'}
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name="ShareHome" component={ShareHomeScreen} />
-            <Stack.Screen name="ShareSelf" component={ShareSelfScreen} />
-            <Stack.Screen name="SeeOther" component={SeeOtherScreen} />
-            <Stack.Screen name="SharedTopWish" component={SharedTopWishScreen} />
-            <Stack.Screen name="SharedFuneralSong" component={SharedFuneralSongScreen} />
-            <Stack.Screen name="SharedUserHome" component={SharedUserHomeScreen} />
-            <Stack.Screen name="SharedSpeaker" component={SharedSpeakerScreen} />
-            <Stack.Screen name="SharedLifeVideo" component={SharedLifeVideoScreen} />
-            <Stack.Screen name="Payment" component={PaymentScreen} />
+            {
+                !parseInt(isPurchased) ? (
+                    <>
+                        <Stack.Screen name="Payment" component={PaymentScreen} />
+                    </>
+                ) : (
+                    <>
+                        <Stack.Screen name="ShareHome" component={ShareHomeScreen} />
+                        <Stack.Screen name="ShareSelf" component={ShareSelfScreen} />
+                        <Stack.Screen name="SeeOther" component={SeeOtherScreen} />
+                        <Stack.Screen name="SharedTopWish" component={SharedTopWishScreen} />
+                        <Stack.Screen name="SharedFuneralSong" component={SharedFuneralSongScreen} />
+                        <Stack.Screen name="SharedUserHome" component={SharedUserHomeScreen} />
+                        <Stack.Screen name="SharedSpeaker" component={SharedSpeakerScreen} />
+                        <Stack.Screen name="SharedLifeVideo" component={SharedLifeVideoScreen} />
+                    </>
+                )
+            }
         </Stack.Navigator>
     )
 }

@@ -138,7 +138,7 @@ const SpeakerScreen = ({ navigation }) => {
         setIsOkButtonDisable(!isValidOkButton())
     }, [firstName, lastName, topic]);
 
-    const handleDocumentSelection = useCallback(async (to) => {
+    const handleDocumentSelection = useCallback(async () => {
         try {
             const response = await DocumentPicker.pick({
                 presentationStyle: 'fullScreen',
@@ -337,7 +337,7 @@ const SpeakerScreen = ({ navigation }) => {
                 setTopic={(v) => { setTopic(v) }}
                 onClickEditButton={() => {
                     console.log('you clicked the edit button.');
-                    handleDocumentSelection('vidoe');
+                    handleDocumentSelection('video');
                 }}
                 onSuccess={() => {
                     const formData = new FormData();

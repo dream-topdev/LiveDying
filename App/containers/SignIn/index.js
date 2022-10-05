@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import {
     Image,
     View,
@@ -13,10 +13,11 @@ import Images from '../../utils/Images';
 import { styles } from './styles';
 
 const SignInScreen = ({ navigation }) => {
-    const { loading, login } = React.useContext(AuthContext);
-    // const [userName, setUserName] = React.useState('anton@gmail.com');
-    const [userName, setUserName] = React.useState('tyrannosaurus.rex@gmail.com');
-    const [password, setPassword] = React.useState('qweasdzxc');
+    const emailRef = useRef();
+    const passRef = useRef();
+    const { loading, login } = useContext(AuthContext);
+    const [email, setEmail] = useState('tyrannosaurus.rex@gmail.com');
+    const [password, setPassword] = useState('qweasdzxc');
     // tyrannosaurus.rex@gmail.com
     // qweasdzxc
     return (
@@ -30,18 +31,22 @@ const SignInScreen = ({ navigation }) => {
                     />
                     <View style={styles.inputForm}>
                         <AuthInput
+                            ref={emailRef}
                             placeholder='Email'
                             icon={Images.ic_email}
-                            value={userName}
-                            onChangeText={(v) => setUserName(v)}
+                            value={email}
+                            onChangeText={(v) => setEmail(v)}
+                            onSubmitEditing={() => passRef.current.focus()}
                             borderType={"roundTop"}
                         />
                         <View style={styles.divider} />
                         <AuthInput
+                            ref={passRef}
                             placeholder='Password'
                             icon={Images.ic_password}
                             value={password}
                             onChangeText={(v) => setPassword(v)}
+                            onSubmitEditing={() => login(email, password)}
                             borderType={"roundBottom"}
                             secureTextEntry={true}
                         />
@@ -60,8 +65,8 @@ const SignInScreen = ({ navigation }) => {
                             title="Login"
                             loading={loading}
                             onPress={() => {
-                                console.log(userName, password)
-                                login(userName, password);
+                                console.log(email, password)
+                                login(email, password);
                             }}
                         />
                     </View>

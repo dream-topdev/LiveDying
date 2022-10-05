@@ -19,6 +19,25 @@ class API {
     const response = await apiInstance.post(`${apiPrefix}/user/login`, params);
     return response.data;
   };
+  signup = async (params) => {
+    let body = params.body;
+    const response = await apiInstance.post(`${apiPrefix}/user/signup`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data; ',
+      }
+    });
+    return response.data;
+  }
+  updateProfile = async (params) => {
+    let body = params.body;
+    console.log('body', body);
+    const response = await apiInstance.post(`${apiPrefix}/user/profile`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data; ',
+      }
+    });
+    return response.data;
+  }
   setReminder = async (params) => {
     const id = params.userid;
     const body = params.body;

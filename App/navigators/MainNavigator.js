@@ -32,6 +32,7 @@ import SharedSpeakerScreen from '../containers/SharedSpeaker';
 import SharedLifeVideoScreen from '../containers/SharedLifeVideo';
 import SettingScreen from '../containers/Setting';
 import PaymentScreen from '../containers/Payment';
+import EditProfileScreen from '../containers/EditProfile';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -105,6 +106,7 @@ const SettingStack = () => {
             screenOptions={{ headerShown: false }}
         >
             <Stack.Screen name="Setting" component={SettingScreen} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         </Stack.Navigator>
     )
 }

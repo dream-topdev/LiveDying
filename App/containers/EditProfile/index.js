@@ -21,64 +21,10 @@ import { styles } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../utils/Colors';
 import { scale } from '../../utils/scale';
+import { useMutation } from 'react-query';
+import API from '../../services/API';
 
 const includeExtra = true;
-const actions = [
-    {
-        title: 'Take Image',
-        type: 'capture',
-        options: {
-            saveToPhotos: true,
-            mediaType: 'photo',
-            includeBase64: false,
-            includeExtra,
-        },
-    },
-    {
-        title: 'Select Image',
-        type: 'library',
-        options: {
-            selectionLimit: 0,
-            mediaType: 'photo',
-            includeBase64: false,
-            includeExtra,
-        },
-    },
-    {
-        title: 'Take Video',
-        type: 'capture',
-        options: {
-            saveToPhotos: true,
-            mediaType: 'video',
-            includeExtra,
-        },
-    },
-    {
-        title: 'Select Video',
-        type: 'library',
-        options: {
-            selectionLimit: 0,
-            mediaType: 'video',
-            includeExtra,
-        },
-    },
-    {
-        title: `Select Image or Video\n(mixed)`,
-        type: 'library',
-        options: {
-            selectionLimit: 0,
-            mediaType: 'mixed',
-            includeExtra,
-        },
-    },
-];
-const validateEmail = (email) => {
-    let isEmail = false;
-    if (/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
-        isEmail = true;
-    }
-    return isEmail;
-}
 const SelectionModal = ({ visible, onClose, onClickCamera, onClickGallery }) => {
     return (
         <Modal
@@ -125,39 +71,43 @@ const SelectionModal = ({ visible, onClose, onClickCamera, onClickGallery }) => 
         </Modal>
     )
 }
-const defaultAvatarUrl = 'http://livelikeyouaredying.com/assets/images/default/default_avatar.png';
-const SignUpScreen = ({ navigation }) => {
+const EditProfileScreen = ({ navigation }) => {
     const firstNameRef = useRef();
     const lastNameRef = useRef();
-    const emailRef = useRef();
-    const passRef = useRef();
-    const confirmPassRef = useRef();
 
-    const { signup, loading } = useContext(AuthContext);
-    const [avatar, setAvatar] = useState(defaultAvatarUrl);
+    const { userProfile, fetchProfile } = useContext(AuthContext);
+    const [avatar, setAvatar] = useState(userProfile.result.avatar);
     const [response, setResponse] = useState(null);
     const [isVisibleModal, setIsVisibleModal] = useState(false);
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [firstName, setFirstName] = useState(userProfile.result.first_name);
+    const [lastName, setLastName] = useState(userProfile.result.last_name);
     const [error, setError] = useState('');
+    const { mutate: updateProfile, isLoading } = useMutation(API.updateProfile, {
+        onSuccess: (data) => {
+            Toast.show({
+                type: 'success',
+                text1: 'Success',
+                text2: data.message
+            });
+            fetchProfile(userProfile.result.id);
+        },
+        onError: (err) => {
+            Toast.show({
+                type: 'error',
+                text1: "Sorry",
+                text2: err.message
+            })
+        }
+    })
     useEffect(() => {
         if (firstName == null || firstName == '') {
             setError('You must enter first name');
         } else if (lastName == null || lastName == '') {
             setError('You must enter last name');
-        } else if (email == '' || !validateEmail(email)) {
-            setError('You must enter valid email');
-        } else if (password == null || password == '') {
-            setError('You must enter password');
-        } else if (password != confirmPassword) {
-            setError('Password is not match with confirm password');
         } else {
             setError('');
         }
-    }, [firstName, lastName, email, password, confirmPassword])
+    }, [firstName, lastName])
     const requestCameraPermission = async () => {
         try {
             const granted = await PermissionsAndroid.request(
@@ -203,7 +153,17 @@ const SignUpScreen = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.backWrapper}>
-                    <Text style={styles.notetext}>{'Sigin up'}</Text>
+                    <IconButton
+                        icon={Images.ic_chevron_left}
+                        width={25}
+                        height={30}
+                        marginRight={10}
+                        disabled={false}
+                        onPress={() => {
+                            navigation.replace('Setting')
+                        }}
+                    />
+                    <Text style={styles.notetext}>{'Your Profile'}</Text>
                 </View>
                 <Image
                     source={Images.ic_logo}
@@ -217,7 +177,7 @@ const SignUpScreen = ({ navigation }) => {
                         <Image
                             source={{ uri: avatar }}
                             style={styles.avatar}
-                            resizeMode={'contain'}
+                            resizeMode={'stretch'}
                         />
                     </View>
                     <View style={styles.editAvatarWrapper}>
@@ -228,7 +188,6 @@ const SignUpScreen = ({ navigation }) => {
                             onPress={() => {
                                 console.log('you clicked the edit button ');
                                 setIsVisibleModal(true);
-                                // handleDocumentSelection();
                             }}
                         />
                     </View>
@@ -250,47 +209,15 @@ const SignUpScreen = ({ navigation }) => {
                                 icon={Images.ic_user}
                                 value={lastName}
                                 onChangeText={(v) => setLastName(v)}
-                                onSubmitEditing={() => emailRef.current.focus()}
                                 borderType={"roundTop"}
-                            />
-                            <View style={styles.divider} />
-                            <AuthInput
-                                ref={emailRef}
-                                placeholder='Email'
-                                icon={Images.ic_email}
-                                value={email}
-                                onChangeText={(v) => setEmail(v)}
-                                onSubmitEditing={() => passRef.current.focus()}
-                                borderType={"roundBottom"}
-                            />
-                            <View style={styles.divider} />
-                            <AuthInput
-                                ref={passRef}
-                                placeholder='Password'
-                                icon={Images.ic_password}
-                                value={password}
-                                onChangeText={(v) => setPassword(v)}
-                                onSubmitEditing={() => confirmPassRef.current.focus()}
-                                borderType={"roundBottom"}
-                                secureTextEntry={true}
-                            />
-                            <View style={styles.divider} />
-                            <AuthInput
-                                ref={confirmPassRef}
-                                placeholder='Confirm Password'
-                                icon={Images.ic_password}
-                                value={confirmPassword}
-                                onChangeText={(v) => setConfirmPassword(v)}
-                                borderType={"roundBottom"}
-                                secureTextEntry={true}
                             />
                         </ScrollView>
                     </View>
                     <View style={styles.footer}>
                         <View style={styles.loginWrapper}>
                             <OutlineButton
-                                title="Sign Up"
-                                loading={loading}
+                                title="Apply"
+                                loading={isLoading}
                                 onPress={() => {
                                     if (error == '') {
                                         const formData = new FormData();
@@ -304,12 +231,11 @@ const SignUpScreen = ({ navigation }) => {
                                         };
                                         formData.append('first_name', firstName);
                                         formData.append('last_name', lastName);
-                                        formData.append('email', email);
-                                        formData.append('password', password);
+                                        formData.append('userid', userProfile.result.id);
                                         let params = {
                                             body: formData
                                         };
-                                        signup(params);
+                                        updateProfile(params);
                                         console.log("you clicked the signup button")
                                     } else {
                                         Toast.show({
@@ -318,15 +244,6 @@ const SignUpScreen = ({ navigation }) => {
                                             text2: error
                                         })
                                     }
-                                }}
-                            />
-                        </View>
-                        <View style={styles.noteWrapper}>
-                            <Text style={styles.noteText}>{'Have an account?'} </Text>
-                            <LinkButton
-                                title="Log in here."
-                                onPress={() => {
-                                    navigation.navigate("SignIn");
                                 }}
                             />
                         </View>
@@ -365,4 +282,4 @@ const SignUpScreen = ({ navigation }) => {
     );
 };
 
-export default SignUpScreen;
+export default EditProfileScreen;

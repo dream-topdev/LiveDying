@@ -78,10 +78,20 @@ export const AuthProvider = ({ children }) => {
 
   const { mutate: signup } = useMutation(API.signup, {
     onSuccess: (data) => {
-
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: data.message
+      })
+      setLoading(false);
     },
     onError: (data) => {
-
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry',
+        text2: data.message
+      })
+      setLoading(false);
     }
   })
   return (
@@ -130,18 +140,13 @@ export const AuthProvider = ({ children }) => {
             });
           }
         },
-        signup: async (displayName, email, password) => {
+        signup: async (params) => {
           setLoading(true);
           try {
-            await auth().createUserWithEmailAndPassword(email, password)
-              .then((credential) => {
-                credential.user
-                  .updateProfile({ displayName: displayName })
-              })
+            signup(params)
           } catch (e) {
             console.error(e);
           }
-          setLoading(false);
         },
         logout: async () => {
           try {

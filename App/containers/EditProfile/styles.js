@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
     height: scale(19)
   },
   inputForm: {
-    flex: 1,
+    // flex: 1,
     width: '100%',
   },
   avatarWrapper: {
@@ -74,10 +74,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   avatar: {
-    height: scale(100),
-    width: scale(100),
-    overflow: 'hidden',
-    alignSelf: 'center',
+    borderWidth: scale(2),
+    width: scale(120),
+    height: scale(120),
+    alignSelf: 'center'
   },
   editAvatarWrapper: {
     justifyContent: 'center',

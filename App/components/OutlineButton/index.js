@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { forwardRef } from 'react';
 import {
 	Text,
 	TouchableOpacity,
@@ -9,10 +9,12 @@ import PropTypes from 'prop-types';
 import { styles } from './styles';
 import Colors from '../../utils/Colors';
 import { scale } from '../../utils/scale';
+import propTypes from 'prop-types';
 
 
 const defaultLoadingContent = < ActivityIndicator size="small" color="white" />;
-const OutlineButton = ({ title,
+const OutlineButton = forwardRef(({
+	title,
 	loading,
 	onPress,
 	addIcon = false,
@@ -20,12 +22,13 @@ const OutlineButton = ({ title,
 	loadingContent = defaultLoadingContent,
 	backColor = Colors.primaryColor,
 	color = Colors.white
-}) => {
+}, ref) => {
 	return (
 		<TouchableOpacity
 			style={[styles.container, { backgroundColor: backColor }]}
 			disabled={loading}
 			onPress={onPress}
+			ref={ref}
 		>
 			{loading ? (
 				loadingContent
@@ -40,7 +43,7 @@ const OutlineButton = ({ title,
 							style={{
 								borderColor: Colors.white,
 								width: 24,
-								height:24,
+								height: 24,
 								borderRadius: 12,
 								borderWidth: 2,
 								left: scale(40)
@@ -52,7 +55,7 @@ const OutlineButton = ({ title,
 			)}
 		</TouchableOpacity>
 	);
-};
+});
 
 OutlineButton.propTypes = {
 	title: PropTypes.string,
@@ -60,7 +63,8 @@ OutlineButton.propTypes = {
 	addIcon: PropTypes.bool,
 	iconSource: PropTypes.any,
 	onPress: PropTypes.func.isRequired,
-	loadingContent: PropTypes.any
+	loadingContent: PropTypes.any,
+	ref: PropTypes.any
 }
 
 export default OutlineButton;

@@ -1,20 +1,26 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useState, useCallback } from 'react';
 import {
     View,
     Text,
     Image,
+    PermissionsAndroid,
     TouchableOpacity
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { styles } from './styles';
+import Modal from "react-native-modal";
 import Images from '../../utils/Images';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../AuthProvider';
+import IconButton from '../../components/IconButton';
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
-const SettingScreen = ({ }) => {
+
+const SettingScreen = ({ navigation }) => {
     const { userProfile, logout } = useContext(AuthContext);
     const userid = userProfile.result.id;
-    console.log(userid);
+    const [avatar, setAvatar] = useState(userProfile.result.avatar)
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -32,7 +38,7 @@ const SettingScreen = ({ }) => {
                             <View style={styles.avatarWrapper}>
                                 <Image
                                     style={styles.avatar}
-                                    source={{ uri: 'https://api.lorem.space/image/face?w=450&amp;amp;amp;amp;h=660' }}
+                                    source={{ uri: avatar }}
                                     resizeMode={'contain'}
                                 />
                             </View>
@@ -50,7 +56,12 @@ const SettingScreen = ({ }) => {
                                 <View style={styles.horizontal} />
                                 <View style={styles.settingWrapper}>
                                     <View style={styles.setting}>
-                                        <TouchableOpacity style={styles.settingItem}>
+                                        <TouchableOpacity
+                                            style={styles.settingItem}
+                                            onPress={() => {
+                                                navigation.navigate('EditProfile');
+                                            }}
+                                        >
                                             <Image
                                                 style={styles.settingIcon}
                                                 source={Images.ic_user}
@@ -81,7 +92,6 @@ const SettingScreen = ({ }) => {
                             </View>
                         </View>
                     </View>
-
                 </View>
             </KeyboardAwareScrollView>
         </View>

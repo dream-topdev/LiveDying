@@ -287,11 +287,57 @@ export const styles = StyleSheet.create({
         marginTop: scale(20),
         width: scale(120),
         height: scale(120),
+        justifyContent: 'center'
     },
     avatar: {
         borderWidth: scale(2),
         width: scale(120),
         height: scale(120),
+        alignSelf: 'center'
+    },
+    editAvatarWrapper: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.secondaryColor,
+        width: scale(30),
+        height: scale(30),
+        top: scale(-35),
+        right: scale(-35),
+        borderRadius: scale(20),
+        borderColor: Colors.primaryColor,
+        borderWidth: 4,
+    },
+    modalStyle: {
+        backgroundColor: Colors.white,
+        paddingHorizontal: scale(21),
+        paddingVertical: scale(35),
+        borderRadius: scale(8),
+        position: 'relative'
+    },
+    playCircle: {
+        borderRadius: scale(15),
+        width: scale(30),
+        height: scale(30),
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        right: scale(10),
+        top: scale(10)
+    },
+    modalBody: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        marginVertical: scale(20)
+    },
+    iconWrapper: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    iconContent: {
+        marginTop: scale(20),
+        fontSize: scale(18)
     },
     inputForm: {
         width: '100%',

@@ -17,6 +17,7 @@ import { styles } from './styles';
 import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
 import DurationModal from '../../components/DurationModal';
+import MonthPicker from 'react-native-month-year-picker';
 import { useQuery } from "react-query";
 import API from '../../services/API';
 import moment from 'moment';
@@ -91,7 +92,7 @@ const ProfileScreen = ({ navigation }) => {
                     resizeMode={'contain'}
                 />
             </View>
-            <KeyboardAwareScrollView style={{ flex: 1 }}>
+            <KeyboardAwareScrollView >
                 <View style={styles.containerInner}>
                     <View style={styles.inputForm}>
                         <ScrollView>

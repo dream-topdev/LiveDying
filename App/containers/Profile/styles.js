@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
   containerInner: {
     alignItems: 'center',
     position: 'relative',
-    flex: 1,
+    // flex: 1,
     minHeight: scale(610),
     paddingHorizontal: scale(27),
     width: '100%',
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: scale(27),
   },
   inputForm: {
-    flex: 1,
+    // flex: 1,
     width: '100%',
     marginTop: scale(74)
   },

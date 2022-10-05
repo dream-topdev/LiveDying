@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { forwardRef } from 'react';
 import {
     Image,
     View,
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { styles } from './styles';
 import Colors from '../../utils/Colors';
 
-const AuthInput = ({ placeholder, icon, value, onChangeText, borderType, secureTextEntry }) => {
+const AuthInput = forwardRef(({ placeholder, icon, value, onChangeText, borderType, secureTextEntry, onSubmitEditing }, ref) => {
 
     return (
         <View style={styles.container}>
@@ -28,10 +28,12 @@ const AuthInput = ({ placeholder, icon, value, onChangeText, borderType, secureT
                 numberOfLines={1}
                 value={value}
                 onChangeText={onChangeText}
+                onSubmitEditing={onSubmitEditing}
+                ref={ref}
             />
         </View>
     );
-};
+});
 
 AuthInput.propTypes = {
     placeholder: PropTypes.string,
@@ -39,7 +41,8 @@ AuthInput.propTypes = {
     value: PropTypes.string,
     onChangeText: PropTypes.func.isRequired,
     borderType: PropTypes.string,
-    secureTextEntry: PropTypes.bool
+    secureTextEntry: PropTypes.bool,
+    onSubmitEditing: PropTypes.func
 }
 
 export default AuthInput;

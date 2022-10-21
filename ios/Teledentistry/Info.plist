@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Teledentistry</string>
+	<string>LiveLikeYouAreDying</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,9 +19,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>APPL</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -37,8 +37,18 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>LiveLikeYouAreDying needs music access to upload music.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>LiveLikeYouAreDying needs calendar access to add ceremony schedules.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>LiveLikeYouAreDying needs camera access to capture and set ceremony images.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>LiveLikeYouAreDying needs micronphone access to record audio.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>LiveLikeYouAreDying needs camera access to save ceremony images.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>LiveLikeYouAreDying needs photo access to pick ceremony images.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Epilogue-Black</string>
@@ -62,6 +72,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>bluetooth-central</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
   containerInner: {
     alignItems: 'center',
     position: 'relative',
-    // flex: 1,
+    flex: 1,
     minHeight: scale(610),
     paddingHorizontal: scale(27),
     width: '100%',
@@ -23,12 +23,15 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: scale(40),
-    paddingHorizontal: scale(27),
+  },
+  songList: {
+    width: '100%',
+    flex: 1
   },
   inputForm: {
     flex: 1,
     width: '100%',
-    marginTop: scale(74)
+    marginTop: scale(20)
   },
   divider: {
     height: scale(14)

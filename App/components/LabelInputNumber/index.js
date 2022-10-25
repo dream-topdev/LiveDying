@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
     Text,
     TextInput,
-    TouchableOpacity,
     View,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -10,19 +9,15 @@ import { styles } from './styles';
 import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
 
-const InlineContainer = ({
+const LabelInputNumber = ({
+    value,
     title,
-    actionChild,
-    editable = false,
-    placeholder = '',
     onChangeText,
     backgroundColor = Colors.textInputBackground,
-    fontSize = 13,
+    fontSize = 16,
     borderRadius = 25,
     paddingRight = 17,
-    paddingLeft = 17,
-    multiline = true
-}) => {
+    paddingLeft = 17 }) => {
     return (
         <View
             style={[
@@ -34,36 +29,36 @@ const InlineContainer = ({
                     paddingRight: scale(paddingRight)
                 }]}
         >
-            <TextInput
-                editable={editable}
-                selectTextOnFocus={editable}
-                placeholder={placeholder}
-                onChangeText={(v) => onChangeText(v)}
-                multiline={multiline}
-                style={[
-                    styles.text,
-                    { fontSize: scale(fontSize) }
-                ]}
-            >
-                {title}
-            </TextInput>
-            {actionChild}
+            <Text style={styles.title}>{title}</Text>
+            <View style={{
+                paddingHorizontal: scale(10)
+            }}>
+                <TextInput
+                    keyboardType='numeric'
+                    defaultValue={'0'}
+                    value={value}
+                    onChangeText={onChangeText}
+                    maxLength={2}
+                    textAlign={'center'}
+                    style={[
+                        styles.text,
+                        { fontSize: scale(fontSize) }
+                    ]}
+                />
+            </View>
         </View>
     );
 };
 
-InlineContainer.propTypes = {
+LabelInputNumber.propTypes = {
     title: PropTypes.string,
-    actionChild: PropTypes.object,
     backgroundColor: PropTypes.string,
     fontSize: PropTypes.number,
     borderRadius: PropTypes.number,
     paddingleq: PropTypes.number,
     paddingRight: PropTypes.number,
-    editable: PropTypes.bool,
-    placeholder: PropTypes.string,
     onChangeText: PropTypes.func,
-    multiline: PropTypes.bool
+    value: PropTypes.string
 }
 
-export default InlineContainer;
+export default LabelInputNumber;

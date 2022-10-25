@@ -20,6 +20,26 @@ export default {
   ic_gallery: require('./../assets/images/gallery.png'),
   ic_recording: require('./../assets/images/recording.png'),
   ic_calendar: require('./../assets/images/calendar.png'),
+
+  ic_gender: require('./../assets/images/gender.png'),
+  ic_race: require('./../assets/images/race.png'),
+  ic_education: require('./../assets/images/education.png'),
+  ic_married: require('./../assets/images/married.png'),
+  ic_height: require('./../assets/images/height.png'),
+  ic_weight: require('./../assets/images/weight.png'),
+  ic_exercise: require('./../assets/images/exercise.png'),
+  ic_health: require('./../assets/images/health.png'),
+  ic_alcohol: require('./../assets/images/alcohol.png'),
+  ic_smoke: require('./../assets/images/smoke.png'),
+  ic_no_smoke: require('./../assets/images/no_smoke.png'),
+  
+  ic_underweight: require('./../assets/images/underweight.png'),
+  ic_normal: require('./../assets/images/normal.png'),
+  ic_overweight: require('./../assets/images/overweight.png'),
+  ic_obese: require('./../assets/images/obese.png'),
+  ic_extremely_obese: require('./../assets/images/extremely_obese.png'),
+
+
   ic_running: require('./../assets/images/running.png'),
   ic_alarm: require('./../assets/images/alarm.png'),
   ic_alarm_disable: require('./../assets/images/alarm_disable.png'),

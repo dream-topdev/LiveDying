@@ -17,6 +17,7 @@ const youtubeApiPrefix = 'youtube/v3/search';
 class API {
   login = async (params) => {
     const response = await apiInstance.post(`${apiPrefix}/user/login`, params);
+    console.log('api call result ', response.data)
     return response.data;
   };
   signup = async (params) => {
@@ -53,6 +54,20 @@ class API {
     const response = await apiInstance.get(`${apiPrefix}/topwish/${id}`);
     return response.data;
   };
+  postTopWishById = async (params) => {
+    const userid = params.userId;
+    const body = params.body;
+    console.log(body);
+    const response = await apiInstance.post(`${apiPrefix}/topwish/${userid}`, body);
+    return response.data;
+  }
+  putUpdateTopWishById = async (params) => {
+    console.log('this is furn ctqiDfadsfjlasdhf;asldkjf');
+    const userid = params.userId;
+    const body = params.body;
+    const response = await apiInstance.put(`${apiPrefix}/topwish/${userid}`, body);
+    return response.data;
+  }
   // get uploaded file 
   getMediaByUserId = async (userid, to, type) => {
     const response = await apiInstance.get(`${apiPrefix}/file/${userid}/${to}/${type}`);
@@ -184,6 +199,13 @@ class API {
     const body = parmas.body;
     console.log('api puchase ', body);
     const response = await apiInstance.post(`${apiPrefix}/share/purchase`, body);
+    return response.data;
+  }
+  postCalculateLifeSpan = async (params) => {
+    const body = params.body;
+    const userid = params.userid;
+    console.log("body,  userid", body, userid);
+    const response = await apiInstance.post(`${apiPrefix}/lifespan/calc/${userid}`, body);
     return response.data;
   }
 }

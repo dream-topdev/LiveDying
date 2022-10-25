@@ -6,19 +6,23 @@ import {
     Image
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
-import OutlineButton from '../../components/OutlineButton';
-import { styles } from './styles';
-import Images from '../../utils/Images';
-import API from '../../services/API';
-import Colors from '../../utils/Colors';
-import TestReminderModal from '../../components/TestReminderModal';
 import { useQuery } from 'react-query';
+
+import OutlineButton from '../../components/OutlineButton';
+import TestReminderModal from '../../components/TestReminderModal';
+
+import { AuthContext } from '../../AuthProvider';
+import API from '../../services/API';
+import { styles } from './styles';
+
+import { scale } from '../../utils/scale';
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
 
 
 const TopWishOutScreen = ({ navigation }) => {
 
-    const { userProfile,notification } = useContext(AuthContext);
+    const { userProfile, notification } = useContext(AuthContext);
     const userId = userProfile.result.id;
     // const notification = userProfile.result.is_reminder;
     console.log(notification);
@@ -63,42 +67,55 @@ const TopWishOutScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-                <View style={styles.containerInner}>
-                    <Image
-                        source={Images.ic_full_logo}
-                        style={styles.logo}
-                        resizeMode={'contain'}
-                    />
+            <View style={styles.containerInner}>
+                <KeyboardAwareScrollView style={{ flex: 1 }} >
+                    <View style={styles.header}>
+                        <Text style={styles.headerInner}>{'Top wish'}</Text>
+                        <Image
+                            source={Images.ic_logo}
+                            style={styles.logo}
+                            resizeMode={'contain'}
+                        />
+                    </View>
                     <View style={styles.message}>
                         <Text style={styles.notetext}>{"5 Things you still want to do in your life?"}</Text>
                         {topWishList.map((item) => (
                             <Text key={item.id} style={styles.plannote}>{item.content}</Text>
                         ))}
                     </View>
-                    <View style={styles.testReminderWrapper}>
-                        <OutlineButton
-                            title="Text reminders"
-                            addIcon={true}
-                            iconSource={!!+notification ? Images.ic_clock : Images.ic_clock_disable}
-                            loading={false}
-                            backColor={Colors.secondaryColor}
-                            onPress={() => {
-                                setTestReminderModal(true);
-                            }}
-                        />
-                    </View>
-                    <View style={styles.loginWrapper}>
-                        <OutlineButton
-                            title="Next"
-                            loading={false}
-                            onPress={() => {
-                                navigation.navigate('PlanMessage')
-                            }}
-                        />
-                    </View>
+                </KeyboardAwareScrollView>
+                <View style={styles.editTopWish}>
+                    <OutlineButton
+                        title="Edit"
+                        loading={false}
+                        onPress={() => {
+                            navigation.navigate('TopWishIn')
+                        }}
+                    />
                 </View>
-            </KeyboardAwareScrollView>
+                <View style={styles.testReminderWrapper}>
+                    <OutlineButton
+                        title="Text reminders"
+                        addIcon={true}
+                        iconSource={!!+notification ? Images.ic_clock : Images.ic_clock_disable}
+                        loading={false}
+                        backColor={Colors.secondaryColor}
+                        onPress={() => {
+                            setTestReminderModal(true);
+                        }}
+                    />
+                </View>
+                <View style={styles.loginWrapper}>
+                    <OutlineButton
+                        title="Next"
+                        loading={false}
+                        onPress={() => {
+                            navigation.navigate('PlanMessage')
+                        }}
+                    />
+                </View>
+
+            </View>
             <TestReminderModal
                 visible={testReminderModal}
                 notification={notificationToggle}

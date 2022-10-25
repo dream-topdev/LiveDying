@@ -2,8 +2,6 @@ import { StyleSheet, Dimensions } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
 import { scale, scaleVertical } from '../../utils/scale';
-import { textScale } from '../../utils/textUtil';
-import { getDeviceHeight } from '../../utils/extension';
 
 export const styles = StyleSheet.create({
     container: {
@@ -18,9 +16,16 @@ export const styles = StyleSheet.create({
         paddingHorizontal: scale(27),
         width: '100%',
     },
+    header: {
+        // width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: scale(40),
+    },
     message: {
         width: '100%',
-        marginTop: scale(50),
+        marginTop: scale(20),
         paddingHorizontal: scale(25),
         paddingVertical: scale(25),
         borderRadius: scale(20),
@@ -33,6 +38,11 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: scale(12),
         elevation: scale(5),
+    },
+    headerInner: {
+        fontFamily: Fonts.EpilogueBold,
+        fontSize: scale(30),
+        color: Colors.black,
     },
     notetext: {
         fontFamily: Fonts.EpilogueBold,
@@ -66,7 +76,7 @@ export const styles = StyleSheet.create({
         fontSize: scale(18),
         color: Colors.primaryTextColor,
         lineHeight: scale(27),
-        marginTop: 15
+        marginTop: scale(15)
     },
     eventhint: {
         width: '100%',
@@ -97,9 +107,8 @@ export const styles = StyleSheet.create({
         opacity: 0.1
     },
     logo: {
-        marginTop: scale(46),
-        width: scale(246),
-        height: scale(130),
+        width: scale(60),
+        height: scale(60),
     },
     inputForm: {
         width: '100%',
@@ -108,12 +117,17 @@ export const styles = StyleSheet.create({
     divider: {
         height: scale(18)
     },
-    testReminderWrapper: {
+    editTopWish: {
         width: '100%',
-        flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginBottom: scale(20),
+        marginTop: scale(20),
+    },
+    testReminderWrapper: {
+        width: '100%',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginVertical: scale(20),
     },
     loginWrapper: {
         width: '100%',

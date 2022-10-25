@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
     flex: 1,
-    minHeight: scale(610),
+    // minHeight: scale(610),
     paddingHorizontal: scale(27),
     width: '100%',
   },

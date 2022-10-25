@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 import API from './services/API';
 import { useMutation } from 'react-query';
@@ -23,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const { mutate: fetchProfile } = useMutation(API.getProfileById, {
     onSuccess: (data) => {
       console.log('======>', data);
-      setUserProfile({ result: data });
+      setUserProfile(data);
       setNotification(data.is_reminder);
       setLoading(false);
     },
@@ -40,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   const { mutate: fetchFriendProfile } = useMutation(API.getProfileById, {
     onSuccess: (data) => {
       console.log('fetch profile <======>', data);
-      setFriendProfile({ result: data });
+      setFriendProfile(data);
       setLoading(false);
     },
     onError: () => {
@@ -60,6 +59,7 @@ export const AuthProvider = ({ children }) => {
         text1: 'Welcome',
         text2: data.message + '👋'
       });
+      console.log('AAAAAAAAAAAA', data)
       if (data.result.id !== undefined) {
         setUserProfile(data);
         setNotification(data.result.is_reminder);

@@ -21,11 +21,20 @@ const OutlineButton = forwardRef(({
 	iconSource,
 	loadingContent = defaultLoadingContent,
 	backColor = Colors.primaryColor,
-	color = Colors.white
+	color = Colors.white,
+	width = '100%',
+	height = scale(40),
+	active = true
 }, ref) => {
 	return (
 		<TouchableOpacity
-			style={[styles.container, { backgroundColor: backColor }]}
+			style={[
+				styles.container,
+				{
+					backgroundColor: active ? backColor : Colors.textInputPlacholder,
+					width,
+					height: scale(height)
+				}]}
 			disabled={loading}
 			onPress={onPress}
 			ref={ref}
@@ -64,7 +73,10 @@ OutlineButton.propTypes = {
 	iconSource: PropTypes.any,
 	onPress: PropTypes.func.isRequired,
 	loadingContent: PropTypes.any,
-	ref: PropTypes.any
+	ref: PropTypes.any,
+	widht: PropTypes.string,
+	height: PropTypes.number,
+	active: PropTypes.bool
 }
 
 export default OutlineButton;

@@ -16,35 +16,33 @@ import API from '../../services/API';
 
 
 const LifeSpanScreen = ({ navigation }) => {
-    // const { loading, login } = useContext(AuthContext);
-    const { userProfile } = useContext(AuthContext);
+    const { loading, userProfile } = useContext(AuthContext);
     const userId = userProfile.result.id;
-    console.log(`Current user is ${userId}`)
-    const { data, status, isLoading } = useQuery(["getProfileById", userId], () => API.getProfileById(userId));
-    const [lifeSpan, setLifeSpan] = useState(81);
+    console.log('user id', userId)
+    const lifeSpan = parseInt(userProfile.result.lifespan).toFixed();
+    const topwish = userProfile.topwish;
+    console.log('life span is like this', userId, lifeSpan, topwish);
     const [meaning, setMeaning] = useState([]);
     const [eventHint, setEventHint] = useState('');
-    const [shareMessage, setShareMessage] = useState('Share what you are planning to do over the next 24 years')
+    const shareMessage = 'Share what you are planning to do over the next 24 years';
 
     useEffect(() => {
-        if (data != null && status == 'success') {
-            const temp = data.birthday.split('-');
-            const birthYear = parseInt(temp[0]);
-            const spentLife = new Date().getFullYear() - birthYear;
-            const leaveLife = lifeSpan - spentLife;
+        const temp = userProfile.result.birthday.split('-');
+        const birthYear = parseInt(temp[0]);
+        const spentLife = new Date().getFullYear() - birthYear;
+        const leaveLife = lifeSpan - spentLife;
 
-            let meanList = [
-                leaveLife + ' more Birthdays',
-                leaveLife + ' more New Year Eves',
-                leaveLife + ' more  July 4th Fireworks',
-                leaveLife + ' more Super Bowls'
-            ];
-            setMeaning(meanList);
-            setEventHint('To put in perspective ' + leaveLife + ' years ago was ' + (new Date().getFullYear() - leaveLife) + '. What happened in that year ? ')
-        }
-    }, [data])
+        let meanList = [
+            leaveLife + ' more Birthdays',
+            leaveLife + ' more New Year Eves',
+            leaveLife + ' more  July 4th Fireworks',
+            leaveLife + ' more Super Bowls'
+        ];
+        setMeaning(meanList);
+        setEventHint('To put in perspective ' + leaveLife + ' years ago was ' + (new Date().getFullYear() - leaveLife) + '. What happened in that year ? ')
+    }, [])
 
-    if (isLoading)
+    if (loading)
         return (
             <View
                 style={{
@@ -99,7 +97,11 @@ const LifeSpanScreen = ({ navigation }) => {
                             title="Next"
                             loading={false}
                             onPress={() => {
-                                navigation.navigate('TopWishIn');
+                                if (topwish.length < 5) {
+                                    navigation.navigate('TopWishIn');
+                                } else {
+                                    navigation.navigate('TopWishOut');
+                                }
                             }}
                         />
                     </View>

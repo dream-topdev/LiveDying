@@ -33,6 +33,7 @@ import SharedLifeVideoScreen from '../containers/SharedLifeVideo';
 import SettingScreen from '../containers/Setting';
 import PaymentScreen from '../containers/Payment';
 import EditProfileScreen from '../containers/EditProfile';
+import { styles } from './styles';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

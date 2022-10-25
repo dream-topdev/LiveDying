@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: scale(27)
   },
   footer: {
+    flex: 1,
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'flex-end'

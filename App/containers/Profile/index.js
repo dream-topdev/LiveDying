@@ -104,9 +104,9 @@ const ProfileScreen = ({ navigation }) => {
                                 actionChild={
                                     <IconButton
                                         icon={Images.ic_calendar}
-                                        width={scale(21)}
-                                        height={scale(24)}
-                                        marginRight={12}
+                                        width={scale(32)}
+                                        height={scale(36)}
+                                        marginRight={8}
                                         disabled={false}
                                         onPress={() => { setYearModal(true) }}
                                     />
@@ -117,9 +117,10 @@ const ProfileScreen = ({ navigation }) => {
                                 title="Do you smoke?"
                                 actionChild={
                                     <Switch
+                                        style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
                                         trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
                                         thumbColor={Colors.white}
-                                        ios_backgroundColor={Colors.primaryColor}
+                                        ios_backgroundColor={Colors.textInputPlacholder}
                                         disabled={false}
                                         onValueChange={() => {
                                             setSmoke(!smoke)
@@ -133,9 +134,10 @@ const ProfileScreen = ({ navigation }) => {
                                 title="Are you healthy?"
                                 actionChild={
                                     <Switch
+                                        style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
                                         trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
                                         thumbColor={Colors.white}
-                                        ios_backgroundColor={Colors.primaryColor}
+                                        ios_backgroundColor={Colors.textInputPlacholder}
                                         disabled={false}
                                         onValueChange={() => { setIsHealthy(!isHealthy) }}
                                         value={isHealthy}
@@ -147,9 +149,10 @@ const ProfileScreen = ({ navigation }) => {
                                 title="Relatives with heart disease?"
                                 actionChild={
                                     <Switch
+                                        style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }}
                                         trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
                                         thumbColor={Colors.white}
-                                        ios_backgroundColor={Colors.primaryColor}
+                                        ios_backgroundColor={Colors.textInputPlacholder}
                                         onValueChange={() => { setHaveHeartDisease(!haveHeartDisease) }}
                                         disabled={false}
                                         value={haveHeartDisease}
@@ -165,9 +168,9 @@ const ProfileScreen = ({ navigation }) => {
                                 actionChild={
                                     <IconButton
                                         icon={Images.ic_running}
-                                        width={scale(21)}
-                                        height={scale(24)}
-                                        marginRight={12}
+                                        width={scale(36)}
+                                        height={scale(36)}
+                                        marginRight={5}
                                         disabled={false}
                                         onPress={() => { setDurationModal(true) }}
                                     />

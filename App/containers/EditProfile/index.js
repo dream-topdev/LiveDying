@@ -5,6 +5,7 @@ import {
     Text,
     ScrollView,
     PermissionsAndroid,
+    Platform,
     TouchableOpacity
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,6 +24,7 @@ import Colors from '../../utils/Colors';
 import { scale } from '../../utils/scale';
 import { useMutation } from 'react-query';
 import API from '../../services/API';
+import { request, PERMISSIONS, RESULTS, check } from 'react-native-permissions';
 
 const includeExtra = true;
 const SelectionModal = ({ visible, onClose, onClickCamera, onClickGallery }) => {
@@ -110,20 +112,46 @@ const EditProfileScreen = ({ navigation }) => {
     }, [firstName, lastName])
     const requestCameraPermission = async () => {
         try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.CAMERA,
-                {
-                    title: "App Camera Permission",
-                    message: "App needs access to your camera ",
-                    buttonNeutral: "Ask Me Later",
-                    buttonNegative: "Cancel",
-                    buttonPositive: "OK"
-                }
+            let granted;
+            const response = await check(
+                Platform.select({
+                    ios: PERMISSIONS.IOS.CAMERA,
+                    android: PERMISSIONS.ANDROID.CAMERA,
+                })
             );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log("Camera permission given");
+            if (Platform.OS == 'android') {
+                granted = await PermissionsAndroid.request(
+
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    {
+                        title: "App Camera Permission",
+                        message: "App needs access to your camera ",
+                        buttonNeutral: "Ask Me Later",
+                        buttonNegative: "Cancel",
+                        buttonPositive: "OK"
+                    }
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    console.log("Camera permission given");
+                } else {
+                    console.log("Camera permission denied");
+                }
             } else {
-                console.log("Camera permission denied");
+                granted = await request(
+                    response,
+                    {
+                        title: "App Camera Permission",
+                        message: "App needs access to your camera ",
+                        buttonNeutral: "Ask Me Later",
+                        buttonNegative: "Cancel",
+                        buttonPositive: "OK"
+                    }
+                )
+                if (granted === RESULTS.GRANTED) {
+                    console.log("Camera permission given");
+                } else {
+                    console.log("Camera permission denied");
+                }
             }
         } catch (err) {
             console.warn(err);
@@ -131,7 +159,7 @@ const EditProfileScreen = ({ navigation }) => {
     };
     const onButtonPress = useCallback((type, options) => {
         if (type === 'capture') {
-            requestCameraPermission()
+            requestCameraPermission();
             launchCamera(options, (resp) => {
                 console.log(resp);
                 if (resp.assets !== null && resp.assets != undefined) {

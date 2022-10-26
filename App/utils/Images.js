@@ -16,7 +16,7 @@ export default {
   ic_options_vertical: require('./../assets/images/options-vertical.png'),
   ic_options_vertical_inactive: require('./../assets/images/options-vertical-inactive.png'),
   ic_seen: require('./../assets/images/Seen.png'),
-  ic_camera: require('./../assets/images/camera.png'),
+  ic_camera: require('./../assets/images/Camera.png'),
   ic_gallery: require('./../assets/images/gallery.png'),
   ic_recording: require('./../assets/images/recording.png'),
   ic_calendar: require('./../assets/images/calendar.png'),

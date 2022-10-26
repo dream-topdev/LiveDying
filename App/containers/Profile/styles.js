@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
     flex: 1
   },
   inputForm: {
+    flex: 1,
     width: '100%',
     marginTop: scale(20)
   },

@@ -119,13 +119,22 @@ const stringToBoolean = (str) => {
     }
 }
 
-const getAgeFromBirthdday = (birthday) => {
+const getAgeFromBirthday = (birthday) => {
     let birthDate = new Date(birthday);
     let now = new Date();
     let birthYear = birthDate.getFullYear();
     let thisYear = now.getFullYear();
     return thisYear - birthYear;
 }
+
+const showError = (message) => {
+    Toast.show({
+        type: 'error',
+        text1: 'Sorry',
+        text2: message
+    })
+}
+
 const Person = ({
     birthday,
     setBirthday,
@@ -149,8 +158,8 @@ const Person = ({
     setYearsSinceSpousePassing,
     isDivorced,
     setIsDivorced,
-    yearsOfDivorct,
-    setIearsOfDivorce
+    yearsOfDivorce,
+    setYearsOfDivorce
 
 }) => {
     const [yearModal, setYearModal] = useState(false);
@@ -170,137 +179,161 @@ const Person = ({
 
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView >
-                <View style={styles.inputForm}>
-                    <ScrollView>
-                        <InlineContainer
-                            title={birthday == undefined || birthday == ''
-                                ? 'Enter your birth date'
-                                : (moment(birthday).format('MMMM') + ', ' + new Date(birthday).getFullYear().toString())
-                            }
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_calendar}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    marginRight={12}
-                                    disabled={false}
-                                    onPress={() => { setYearModal(true) }}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
+            <View style={styles.inputForm}>
+                <ScrollView>
+                    <InlineContainer
+                        title={birthday == undefined || birthday == ''
+                            ? 'Enter your birth date'
+                            : (moment(birthday).format('MMMM') + ', ' + new Date(birthday).getFullYear().toString())
+                        }
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_calendar}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={false}
+                                onPress={() => { setYearModal(true) }}
+                            />
+                        }
+                    />
+                    <View style={styles.divider} />
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        paddingRight: scale(20),
+                        paddingVertical: scale(5),
+                        backgroundColor: Colors.textInputBackground,
+                        borderRadius: scale(25)
+                    }}>
+                        <View style={{
+                            flex: 6,
+                            flexDirection: 'row',
+                            justifyContent: 'space-around',
+                            alignItems: 'center',
+                            paddingHorizontal: scale(10)
+                        }}>
+                            <OutlineButton
+                                title={'Male'}
+                                active={gender}
+                                onPress={() => setGender(true)}
+                                width={'45%'}
+                                height={40}
+                            />
+                            <OutlineButton
+                                title={'Female'}
+                                active={!gender}
+                                onPress={() => setGender(false)}
+                                width={'45%'}
+                                height={40}
+                            />
+                        </View>
                         <View style={{
                             flex: 1,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            justifyContent: 'center',
                             alignItems: 'center',
-                            paddingRight: scale(20),
-                            paddingVertical: scale(5),
-                            backgroundColor: Colors.textInputBackground,
-                            borderRadius: scale(25)
                         }}>
-                            <View style={{
-                                flex: 6,
-                                flexDirection: 'row',
-                                justifyContent: 'space-around',
-                                alignItems: 'center',
-                                paddingHorizontal: scale(10)
-                            }}>
-                                <OutlineButton
-                                    title={'Male'}
-                                    active={gender}
-                                    onPress={() => setGender(true)}
-                                    width={'45%'}
-                                    height={40}
-                                />
-                                <OutlineButton
-                                    title={'Female'}
-                                    active={!gender}
-                                    onPress={() => setGender(false)}
-                                    width={'45%'}
-                                    height={40}
-                                />
-                            </View>
-                            <View style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
-                                <IconButton
-                                    icon={Images.ic_gender}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    disabled
-                                />
-                            </View>
+                            <IconButton
+                                icon={Images.ic_gender}
+                                width={scale(21)}
+                                height={scale(24)}
+                                disabled
+                            />
                         </View>
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title={race}
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_race}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    marginRight={12}
-                                    disabled={false}
-                                    onPress={async () => {
-                                        await setSelectionTitle(proPertyList.race.title);
-                                        await setActiveItem(race);
-                                        await setItemList(proPertyList.race.content);
-                                        await setSelectionModal(true);
-                                    }}
-                                />
-                            }
+                    </View>
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title={(race == undefined || race == '') ? proPertyList.race.title : race}
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_race}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={false}
+                                onPress={async () => {
+                                    await setSelectionTitle(proPertyList.race.title);
+                                    await setActiveItem(race);
+                                    await setItemList(proPertyList.race.content);
+                                    await setSelectionModal(true);
+                                }}
+                            />
+                        }
+                    />
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title={education == undefined || education == '' ? proPertyList.education.title : education}
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_education}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={false}
+                                onPress={async () => {
+                                    await setSelectionTitle(proPertyList.education.title);
+                                    await setActiveItem(education);
+                                    await setItemList(proPertyList.education.content);
+                                    await setSelectionModal(true);
+                                }}
+                            />
+                        }
+                    />
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title={maritalStatus == undefined || maritalStatus == '' ? proPertyList.maritalStatus.title : maritalStatus}
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_married}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={false}
+                                onPress={async () => {
+                                    await setSelectionTitle(proPertyList.maritalStatus.title);
+                                    await setActiveItem(maritalStatus);
+                                    await setItemList(proPertyList.maritalStatus.content);
+                                    await setSelectionModal(true);
+                                }}
+                            />
+                        }
+                    />
+                    <View style={styles.divider} />
+                    {isWidowed && (
+                        <LabelInputNumber
+                            title={"Years since ex-spouse passed:"}
+                            value={yearsSinceSpousePassing.toString()}
+                            onChangeText={(value) => {
+                                const re = /^[0-9\b]+$/;
+                                if (value !== '' && re.test(value)) {
+                                    setYearsSinceSpousePassing(parseInt(value));
+                                }
+                            }}
                         />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title={education}
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_education}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    marginRight={12}
-                                    disabled={false}
-                                    onPress={async () => {
-                                        await setSelectionTitle(proPertyList.education.title);
-                                        await setActiveItem(education);
-                                        await setItemList(proPertyList.education.content);
-                                        await setSelectionModal(true);
-                                    }}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title={maritalStatus == undefined || maritalStatus == '' ? (
-                                'Please select'
-                            ) : (
-                                maritalStatus
-                            )}
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_married}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    marginRight={12}
-                                    disabled={false}
-                                    onPress={async () => {
-                                        await setSelectionTitle(proPertyList.maritalStatus.title);
-                                        await setActiveItem(maritalStatus);
-                                        await setItemList(proPertyList.maritalStatus.content);
-                                        await setSelectionModal(true);
-                                    }}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
-                        {isWidowed && (
+                    )
+                    }
+                    {
+                        isDivorced && (
                             <LabelInputNumber
-                                title={"Years since ex-spouse passed:"}
-                                value={yearsSinceSpousePassing.toString()}
+                                title={"Years since divorce:"}
+                                value={yearsOfDivorce.toString()}
+                                onChangeText={(value) => {
+                                    const re = /^[0-9\b]+$/;
+                                    if (value !== '' && re.test(value)) {
+                                        setYearsOfDivorce(parseInt(value));
+                                    }
+                                }}
+                            />
+                        )
+                    }
+                    <View style={styles.divider} />
+                    {
+                        (isMarried || isDivorced || isWidowed) && (
+                            <LabelInputNumber
+                                title={isMarried ? "Years since current marriage/cohabitation began:" : "Length of marriage in years:"}
+                                value={yearsOfMarriage.toString()}
                                 onChangeText={(value) => {
                                     const re = /^[0-9\b]+$/;
                                     if (value !== '' && re.test(value)) {
@@ -309,39 +342,9 @@ const Person = ({
                                 }}
                             />
                         )
-                        }
-                        {
-                            isDivorced && (
-                                <LabelInputNumber
-                                    title={"Years since divorce:"}
-                                    value={yearsOfDivorce.toString()}
-                                    onChangeText={(value) => {
-                                        const re = /^[0-9\b]+$/;
-                                        if (value !== '' && re.test(value)) {
-                                            setYearsOfMarriage(parseInt(value));
-                                        }
-                                    }}
-                                />
-                            )
-                        }
-                        <View style={styles.divider} />
-                        {
-                            (isMarried || isDivorced || isWidowed) && (
-                                <LabelInputNumber
-                                    title={isMarried ? "Years since current marriage/cohabitation began:" : "Length of marriage in years:"}
-                                    value={yearsOfMarriage.toString()}
-                                    onChangeText={(value) => {
-                                        const re = /^[0-9\b]+$/;
-                                        if (value !== '' && re.test(value)) {
-                                            setYearsOfMarriage(parseInt(value));
-                                        }
-                                    }}
-                                />
-                            )
-                        }
-                    </ScrollView>
-                </View>
-            </KeyboardAwareScrollView >
+                    }
+                </ScrollView>
+            </View>
             {
                 yearModal &&
                 <MonthPicker
@@ -484,254 +487,257 @@ const Health = ({
             setBmi(0)
         }
     }, [weight, height, validWeight, validHeight])
-   
+
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView >
-                <View style={styles.inputForm}>
-                    <ScrollView>
+            <View style={styles.inputForm}>
+                <ScrollView>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }}>
                         <View style={{
-                            flexDirection: 'row',
+                            width: '70%',
+                            flexDirection: 'column',
                             justifyContent: 'space-between',
                             alignItems: 'center'
                         }}>
-                            <View style={{
-                                width: '70%',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
-                                alignItems: 'center'
-                            }}>
-                                <InlineContainer
-                                    title={height}
-                                    editable={true}
-                                    placeholder={'180(cm)'}
-                                    onChangeText={value => {
-                                        if (value == '') {
-                                            setValidHeight(false);
-                                        } else if (value == '0') {
-                                            setValidHeight(false)
-                                        } else if (!re.test(value)) {
-                                            setValidHeight(false);
-                                        } else {
-                                            setValidHeight(true);
-                                            setHeight(value);
-                                        }
-                                    }}
-                                    multiline={false}
-                                    actionChild={
-                                        <IconButton
-                                            icon={Images.ic_height}
-                                            width={scale(21)}
-                                            height={scale(24)}
-                                            marginRight={12}
-                                            disabled={true}
-                                        />
+                            <InlineContainer
+                                title={height}
+                                editable={true}
+                                placeholder={'180(cm)'}
+                                onChangeText={value => {
+                                    if (value == '') {
+                                        setValidHeight(false);
+                                    } else if (value == '0') {
+                                        setValidHeight(false)
+                                    } else if (!re.test(value)) {
+                                        setValidHeight(false);
+                                    } else {
+                                        setValidHeight(true);
+                                        setHeight(value);
                                     }
-                                />
-                                <View style={styles.divider} />
-                                <InlineContainer
-                                    title={weight.toString()}
-                                    editable={true}
-                                    placeholder={'80(Kg)'}
-                                    onChangeText={(value) => {
-                                        if (value == '') {
-                                            setValidWeight(false);
-                                        } else if (value == '0') {
-                                            setValidWeight(false)
-                                        } else if (!re.test(value)) {
-                                            2
-                                            setValidWeight(false);
-                                        } else {
-                                            setValidWeight(true);
-                                            setWeight(value);
-                                        }
-                                    }}
-                                    multiline={false}
-                                    actionChild={
-                                        <IconButton
-                                            icon={Images.ic_weight}
-                                            width={scale(21)}
-                                            height={scale(24)}
-                                            marginRight={12}
-                                            disabled={true}
-                                        />
+                                }}
+                                multiline={false}
+                                actionChild={
+                                    <IconButton
+                                        icon={Images.ic_height}
+                                        width={scale(21)}
+                                        height={scale(24)}
+                                        marginRight={12}
+                                        disabled={true}
+                                    />
+                                }
+                            />
+                            <View style={styles.divider} />
+                            <InlineContainer
+                                title={weight.toString()}
+                                editable={true}
+                                placeholder={'80(Kg)'}
+                                onChangeText={(value) => {
+                                    if (value == '') {
+                                        setValidWeight(false);
+                                    } else if (value == '0') {
+                                        setValidWeight(false)
+                                    } else if (!re.test(value)) {
+                                        2
+                                        setValidWeight(false);
+                                    } else {
+                                        setValidWeight(true);
+                                        setWeight(value);
                                     }
-                                />
-                            </View>
-                            <View style={{
-                                marginRight: scale(30)
-                            }}>
-                                <Image
-                                    source={iconUrl}
-                                />
-                            </View>
+                                }}
+                                multiline={false}
+                                actionChild={
+                                    <IconButton
+                                        icon={Images.ic_weight}
+                                        width={scale(21)}
+                                        height={scale(24)}
+                                        marginRight={12}
+                                        disabled={true}
+                                    />
+                                }
+                            />
                         </View>
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title={exercisePerWeek}
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_exercise}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    marginRight={12}
-                                    disabled={false}
-                                    onPress={async () => {
-                                        await setSelectionTitle(proPertyList.exercisePerWeek.title);
-                                        await setActiveItem(exercisePerWeek);
-                                        await setItemList(proPertyList.exercisePerWeek.content);
-                                        await setSelectionModal(true);
-                                    }}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title={healthRank}
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_health}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    marginRight={12}
-                                    disabled={false}
-                                    onPress={async () => {
-                                        await setSelectionTitle(proPertyList.healthRank.title);
-                                        await setActiveItem(healthRank);
-                                        await setItemList(proPertyList.healthRank.content);
-                                        await setSelectionModal(true);
-                                    }}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title="Do you have diabetes?"
-                            actionChild={
-                                <Switch
-                                    trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
-                                    thumbColor={Colors.white}
-                                    ios_backgroundColor={Colors.primaryColor}
-                                    disabled={false}
-                                    onValueChange={() => setCheckdiabetes(!checkdiabetes)}
-                                    value={checkdiabetes}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title="Are you currently diagnosed with a serious mental condition?"
-                            actionChild={
-                                <Switch
-                                    trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
-                                    thumbColor={Colors.white}
-                                    ios_backgroundColor={Colors.primaryColor}
-                                    disabled={false}
-                                    onValueChange={() => setCheckmental(!checkmental)}
-                                    value={checkmental}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title={alcoholPerWeek}
-                            actionChild={
-                                <IconButton
-                                    icon={Images.ic_alcohol}
-                                    width={scale(21)}
-                                    height={scale(24)}
-                                    marginRight={12}
-                                    disabled={false}
-                                    onPress={async () => {
-                                        await setSelectionTitle(proPertyList.alcoholPerWeek.title);
-                                        await setActiveItem(alcoholPerWeek);
-                                        await setItemList(proPertyList.alcoholPerWeek.content);
-                                        await setSelectionModal(true);
-                                    }}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
-                        <InlineContainer
-                            title="Have you ever smoked?"
-                            actionChild={
-                                <Switch
-                                    trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
-                                    thumbColor={Colors.white}
-                                    ios_backgroundColor={Colors.primaryColor}
-                                    onValueChange={() => { setChecksmoking(!checksmoking) }}
-                                    disabled={false}
-                                    value={checksmoking}
-                                />
-                            }
-                        />
-                        <View style={styles.divider} />
-                        {
-                            checksmoking && (
-                                <InlineContainer
-                                    title="Do you still smoke?                            "
-                                    actionChild={
-                                        <Switch
-                                            trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
-                                            thumbColor={Colors.white}
-                                            ios_backgroundColor={Colors.primaryColor}
-                                            onValueChange={() => { setCheckStillSmoking(!checkStillSmoking) }}
-                                            disabled={false}
-                                            value={checkStillSmoking}
-                                        />
-                                    }
-                                />
-                            )
+                        <View style={{
+                            marginRight: scale(30)
+                        }}>
+                            <Image
+                                source={iconUrl}
+                            />
+                        </View>
+                    </View>
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title={exercisePerWeek == undefined ? proPertyList.exercisePerWeek.title : exercisePerWeek}
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_exercise}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={false}
+                                onPress={async () => {
+                                    await setSelectionTitle(proPertyList.exercisePerWeek.title);
+                                    await setActiveItem(exercisePerWeek);
+                                    await setItemList(proPertyList.exercisePerWeek.content);
+                                    await setSelectionModal(true);
+                                }}
+                            />
                         }
-                        <View style={styles.divider} />
-                        {
-                            checksmoking && (
-                                <InlineContainer
-                                    title={kindOfSmoker}
-                                    actionChild={
-                                        <IconButton
-                                            icon={Images.ic_smoke}
-                                            width={scale(21)}
-                                            height={scale(24)}
-                                            marginRight={12}
-                                            disabled={false}
-                                            onPress={async () => {
-                                                await setSelectionTitle(checkStillSmoking ? proPertyList.kindOfSmoker.title.present : proPertyList.kindOfSmoker.past);
-                                                await setActiveItem(kindOfSmoker);
-                                                await setItemList(proPertyList.kindOfSmoker.content);
-                                                await setSelectionModal(true);
-                                            }}
-                                        />
-                                    }
-                                />
-                            )
+                    />
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title={healthRank == undefined ? proPertyList.healthRank.title : healthRank}
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_health}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={false}
+                                onPress={async () => {
+                                    await setSelectionTitle(proPertyList.healthRank.title);
+                                    await setActiveItem(healthRank);
+                                    await setItemList(proPertyList.healthRank.content);
+                                    await setSelectionModal(true);
+                                }}
+                            />
                         }
-                        <View style={styles.divider} />
-                        {
-                            checksmoking && !checkStillSmoking && (
-                                <InlineContainer
-                                    title={ageQuitSmoking}
-                                    actionChild={
-                                        <IconButton
-                                            icon={Images.ic_no_smoke}
-                                            width={scale(21)}
-                                            height={scale(24)}
-                                            marginRight={12}
-                                            disabled={false}
-                                            onPress={async () => {
-                                                await setSelectionTitle(proPertyList.ageQuitSmoking.title);
-                                                await setActiveItem(ageQuitSmoking);
-                                                await setItemList(proPertyList.ageQuitSmoking.content);
-                                                await setSelectionModal(true);
-                                            }}
-                                        />
-                                    }
-                                />
-                            )
+                    />
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title="Do you have diabetes?"
+                        actionChild={
+                            <Switch
+                                trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
+                                thumbColor={Colors.white}
+                                ios_backgroundColor={Colors.primaryColor}
+                                disabled={false}
+                                onValueChange={() => setCheckdiabetes(!checkdiabetes)}
+                                value={checkdiabetes}
+                            />
                         }
-                    </ScrollView>
-                </View>
-            </KeyboardAwareScrollView >
+                    />
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title="Are you currently diagnosed with a serious mental condition?"
+                        actionChild={
+                            <Switch
+                                trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
+                                thumbColor={Colors.white}
+                                ios_backgroundColor={Colors.primaryColor}
+                                disabled={false}
+                                onValueChange={() => setCheckmental(!checkmental)}
+                                value={checkmental}
+                            />
+                        }
+                    />
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title={alcoholPerWeek == undefined ? proPertyList.alcoholPerWeek.title : alcoholPerWeek}
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_alcohol}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={false}
+                                onPress={async () => {
+                                    await setSelectionTitle(proPertyList.alcoholPerWeek.title);
+                                    await setActiveItem(alcoholPerWeek);
+                                    await setItemList(proPertyList.alcoholPerWeek.content);
+                                    await setSelectionModal(true);
+                                }}
+                            />
+                        }
+                    />
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title="Have you ever smoked?"
+                        actionChild={
+                            <Switch
+                                trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
+                                thumbColor={Colors.white}
+                                ios_backgroundColor={Colors.primaryColor}
+                                onValueChange={() => { setChecksmoking(!checksmoking) }}
+                                disabled={false}
+                                value={checksmoking}
+                            />
+                        }
+                    />
+                    <View style={styles.divider} />
+                    {
+                        checksmoking && (
+                            <InlineContainer
+                                title="Do you still smoke?"
+                                actionChild={
+                                    <Switch
+                                        trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
+                                        thumbColor={Colors.white}
+                                        ios_backgroundColor={Colors.primaryColor}
+                                        onValueChange={() => { setCheckStillSmoking(!checkStillSmoking) }}
+                                        disabled={false}
+                                        value={checkStillSmoking}
+                                    />
+                                }
+                            />
+                        )
+                    }
+                    <View style={styles.divider} />
+                    {
+                        checksmoking && (
+                            <InlineContainer
+                                title={kindOfSmoker == undefined ? (proPertyList.kindOfSmoker.title.past) : kindOfSmoker}
+                                actionChild={
+                                    <IconButton
+                                        icon={Images.ic_smoke}
+                                        width={scale(21)}
+                                        height={scale(24)}
+                                        marginRight={12}
+                                        disabled={false}
+                                        onPress={() => {
+                                            console.log('check still smoking', typeof checkStillSmoking);
+                                            const present = proPertyList.kindOfSmoker.title.present;
+                                            const past = proPertyList.kindOfSmoker.title.past;
+                                            let kindOfSmokerTemp = checkStillSmoking ? present : past;
+                                            console.log("=================================", kindOfSmokerTemp)
+                                            setSelectionTitle(kindOfSmokerTemp);
+                                            setActiveItem(kindOfSmoker);
+                                            setItemList(proPertyList.kindOfSmoker.content);
+                                            setSelectionModal(true);
+                                        }}
+                                    />
+                                }
+                            />
+                        )
+                    }
+                    <View style={styles.divider} />
+                    {
+                        checksmoking && !checkStillSmoking && (
+                            <InlineContainer
+                                title={ageQuitSmoking == undefined ? proPertyList.ageQuitSmoking.title : ageQuitSmoking}
+                                actionChild={
+                                    <IconButton
+                                        icon={Images.ic_no_smoke}
+                                        width={scale(21)}
+                                        height={scale(24)}
+                                        marginRight={12}
+                                        disabled={false}
+                                        onPress={() => {
+                                            setSelectionTitle(proPertyList.ageQuitSmoking.title);
+                                            setActiveItem(ageQuitSmoking);
+                                            setItemList(proPertyList.ageQuitSmoking.content);
+                                            setSelectionModal(true);
+                                        }}
+                                    />
+                                }
+                            />
+                        )
+                    }
+                </ScrollView>
+            </View>
             <SelectionModal
                 visible={selectionModal}
                 itemList={itemList}
@@ -745,7 +751,7 @@ const Health = ({
                         setHealthRank(selectedItem);
                     } else if (titleKey.indexOf('alcohol') > -1) {
                         setAlcoholPerWeek(selectedItem);
-                    } else if (titleKey.indexOf('smokerare') > -1) {
+                    } else if (titleKey.indexOf('kind') > -1) {
                         setKindOfSmoker(selectedItem);
                     } else if (titleKey.indexOf('quit') > -1) {
                         setAgeQuitSmoking(selectedItem);
@@ -763,6 +769,7 @@ const Health = ({
 const ProfileScreen = ({ navigation }) => {
     const { userProfile, fetchProfile } = useContext(AuthContext)
     const userid = userProfile.result.id;
+    const person = userProfile.result;
     // tabview
     const [index, setIndex] = useState(0);
     const [routes] = useState([
@@ -789,36 +796,36 @@ const ProfileScreen = ({ navigation }) => {
         }
     })
     // person info
-    const [birthday, setBirthday] = useState('1997-05-01');
-    const [gender, setGender] = useState(true);
-    const [education, setEducation] = useState('Graduated high school/trade school');
-    const [race, setRace] = useState('White');
-    const [maritalStatus, setMaritalStatus] = useState('');
-    const [isSingle, setIsSingle] = useState(false);
-    const [isMarried, setIsMarried] = useState(false);
-    const [yearsOfMarriage, setYearsOfMarriage] = useState(0);
-    const [isWidowed, setIsWidowed] = useState(false);
-    const [yearsSinceSpousePassing, setYearsSinceSpousePassing] = useState(0);
-    const [isDivorced, setIsDivorced] = useState(false);
-    const [yearsOfDivorce, setIearsOfDivorce] = useState(0);
+    const [birthday, setBirthday] = useState(person.birthday);
+    const [gender, setGender] = useState(person.gender == 'male' ? true : false);
+    const [education, setEducation] = useState(person.education);
+    const [race, setRace] = useState(person.race);
+    const [maritalStatus, setMaritalStatus] = useState(person.marital_status);
+    const [isSingle, setIsSingle] = useState(stringToBoolean(person.is_single));
+    const [isMarried, setIsMarried] = useState(stringToBoolean(person.is_married));
+    const [yearsOfMarriage, setYearsOfMarriage] = useState(parseInt(person.years_of_marriage));
+    const [isWidowed, setIsWidowed] = useState(stringToBoolean(person.is_widowed));
+    const [yearsSinceSpousePassing, setYearsSinceSpousePassing] = useState(parseInt(person.years_since_spouse_passing));
+    const [isDivorced, setIsDivorced] = useState(stringToBoolean(person.is_divorced));
+    const [yearsOfDivorce, setIearsOfDivorce] = useState(parseInt(person.years_of_divorce));
     // health info
-    const [height, setHeight] = useState('180');
-    const [weight, setWeight] = useState('70');
-    const [bmi, setBmi] = useState(0);
-    const [validHeight, setValidHeight] = useState(false);
-    const [validWeight, setValidWeight] = useState(false);
-    const [validBMI, setValidBMI] = useState(false);
-    const [iconType, setIconType] = useState(null);
-    const [heightError, setHeightError] = useState('');
-    const [exercisePerWeek, setExercisePerWeek] = useState('Less than 2');
-    const [healthRank, setHealthRank] = useState('I am great health');
-    const [checkdiabetes, setCheckdiabetes] = useState(false);
-    const [checkmental, setCheckmental] = useState(false);
-    const [alcoholPerWeek, setAlcoholPerWeek] = useState('Less than 2');
-    const [checksmoking, setChecksmoking] = useState(false);
-    const [checkStillSmoking, setCheckStillSmoking] = useState(false);
-    const [kindOfSmoker, setKindOfSmoker] = useState('Average: between 10 and 20 cigarretes per day');
-    const [ageQuitSmoking, setAgeQuitSmoking] = useState('Before 25-35');
+    const [height, setHeight] = useState(person.height.toString());
+    const [weight, setWeight] = useState(person.weight.toString());
+    const [bmi, setBmi] = useState(parseInt(person.bmi));
+    const [validHeight, setValidHeight] = useState(stringToBoolean(person.valid_height));
+    const [validWeight, setValidWeight] = useState(stringToBoolean(person.valid_weight));
+    const [validBMI, setValidBMI] = useState(stringToBoolean(person.valid_bmi));
+    const [iconType, setIconType] = useState(person.icon_type);
+    const [heightError, setHeightError] = useState(person.height_error);
+    const [exercisePerWeek, setExercisePerWeek] = useState(person.exercise_per_week);
+    const [healthRank, setHealthRank] = useState(person.health_rank);
+    const [checkdiabetes, setCheckdiabetes] = useState(stringToBoolean(person.check_diabetes));
+    const [checkmental, setCheckmental] = useState(stringToBoolean(person.check_mental));
+    const [alcoholPerWeek, setAlcoholPerWeek] = useState(person.alcohol_per_week);
+    const [checksmoking, setChecksmoking] = useState(stringToBoolean(person.check_smoking));
+    const [checkStillSmoking, setCheckStillSmoking] = useState(stringToBoolean(person.check_still_smoking));
+    const [kindOfSmoker, setKindOfSmoker] = useState(person.kind_of_smoker);
+    const [ageQuitSmoking, setAgeQuitSmoking] = useState(person.age_quit_smoking);
 
     const renderScene = SceneMap({
         first: () => {
@@ -957,12 +964,19 @@ const ProfileScreen = ({ navigation }) => {
                         title="Click to see age you'll likely die"
                         loading={false}
                         onPress={() => {
+                            let birthdayTemp;
+                            if (typeof birthday == 'object') {
+                                birthdayTemp = birthday.toISOString();
+                            } else {
+                                birthdayTemp = birthday;
+                            }
+                            console.log(birthdayTemp.split('T')[0])
                             let params = {
                                 userid,
                                 body: {
                                     person: {
-                                        birthday,
-                                        age: getAgeFromBirthdday(birthday),
+                                        birthday: birthdayTemp.split('T')[0],
+                                        age: getAgeFromBirthday(birthday),
                                         gender: gender ? "male" : "female",
                                         education,
                                         race,
@@ -996,8 +1010,33 @@ const ProfileScreen = ({ navigation }) => {
                                     }
                                 }
                             };
-                            calculateLifeSpan(params);
-                            // navigation.navigate('LifeSpan');
+                            if (birthday == null) {
+                                showError('Enter your birthday.');
+                            } else if (race == null) {
+                                showError('Select your race.');
+                            } else if (education == null) {
+                                showError('Select your education status');
+                            } else if (maritalStatus == null) {
+                                showError('Select your marital status.');
+                            } else if (height == 0 || weight == 0) {
+                                showError('Please enter valid height and weight.');
+                            } else if (exercisePerWeek == null) {
+                                showError('Select you exercise frequency per weeek.')
+                            } else if (healthRank == null) {
+                                showError('Select your health rank.');
+                            } else if (alcoholPerWeek == null) {
+                                showError('Select your alcohol per week. ');
+                            } else {
+                                if (checksmoking) {
+                                    if (checkStillSmoking && kindOfSmoker == null) {
+                                        showError('Please smoking status.')
+                                    } else {
+                                        calculateLifeSpan(params);
+                                    };
+                                } else {
+                                    calculateLifeSpan(params);
+                                }
+                            }
                         }}
                     />
                 </View>

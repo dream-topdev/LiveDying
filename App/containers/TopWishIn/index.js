@@ -29,7 +29,7 @@ const TopWishInScreen = ({ navigation }) => {
                 text1: 'Success',
                 text2: 'Your top wishes are uploaded successsfully.'
             })
-            navigation.navigate('TopWishOut');
+            navigation.replace('TopWishOut');
         },
         onError: (err) => {
             Toast.show({
@@ -47,7 +47,7 @@ const TopWishInScreen = ({ navigation }) => {
                 text1: 'Success',
                 text2: 'Your top wish is updated successfully.'
             })
-            navigation.navigate('TopWishOut');
+            navigation.replace('TopWishOut');
         },
         onErrro: (err) => {
             Toast.show({
@@ -187,8 +187,15 @@ const TopWishInScreen = ({ navigation }) => {
                                     contents: topWishList
                                 }
                             }
-                            isNew ? postTopWish(parmas) : updateTopWish(parmas);
-                            // navigation.navigate('TopWishOut');
+                            let checkEmpty = parmas.body.contents.filter((item) => item.content == '')
+                            if (checkEmpty.length > 0)
+                                Toast.show({
+                                    type: 'error',
+                                    text1: 'Sorry',
+                                    text2: 'Please enter all 5 of topwishes.'
+                                })
+                            else
+                                isNew ? postTopWish(parmas) : updateTopWish(parmas);
                         }}
                     />
                 </View>

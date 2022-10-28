@@ -112,7 +112,7 @@ const SettingStack = () => {
     )
 }
 
-const MainNavigator = () => {
+const MainNavigator = ({ parentNavigator }) => {
     const { user, userProfile } = useContext(AuthContext);
     const [isLoading, setLoading] = useState(true);
 

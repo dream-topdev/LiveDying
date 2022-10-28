@@ -8,24 +8,30 @@ import {
     Alert,
     ActivityIndicator
 } from 'react-native';
-import PropTypes from 'prop-types';
-import Modal from "react-native-modal";
-import { styles } from './styles';
-import IconButton from '../IconButton';
-import { scale } from '../../utils/scale';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Images from '../../utils/Images';
-import ReminderInput from '../../components/ReminderInput';
-import OutlineButton from '../OutlineButton';
-import Notifications from '../../Notifications';
-import { useQuery, useMutation } from 'react-query';
-import API from '../../services/API';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { useMutation } from 'react-query';
+import Modal from "react-native-modal";
+import PropTypes from 'prop-types';
+
+import IconButton from '../IconButton';
+import ReminderInput from '../ReminderInput';
+import OutlineButton from '../OutlineButton';
+import Loading from '../Loading';
+
+import Notifications from '../../Notifications';
+
+import Images from '../../utils/Images';
+import { scale } from '../../utils/scale';
+
 import { AuthContext } from '../../AuthProvider';
+import API from '../../services/API';
+import { styles } from './styles';
 
 const repeatTypeList = Platform.OS == 'android'
     ? ['minute', 'hour', 'day', 'week']
     : ['day', 'week', 'month', 'year'];
+
 const soundFileNameList = ['alarm1.wav', 'alarm2.wav', 'alarm3.wav'];
 
 const TestReminderModal = ({
@@ -37,13 +43,15 @@ const TestReminderModal = ({
     initSoundNameIndex = 0
 }) => {
     const { userProfile, fetchProfile, loading } = useContext(AuthContext)
-    const userid = userProfile.result.id;
+
     // const AlarmRepeatTypeList = ["Every day", "Every week", "Every month", ' Semiannual', "Annual"];
+    const userid = userProfile.result.id;
     const AlarmRepeatTypeList = Platform.OS == 'android'
         ? ['Every minute', "Every hour", "Every day", "Every week"]
         : ["Every day", "Every week", "Every month", "Annual"];
     const [currentAlarmRepeatIndex, setCurrentAlarmRepeatIndex] = useState(initRepeatTypeIndex)
     const SoundNameList = ['Alarm 1', 'Alarm 2', 'Alarm 3'];
+
     const [currentSoundNameIndex, setCurrentSoundNameIndex] = useState(initSoundNameIndex);
     const { mutate: setReminder, isLoading } = useMutation(API.setReminder, {
         onSuccess: (data) => {
@@ -56,7 +64,7 @@ const TestReminderModal = ({
             data.content.is_reminder
                 ? setNotificationSchedule(currentAlarmRepeatIndex, currentSoundNameIndex)
                 : cancelNotification();
-            fetchProfile(userid);
+            // fetchProfile(userid);
             onClose();
         },
         onError: (err) => {
@@ -70,8 +78,8 @@ const TestReminderModal = ({
     })
 
     const setNotificationSchedule = (currentAlarmRepeatIndex, currentSoundNameIndex) => {
-        //androi tepeate tyep : minute, hour , day , week and time 
-        //iso repeat type  : year, month, week, day, hour,  minute, second  
+        //android repeate type : minute, hour , day , week and time 
+        //ios repeat type  : year, month, week, day, hour,  minute, second  
         console.log('Selected items : ', currentAlarmRepeatIndex, currentSoundNameIndex)
         Platform.OS == 'android'
             ? (
@@ -95,17 +103,8 @@ const TestReminderModal = ({
             }}
         >
             {
-                isLoading && loading ? (
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        < ActivityIndicator size="large" color="whtie" />
-                    </View>
+                isLoading ? (
+                    visible && <Loading />
                 ) : (
                     <View style={styles.container}>
                         <TouchableOpacity

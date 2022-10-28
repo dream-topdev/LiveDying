@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import {
     View,
     Text,
@@ -7,35 +6,23 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
+
 import IconButton from '../../components/IconButton';
+import Loading from '../../components/Loading';
+
 import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
+
+import { AuthContext } from '../../AuthProvider';
+import { styles } from './styles';
 
 
 const SharedUserHome = ({ route, navigation }) => {
     const { userProfile, friendProfile, loading } = useContext(AuthContext);
 
     if (loading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (

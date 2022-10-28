@@ -316,6 +316,7 @@ const VideoCard = ({
         </View>
         <VideoPlayerModal
           url={currentUrl}
+          title={item.title}
           visible={videoPlayerModal}
           onClose={() => setVideoPlayerModal(false)}
         />

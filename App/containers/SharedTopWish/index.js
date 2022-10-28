@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,13 +6,16 @@ import {
     ScrollView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
-import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
-import Images from '../../utils/Images';
 import { useQuery, useMutation } from 'react-query';
+
+import IconButton from '../../components/IconButton';
+import Loading from '../../components/Loading';
+
+import Images from '../../utils/Images';
+
+import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
+import { styles } from './styles';
 
 
 const SharedTopWishScreen = ({ navigation }) => {
@@ -23,6 +25,7 @@ const SharedTopWishScreen = ({ navigation }) => {
     console.log('=  > ', userid, friendid);
     const { data, isLoading, status } = useQuery(["getTopWishById", friendid], () => API.getTopWishById(friendid));
     const [sharedTopWishList, setSharedTopWishList] = useState([]);
+
     useEffect(() => {
         if (data != undefined && status == 'success') {
             console.log('topwish is ', friendid, data.result);
@@ -38,24 +41,9 @@ const SharedTopWishScreen = ({ navigation }) => {
     }, [data]);
 
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>

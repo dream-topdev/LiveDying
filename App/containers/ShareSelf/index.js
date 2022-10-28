@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,18 +6,22 @@ import {
     ScrollView,
     Alert
 } from 'react-native';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
+import { useQuery, useMutation } from 'react-query';
+
 import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
+import Loading from '../../components/Loading';
 import TextContainer from '../../components/TextContainer';
 import SendEmailModal from '../../components/SendEmailModal';
-import { useQuery, useMutation } from 'react-query';
+
+import { scale, scaleVertical } from '../../utils/scale';
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
+
+import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { styles } from './styles';
 
 
 const ShareSelfScreen = ({ navigation }) => {
@@ -72,23 +75,7 @@ const ShareSelfScreen = ({ navigation }) => {
     }, [data])
 
     if (isLoading1 || isLoading2 || isLoading3) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (

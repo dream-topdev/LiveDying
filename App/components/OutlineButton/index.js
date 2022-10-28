@@ -51,10 +51,10 @@ const OutlineButton = forwardRef(({
 						<Image
 							style={{
 								borderColor: Colors.white,
-								width: 24,
-								height: 24,
-								borderRadius: 12,
-								borderWidth: 2,
+								width: scale(24),
+								height: scale(24),
+								borderRadius: scale(12),
+								borderWidth: scale(2),
 								left: scale(40)
 							}}
 							source={iconSource}

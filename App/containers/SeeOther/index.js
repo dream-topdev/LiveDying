@@ -7,15 +7,18 @@ import {
     ScrollView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
+import { useQuery, useMutation } from 'react-query';
+
 import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
+import Loading from '../../components/Loading';
+import TextContainer from '../../components/TextContainer';
+
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
-import { useQuery, useMutation } from 'react-query';
-import TextContainer from '../../components/TextContainer';
+
+import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
+import { styles } from './styles';
 
 
 const ShareSelfScreen = ({ navigation }) => {
@@ -34,23 +37,7 @@ const ShareSelfScreen = ({ navigation }) => {
     }, [data])
 
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (

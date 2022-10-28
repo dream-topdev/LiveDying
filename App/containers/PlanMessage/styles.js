@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     },
     notetext: {
         fontFamily: Fonts.EpilogueBold,
-        fontSize: scale(18),
+        fontSize: scale(25),
         lineHeight: scale(30),
         color: Colors.black,
         marginBottom: scale(10)
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     plannote: {
         marginTop: scale(8),
         fontFamily: Fonts.EpilogueBold,
-        fontSize: scale(18),
+        fontSize: scale(25),
         lineHeight: scale(30),
         textAlign: 'left',
         color: Colors.primaryColor

@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
 import { scale, scaleVertical } from '../../utils/scale';
-
+const { width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
@@ -62,5 +62,38 @@ export const styles = StyleSheet.create({
     marginTop: scale(24),
     width: '100%',
     alignItems: 'flex-end'
+  },
+  selectionWrapper: {
+    width: '100%',
+    backgroundColor: Colors.textInputBackground,
+    borderRadius: scale(25),
+    paddingHorizontal: scale(3)
+  },
+  dropdown2BtnStyle: {
+    width: '100%',
+    backgroundColor: Colors.textInputBackground,
+    borderRadius: scale(25),
+  },
+  dropdown2BtnTxtStyle: {
+    width: '100%',
+    color: Colors.textInputPlacholder,
+    fontSize: scale(13),
+    textAlign: 'left',
+  },
+  dropdown2DropdownStyle: {
+    backgroundColor: Colors.textInputBackground,
+    paddingHorizontal: scale(10),
+    borderRadius: scale(10),
+  },
+  dropdown2RowStyle: {
+    backgroundColor: Colors.white,
+  },
+  dropdown2RowTxtStyle: {
+    color: Colors.black,
+    textAlign: 'center',
+  },
+  dropdown2SelectedRowStyle: {
+    backgroundColor: Colors.primaryColor,
+    color: Colors.white
   }
 });

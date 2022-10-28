@@ -10,24 +10,29 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { useMutation, useQuery } from "react-query";
-import MonthPicker from 'react-native-month-year-picker';
-import moment from 'moment';
+import SelectDropdown from 'react-native-select-dropdown';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 import InlineContainer from '../../components/InlineContainer';
 import OutlineButton from '../../components/OutlineButton';
 import SelectionModal from '../../components/SelectionModal';
 import IconButton from '../../components/IconButton';
 import LabelInputNumber from '../../components/LabelInputNumber';
+import Loading from '../../components/Loading';
 
-import { AuthContext } from '../../AuthProvider';
-import API from '../../services/API';
 import Images from '../../utils/Images';
 import { scale } from '../../utils/scale';
 import Colors from '../../utils/Colors';
+import { stringToBoolean } from '../../utils/commonUtil';
+import { getItems } from '../../utils/commonUtil';
+import { showError } from '../../utils/commonUtil';
+
+import { AuthContext } from '../../AuthProvider';
+import API from '../../services/API';
 import { styles } from './styles';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const re = /^[0-9\b]+$/;
+
 const proPertyList = {
     gender: {
         title: 'Gender',
@@ -111,33 +116,9 @@ const proPertyList = {
     }
 }
 
-const stringToBoolean = (str) => {
-    switch (str.toLowerCase().trim()) {
-        case "true": case "yes": case "1": return true;
-        case "false": case "no": case "0": case null: return false;
-        default: return Boolean(str);
-    }
-}
-
-const getAgeFromBirthday = (birthday) => {
-    let birthDate = new Date(birthday);
-    let now = new Date();
-    let birthYear = birthDate.getFullYear();
-    let thisYear = now.getFullYear();
-    return thisYear - birthYear;
-}
-
-const showError = (message) => {
-    Toast.show({
-        type: 'error',
-        text1: 'Sorry',
-        text2: message
-    })
-}
-
 const Person = ({
-    birthday,
-    setBirthday,
+    birthyear,
+    setBirthyear,
     gender,
     setGender,
     education,
@@ -160,43 +141,50 @@ const Person = ({
     setIsDivorced,
     yearsOfDivorce,
     setYearsOfDivorce
-
 }) => {
-    const [yearModal, setYearModal] = useState(false);
     const [selectionModal, setSelectionModal] = useState(false);
     const [selectionTitle, setSelectionTitle] = useState('');
     const [itemList, setItemList] = useState([]);
     const [activeItem, setActiveItem] = useState('');
-
-    const showPicker = useCallback((value) => setYearModal(value), []);
-    const onValueChange = useCallback((event, newDate) => {
-        const selectedDate = newDate || birthday;
-        showPicker(false);
-        setBirthday(selectedDate);
-    },
-        [birthday, showPicker],
-    );
+    const yearList = getItems(new Date().getFullYear() - 1900);
 
     return (
         <View style={styles.container}>
             <View style={styles.inputForm}>
                 <ScrollView>
-                    <InlineContainer
-                        title={birthday == undefined || birthday == ''
-                            ? 'Enter your birth date'
-                            : (moment(birthday).format('MMMM') + ', ' + new Date(birthday).getFullYear().toString())
-                        }
-                        actionChild={
-                            <IconButton
-                                icon={Images.ic_calendar}
-                                width={scale(21)}
-                                height={scale(24)}
-                                marginRight={12}
-                                disabled={false}
-                                onPress={() => { setYearModal(true) }}
-                            />
-                        }
-                    />
+                    <View style={styles.selectionWrapper}>
+                        <SelectDropdown
+                            data={yearList}
+                            defaultValue={birthyear}
+                            onSelect={(selectedItem, index) => {
+                                console.log(selectedItem, index);
+                                setBirthyear(selectedItem);
+                            }}
+                            defaultButtonText={'Select your birth year'}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem;
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                return item;
+                            }}
+                            renderDropdownIcon={() => {
+                                return <IconButton
+                                    icon={Images.ic_calendar}
+                                    width={scale(21)}
+                                    height={scale(24)}
+                                    marginRight={20}
+                                    disabled={true}
+                                />
+                            }}
+                            dropdownIconPosition={'right'}
+                            buttonStyle={styles.dropdown2BtnStyle}
+                            buttonTextStyle={styles.dropdown2BtnTxtStyle}
+                            dropdownStyle={styles.dropdown2DropdownStyle}
+                            rowStyle={styles.dropdown2RowStyle}
+                            rowTextStyle={styles.dropdown2RowTxtStyle}
+                            selectedRowStyle={styles.dropdown2SelectedRowStyle}
+                        />
+                    </View>
                     <View style={styles.divider} />
                     <View style={{
                         flex: 1,
@@ -253,11 +241,11 @@ const Person = ({
                                 height={scale(24)}
                                 marginRight={12}
                                 disabled={false}
-                                onPress={async () => {
-                                    await setSelectionTitle(proPertyList.race.title);
-                                    await setActiveItem(race);
-                                    await setItemList(proPertyList.race.content);
-                                    await setSelectionModal(true);
+                                onPress={() => {
+                                    setSelectionTitle(proPertyList.race.title);
+                                    setActiveItem(race);
+                                    setItemList(proPertyList.race.content);
+                                    setSelectionModal(true);
                                 }}
                             />
                         }
@@ -272,11 +260,11 @@ const Person = ({
                                 height={scale(24)}
                                 marginRight={12}
                                 disabled={false}
-                                onPress={async () => {
-                                    await setSelectionTitle(proPertyList.education.title);
-                                    await setActiveItem(education);
-                                    await setItemList(proPertyList.education.content);
-                                    await setSelectionModal(true);
+                                onPress={() => {
+                                    setSelectionTitle(proPertyList.education.title);
+                                    setActiveItem(education);
+                                    setItemList(proPertyList.education.content);
+                                    setSelectionModal(true);
                                 }}
                             />
                         }
@@ -291,11 +279,11 @@ const Person = ({
                                 height={scale(24)}
                                 marginRight={12}
                                 disabled={false}
-                                onPress={async () => {
-                                    await setSelectionTitle(proPertyList.maritalStatus.title);
-                                    await setActiveItem(maritalStatus);
-                                    await setItemList(proPertyList.maritalStatus.content);
-                                    await setSelectionModal(true);
+                                onPress={() => {
+                                    setSelectionTitle(proPertyList.maritalStatus.title);
+                                    setActiveItem(maritalStatus);
+                                    setItemList(proPertyList.maritalStatus.content);
+                                    setSelectionModal(true);
                                 }}
                             />
                         }
@@ -334,6 +322,7 @@ const Person = ({
                             <LabelInputNumber
                                 title={isMarried ? "Years since current marriage/cohabitation began:" : "Length of marriage in years:"}
                                 value={yearsOfMarriage.toString()}
+                                keyboardType={'number-pad'}
                                 onChangeText={(value) => {
                                     const re = /^[0-9\b]+$/;
                                     if (value !== '' && re.test(value)) {
@@ -345,20 +334,6 @@ const Person = ({
                     }
                 </ScrollView>
             </View>
-            {
-                yearModal &&
-                <MonthPicker
-                    value={new Date(birthday)}
-                    minimumDate={new Date(1900, 1)}
-                    maximumDate={new Date()}
-                    okButton={'ok'}
-                    cancelButton={'cancel'}
-                    onChange={onValueChange}
-                    mode={'shortNumber'}
-                    autoTheme={false}
-                    locale="us"
-                />
-            }
             <SelectionModal
                 visible={selectionModal}
                 itemList={itemList}
@@ -506,7 +481,7 @@ const Health = ({
                             <InlineContainer
                                 title={height}
                                 editable={true}
-                                placeholder={'180(cm)'}
+                                placeholder={'Height(cm)'}
                                 onChangeText={value => {
                                     if (value == '') {
                                         setValidHeight(false);
@@ -534,7 +509,7 @@ const Health = ({
                             <InlineContainer
                                 title={weight.toString()}
                                 editable={true}
-                                placeholder={'80(Kg)'}
+                                placeholder={'Weight(Kg)'}
                                 onChangeText={(value) => {
                                     if (value == '') {
                                         setValidWeight(false);
@@ -796,7 +771,7 @@ const ProfileScreen = ({ navigation }) => {
         }
     })
     // person info
-    const [birthday, setBirthday] = useState(person.birthday);
+    const [birthyear, setBirthyear] = useState(person.birthyear);
     const [gender, setGender] = useState(person.gender == 'male' ? true : false);
     const [education, setEducation] = useState(person.education);
     const [race, setRace] = useState(person.race);
@@ -830,8 +805,8 @@ const ProfileScreen = ({ navigation }) => {
     const renderScene = SceneMap({
         first: () => {
             return <Person
-                birthday={birthday}
-                setBirthday={setBirthday}
+                birthyear={birthyear}
+                setBirthyear={setBirthyear}
                 gender={gender}
                 setGender={setGender}
                 education={education}
@@ -920,25 +895,8 @@ const ProfileScreen = ({ navigation }) => {
         />
     );
 
-    if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
-    }
+    if (isLoading)
+        return <Loading />
 
     return (
         <View style={styles.container}>
@@ -964,19 +922,12 @@ const ProfileScreen = ({ navigation }) => {
                         title="Click to see age you'll likely die"
                         loading={false}
                         onPress={() => {
-                            let birthdayTemp;
-                            if (typeof birthday == 'object') {
-                                birthdayTemp = birthday.toISOString();
-                            } else {
-                                birthdayTemp = birthday;
-                            }
-                            console.log(birthdayTemp.split('T')[0])
                             let params = {
                                 userid,
                                 body: {
                                     person: {
-                                        birthday: birthdayTemp.split('T')[0],
-                                        age: getAgeFromBirthday(birthday),
+                                        birthyear,
+                                        age: parseInt(new Date().getFullYear() - parseInt(birthyear)).toString(),
                                         gender: gender ? "male" : "female",
                                         education,
                                         race,
@@ -1010,8 +961,8 @@ const ProfileScreen = ({ navigation }) => {
                                     }
                                 }
                             };
-                            if (birthday == null) {
-                                showError('Enter your birthday.');
+                            if (birthyear == null) {
+                                showError('Enter your birthyear.');
                             } else if (race == null) {
                                 showError('Select your race.');
                             } else if (education == null) {

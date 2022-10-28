@@ -1,10 +1,4 @@
-import * as React from 'react';
-import {
-    useState,
-    useEffect,
-    useContext,
-    useCallback
-} from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import {
     View,
     Text,
@@ -13,22 +7,26 @@ import {
     Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
-import SpeakerContainer from '../../components/SpeakerContainer';
-import InlineContainer from '../../components/InlineContainer';
-import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
+import DocumentPicker, { types } from 'react-native-document-picker'
 import Toast from 'react-native-toast-message';
 import { useQuery, useMutation, useQueries } from 'react-query';
-import API from '../../services/API';
+
+import SpeakerContainer from '../../components/SpeakerContainer';
+import InlineContainer from '../../components/InlineContainer';
 import AddPeopleModal from '../../components/AddPeopleModal';
-import DocumentPicker, { types } from 'react-native-document-picker'
+import IconButton from '../../components/IconButton';
+import Loading from '../../components/Loading';
+
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
+
+import { AuthContext } from '../../AuthProvider';
+import API from '../../services/API';
+import { styles } from './styles';
 
 
 const defaultAvatarUrl = 'http://livelikeyouaredying.com/assets/images/default/default_avatar.png';
+
 const delItemFromJson = (jsonArray, key, value) => {
     var BreakException = {};
     var index = 0;
@@ -172,28 +170,12 @@ const SpeakerScreen = ({ navigation }) => {
         return false
     }
     if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <KeyboardAwareScrollView style={{ flex: 1 }}>
                 <View style={styles.containerInner}>
                     <View style={styles.header}>
                         <View style={styles.backWrapper}>
@@ -323,50 +305,50 @@ const SpeakerScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
+                <AddPeopleModal
+                    title={isEdit ? "Edit Speaker" : 'Add New Speaker'}
+                    visible={addSpeakerModal}
+                    avatarUrl={(avatarInfo.uri == undefined || avatarInfo.uri == null) ? defaultAvatarUrl : avatarInfo.uri}
+                    firstName={firstName}
+                    lastName={lastName}
+                    topic={topic}
+                    isOkButtonDisable={isOkButtonDisable}
+                    setFirstName={(v) => { setFirstName(v) }}
+                    setLastName={(v) => { setLastName(v) }}
+                    setTopic={(v) => { setTopic(v) }}
+                    onClickEditButton={() => {
+                        console.log('you clicked the edit button.');
+                        handleDocumentSelection('video');
+                    }}
+                    onSuccess={() => {
+                        const formData = new FormData();
+                        if (avatarInfo.avatarCreated) {
+                            formData.append('avatar', {
+                                name: avatarInfo.name,
+                                type: avatarInfo.type,
+                                uri:
+                                    Platform.OS === 'android' ? avatarInfo.uri : avatarInfo.uri.replace('file://', '')
+                            });
+                        } else if (Object.keys(avatarInfo).length > 0) {
+                            formData.append('avatar', avatarInfo.uri);
+                        }
+                        formData.append('id', currentId)
+                        formData.append('first_name', firstName);
+                        formData.append('last_name', lastName);
+                        formData.append('topic', topic);
+                        let params = {
+                            userId,
+                            body: formData
+                        }
+                        isEdit ? mutate3(params) : mutate2(params)
+                        console.log('you clicked the success button .');
+                    }}
+                    onClose={() => {
+                        setAddSpeakerModal(false);
+                        setAvatarInfo({});
+                    }}
+                />
             </KeyboardAwareScrollView>
-            <AddPeopleModal
-                title={isEdit ? "Edit Speaker" : 'Add New Speaker'}
-                visible={addSpeakerModal}
-                avatarUrl={(avatarInfo.uri == undefined || avatarInfo.uri == null) ? defaultAvatarUrl : avatarInfo.uri}
-                firstName={firstName}
-                lastName={lastName}
-                topic={topic}
-                isOkButtonDisable={isOkButtonDisable}
-                setFirstName={(v) => { setFirstName(v) }}
-                setLastName={(v) => { setLastName(v) }}
-                setTopic={(v) => { setTopic(v) }}
-                onClickEditButton={() => {
-                    console.log('you clicked the edit button.');
-                    handleDocumentSelection('video');
-                }}
-                onSuccess={() => {
-                    const formData = new FormData();
-                    if (avatarInfo.avatarCreated) {
-                        formData.append('avatar', {
-                            name: avatarInfo.name,
-                            type: avatarInfo.type,
-                            uri:
-                                Platform.OS === 'android' ? avatarInfo.uri : avatarInfo.uri.replace('file://', '')
-                        });
-                    } else if (Object.keys(avatarInfo).length > 0) {
-                        formData.append('avatar', avatarInfo.uri);
-                    }
-                    formData.append('id', currentId)
-                    formData.append('first_name', firstName);
-                    formData.append('last_name', lastName);
-                    formData.append('topic', topic);
-                    let params = {
-                        userId,
-                        body: formData
-                    }
-                    isEdit ? mutate3(params) : mutate2(params)
-                    console.log('you clicked the success button .');
-                }}
-                onClose={() => {
-                    setAddSpeakerModal(false);
-                    setAvatarInfo({});
-                }}
-            />
         </View>
     )
 }

@@ -164,24 +164,9 @@ const SongCloseScreen = ({ navigation }) => {
     }, []);
 
     if (isLoading1 || isLoading2 || isLoading3) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {isLoading3 ? 'Uploading...' : 'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>

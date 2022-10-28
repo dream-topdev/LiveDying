@@ -6,11 +6,16 @@ import { textScale } from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.white,
-        paddingHorizontal: scale(21),
-        paddingVertical: scale(15),
+        width: '100%',
+        backgroundColor: Colors.primaryColor,
+        paddingHoriz0ontal: scale(0),
+        paddingTop: scale(15),
         borderRadius: scale(8),
-        position: 'relative'
+        position: 'relative',
+        flex: 1
+    },
+    videoPlayer: {
+        width: '100%'
     },
     label: {
         textAlign: 'center',
@@ -34,9 +39,12 @@ export const styles = StyleSheet.create({
         right: scale(10),
         top: scale(10)
     },
+    titleWrapper: {
+        justifyContent: "center",
+        alignItems: 'center',
+        flex: 1
+    },
     title: {
-        marginTop: scale(20),
-        marginBottom: scale(15),
         fontSize: scale(18),
         color: Colors.black,
         textAlign: 'center'
@@ -55,8 +63,22 @@ export const styles = StyleSheet.create({
     divider: {
         height: scale(25)
     },
-    inputform:{
-        width:'100%',
-        marginTop:scale(25)
+    inputform: {
+        width: '100%',
+        marginTop: scale(25)
+    },
+    loginWrapper: {
+        width: '100%',
+        justifyContent: 'flex-end',
+        marginTop: scale(20),
+        marginBottom: scale(20),
+    },
+    header: {
+        width: '100%',
+        paddingLeft: scale(10),
+        paddingBottom: scale(10),
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'space-between'
     }
 });

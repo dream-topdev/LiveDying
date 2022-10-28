@@ -21,7 +21,8 @@ const InlineContainer = ({
     borderRadius = 25,
     paddingRight = 17,
     paddingLeft = 17,
-    multiline = true
+    multiLine = true,
+    keyboardType = 'default'
 }) => {
     return (
         <View
@@ -38,8 +39,9 @@ const InlineContainer = ({
                 editable={editable}
                 selectTextOnFocus={editable}
                 placeholder={placeholder}
+                keyboardType={keyboardType}
                 onChangeText={(v) => onChangeText(v)}
-                multiline={multiline}
+                multiline={multiLine}
                 style={[
                     styles.text,
                     { fontSize: scale(fontSize) }
@@ -63,7 +65,8 @@ InlineContainer.propTypes = {
     editable: PropTypes.bool,
     placeholder: PropTypes.string,
     onChangeText: PropTypes.func,
-    multiline: PropTypes.bool
+    multiLine: PropTypes.bool,
+    keyboardType: PropTypes.string
 }
 
 export default InlineContainer;

@@ -1,22 +1,25 @@
-import * as React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     View,
     Text,
     Image,
     SafeAreaView,
 } from 'react-native';
-import { AuthContext } from '../../AuthProvider';
+import MasonryList from '@react-native-seoul/masonry-list';
+import { useQuery, useMutation } from 'react-query';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+
 import IconButton from '../../components/IconButton';
+import Loading from '../../components/Loading';
+import SongItemContainer from '../../components/SongItemContainer';
+
 import { scale } from '../../utils/scale';
-import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import MasonryList from '@react-native-seoul/masonry-list';
-import SongItemContainer from '../../components/SongItemContainer';
+
+import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
-import { useQuery, useMutation } from 'react-query';
+import { styles } from './styles';
 
 
 const OpenRoute = ({ text }) => {
@@ -60,23 +63,7 @@ const OpenRoute = ({ text }) => {
     }
 
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (
@@ -137,23 +124,7 @@ const ProcessionRoute = ({ text }) => {
     }
 
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (
@@ -260,23 +231,7 @@ const CloseRoute = () => {
     }
 
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (

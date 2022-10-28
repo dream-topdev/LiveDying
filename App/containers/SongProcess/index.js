@@ -8,19 +8,23 @@ import {
     Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
+import { useMutation, useQuery } from 'react-query';
+import DocumentPicker, { types } from 'react-native-document-picker';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+
 import InlineContainer from '../../components/InlineContainer';
 import IconButton from '../../components/IconButton';
 import SongItemContainer from '../../components/SongItemContainer';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import UploadMethodSelectModal from '../../components/UploadMethodSelectModal';
+import Loading from '../../components/Loading';
+
 import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
-import { useMutation, useQuery } from 'react-query';
+
+import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
-import UploadMethodSelectModal from '../../components/UploadMethodSelectModal';
-import DocumentPicker, { types } from 'react-native-document-picker';
+import { styles } from './styles';
 
 
 const delItemFromJson = (jsonArray, key, value) => {
@@ -158,24 +162,9 @@ const SongProcessScreen = ({ navigation }) => {
     }, []);
 
     if (isLoading1 || isLoading2 || isLoading3) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {isLoading3 ? 'Uploading...' : 'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
+
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>

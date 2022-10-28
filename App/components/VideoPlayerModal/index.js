@@ -1,22 +1,15 @@
-import * as React from 'react';
-import {
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Modal from "react-native-modal";
 import VideoPlayer from 'react-native-video-controls';
-import { styles } from './styles';
+import IconButton from '../IconButton';
 import Colors from '../../utils/Colors';
-import ApplicationStyles from '../../utils/ApplicationStyles';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Images from '../../utils/Images';
-import ReminderInput from '../../components/ReminderInput';
-import OutlineButton from '../OutlineButton';
+import { styles } from './styles';
 
-const VideoPlayerModal = ({ url, visible, onClose }) => {
+
+const VideoPlayerModal = ({ url, title, visible, onClose }) => {
   return (
     <Modal
       isVisible={visible}
@@ -27,26 +20,42 @@ const VideoPlayerModal = ({ url, visible, onClose }) => {
         onClose();
       }}
     >
-      <VideoPlayer
-        source={{ uri: url }}
-        thumbnail={url}
-        tapAnywhereToPause={true}
-        toggleResizeModeOnFullscreen={false}
-        isFullScreen={true}
-        disableBack={true}
-        disableVolume={false}
-        controlTimeout={5000}
-        paused={false}
-        seekColor={Colors.secondaryColor}
-      />
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <IconButton
+            icon={Images.ic_back}
+            width={52}
+            height={52}
+            backColor={Colors.white}
+            onPress={() => onClose()}
+          />
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>{title}</Text>
+          </View>
+        </View>
+        <VideoPlayer
+          style={styles.videoPlayer}
+          source={{ uri: url }}
+          thumbnail={url}
+          tapAnywhereToPause={true}
+          toggleResizeModeOnFullscreen={false}
+          isFullScreen={true}
+          disableBack={true}
+          disableVolume={false}
+          controlTimeout={5000}
+          paused={false}
+          seekColor={Colors.secondaryColor}
+        />
+      </View >
     </Modal>
   );
 };
 
 VideoPlayerModal.propTypes = {
   visible: PropTypes.bool,
-  onClose: PropTypes.func.isRequired,
-  url: PropTypes.string
+  url: PropTypes.string,
+  title: PropTypes.string,
+  onClose: PropTypes.func.isRequired
 }
 
 export default VideoPlayerModal;

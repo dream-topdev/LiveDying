@@ -13,16 +13,8 @@ import Images from '../../utils/Images';
 
 
 const TopWishOutScreen = ({ navigation }) => {
-    const { loading, login } = useContext(AuthContext);
-    const [testReminderModal, setTestReminderModal] = useState(false);
-    const [userName, setUserName] = useState("");
-    const [topWishList, setTopWishList] = useState([
-        'Get VP Title',
-        'Bora Bora',
-        'Get to 170 lbs',
-        'Help Poor with electricity',
-        'Take Grandkids to Disney World'
-    ]);
+    const topMessage = 'At the end of your life, how do you want to be remembered?';
+    const bottomMessage = 'An excellent way to help you determine how you want to be remembered is to plan your funeral and eulogy.'
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -34,18 +26,9 @@ const TopWishOutScreen = ({ navigation }) => {
                     />
                     <View style={styles.messageWrapper}>
                         <View style={styles.message}>
-                            <Text style={styles.notetext}>{"At the end of your life, what will be about your life?"}</Text>
-                            <Text style={styles.plannote}>{"A great way to Figure that out isto plan your funeral and eulogy."}</Text>
+                            <Text style={styles.notetext}>{topMessage}</Text>
+                            <Text style={styles.plannote}>{bottomMessage}</Text>
                         </View>
-                    </View>
-                    <View style={styles.loginWrapper}>
-                        <OutlineButton
-                            title="Next"
-                            loading={false}
-                            onPress={() => {
-                                navigation.navigate('Funeral');
-                            }}
-                        />
                     </View>
                 </View>
             </KeyboardAwareScrollView>

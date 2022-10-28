@@ -1,28 +1,30 @@
-import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
     Image,
-    ScrollView,
     Alert,
     SafeAreaView,
     TouchableOpacity
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
-import IconButton from '../../components/IconButton';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
-import { useMutation, useQuery } from 'react-query';
-import API from '../../services/API';
-import OutlineButton from '../../components/OutlineButton';
 import MasonryList from '@react-native-seoul/masonry-list';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useMutation, useQuery } from 'react-query';
+
+import IconButton from '../../components/IconButton';
+import OutlineButton from '../../components/OutlineButton';
 import GalleryItemContainer from '../../components/GalleryItemContainer';
 import InlineContainer from '../../components/InlineContainer';
+import Loading from '../../components/Loading';
+
+import { scale, scaleVertical } from '../../utils/scale';
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
+
+import API from '../../services/API';
+import { AuthContext } from '../../AuthProvider';
+import { styles } from './styles';
 
 
 const YoutubeCard = ({
@@ -115,7 +117,7 @@ const YoutubeVideoSelectScreen = ({ route, navigation }) => {
     const [isSearchButtonDisable, setIsSearchButtonDisable] = useState(true);
     const [isOkButtonDisable, setIsOkButtonDisable] = useState(true);
     const [okButtonBackColor, setOkButtonBackColor] = useState(Colors.primaryBackColor)
-    const { mutate: mutate2, isLoading: isLoading3 } = useMutation(API.getYoutubeVideoByKey, {
+    const { mutate: searchVideo, isLoading: isLoading3 } = useMutation(API.getYoutubeVideoByKey, {
         onSuccess: (data) => {
             let tempArray = [];
             let index = 0;
@@ -189,28 +191,14 @@ const YoutubeVideoSelectScreen = ({ route, navigation }) => {
         delItemFromJson(tempArray, 'id', id);
         setPhotos(tempArray);
     }
+
     if (isLoading3 || isLoading4) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {isLoading4 ? 'Uploading...' : 'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
+
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            <KeyboardAwareScrollView style={{ flex: 1 }}>
                 <View style={styles.containerInner}>
                     <View style={styles.header}>
                         <View style={styles.backWrapper}>
@@ -237,6 +225,7 @@ const YoutubeVideoSelectScreen = ({ route, navigation }) => {
                             title={''}
                             placeholder={'Enter id or keyword'}
                             editable={true}
+                            multiLine={false}
                             onChangeText={(v) => {
                                 setKeyword(v);
                                 v === '' ? setIsSearchButtonDisable(true) : setIsSearchButtonDisable(false);
@@ -252,7 +241,7 @@ const YoutubeVideoSelectScreen = ({ route, navigation }) => {
                                         const params = {
                                             keyword
                                         }
-                                        mutate2(params)
+                                        searchVideo(params)
                                     }}
                                 />
                             }

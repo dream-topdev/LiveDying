@@ -1,8 +1,11 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
 import { scale, scaleVertical } from '../../utils/scale';
 
+
+const superFontSize = Math.floor(scale(18) * 0.6)
+const superlineHeight = superFontSize * 1.1
 
 export const styles = StyleSheet.create({
   container: {
@@ -117,4 +120,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-end'
   },
+  superStyleWrapper: {
+    flexDirection: 'row'
+  },
+  superStyle: {
+    textAlignVertical: 'top',
+    fontSize: superFontSize,
+    lineHeight: superlineHeight
+  }
 });

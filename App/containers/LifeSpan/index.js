@@ -1,65 +1,46 @@
-import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
-    Switch,
     ScrollView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
-import { useQuery } from "react-query";
 import { styles } from './styles';
-import { scale } from '../../utils/scale';
+
 import OutlineButton from '../../components/OutlineButton';
-import API from '../../services/API';
+import Loading from '../../components/Loading';
+
 
 
 const LifeSpanScreen = ({ navigation }) => {
     const { loading, userProfile } = useContext(AuthContext);
-    const userId = userProfile.result.id;
-    console.log('user id', userId)
-    const lifeSpan = parseInt(userProfile.result.lifespan).toFixed();
-    const topwish = userProfile.topwish;
-    console.log('life span is like this', userId, lifeSpan, topwish);
+    console.log(userProfile)
     const [meaning, setMeaning] = useState([]);
     const [eventHint, setEventHint] = useState('');
-    const shareMessage = 'Share what you are planning to do over the next 24 years';
+    const [lifeSpan, setLifeSpan] = useState(0);
+    const [leaveLife, setLeaveLife] = useState(0);
+    const [topwish, setTopwish] = useState([]);
+
+    const shareMessage = 'Let’s Plan Your Remaining Years and Live Like You Are Dying';
 
     useEffect(() => {
-        const temp = userProfile.result.birthday.split('-');
-        const birthYear = parseInt(temp[0]);
-        const spentLife = new Date().getFullYear() - birthYear;
-        const leaveLife = lifeSpan - spentLife;
-
+        setLifeSpan(parseInt(userProfile.result.lifespan).toFixed());
+        setLeaveLife(parseInt(userProfile.result.lifespan).toFixed() - (new Date().getFullYear() - parseInt(userProfile.result.birthyear).toFixed()));
+        setTopwish(userProfile.topwish);
+        console.log('age ', lifeSpan, leaveLife, new Date().getFullYear(), parseInt(userProfile.result.birthyear).toFixed())
         let meanList = [
             leaveLife + ' more Birthdays',
             leaveLife + ' more New Year Eves',
-            leaveLife + ' more  July 4th Fireworks',
+            leaveLife + ' more July 4th Fireworks',
             leaveLife + ' more Super Bowls'
         ];
         setMeaning(meanList);
-        setEventHint('To put in perspective ' + leaveLife + ' years ago was ' + (new Date().getFullYear() - leaveLife) + '. What happened in that year ? ')
-    }, [])
+        setEventHint('To put in perspective ' + leaveLife + ' years ago was ' + (parseInt(userProfile.result.birthyear).toFixed() - leaveLife) + '.\nWhat happened in that year?')
+    }, [userProfile])
 
     if (loading)
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
 
     return (
         <View style={styles.container}>
@@ -79,7 +60,15 @@ const LifeSpanScreen = ({ navigation }) => {
                                 {
                                     meaning.map((item) => (
                                         <View key={item.toString()}>
-                                            <Text style={styles.notemean}>{item}</Text>
+                                            {item.indexOf('4th') > -1 ? (
+                                                <View style={styles.superStyleWrapper}>
+                                                    <Text style={styles.notemean}>{item.split('4th')[0] + '4'}</Text>
+                                                    <Text style={[styles.notemean, styles.superStyle]}>{'th'}</Text>
+                                                    <Text style={styles.notemean}>{item.split('4th')[1]}</Text>
+                                                </View>
+                                            ) : (
+                                                <Text style={styles.notemean}>{item}</Text>
+                                            )}
                                         </View>
                                     ))
                                 }

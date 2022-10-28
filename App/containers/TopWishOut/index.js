@@ -10,26 +10,25 @@ import { useQuery } from 'react-query';
 
 import OutlineButton from '../../components/OutlineButton';
 import TestReminderModal from '../../components/TestReminderModal';
+import Loading from '../../components/Loading';
+
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
+import { stringToBoolean } from '../../utils/commonUtil';
 
 import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
 import { styles } from './styles';
 
-import { scale } from '../../utils/scale';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
-
 
 const TopWishOutScreen = ({ navigation }) => {
-
-    const { userProfile, notification } = useContext(AuthContext);
+    const { userProfile } = useContext(AuthContext);
     const userId = userProfile.result.id;
     // const notification = userProfile.result.is_reminder;
-    console.log(notification);
     const { data, isLoading, status } = useQuery(["getTopWishById", userId], () => API.getTopWishById(userId));
     const [testReminderModal, setTestReminderModal] = useState(false);
     const [topWishList, setTopWishList] = useState([]);
-    const [notificationToggle, setNotificationToggle] = useState(!!+notification);
+    const [notification, setNotification] = useState(stringToBoolean(userProfile.result.is_reminder));
 
     useEffect(() => {
         if (data != null && status == 'success') {
@@ -47,23 +46,7 @@ const TopWishOutScreen = ({ navigation }) => {
     }, [data])
 
     if (isLoading)
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
 
     return (
         <View style={styles.container}>
@@ -97,7 +80,7 @@ const TopWishOutScreen = ({ navigation }) => {
                     <OutlineButton
                         title="Text reminders"
                         addIcon={true}
-                        iconSource={!!+notification ? Images.ic_clock : Images.ic_clock_disable}
+                        iconSource={notification ? Images.ic_clock : Images.ic_clock_disable}
                         loading={false}
                         backColor={Colors.secondaryColor}
                         onPress={() => {
@@ -114,15 +97,14 @@ const TopWishOutScreen = ({ navigation }) => {
                         }}
                     />
                 </View>
-
             </View>
             <TestReminderModal
                 visible={testReminderModal}
-                notification={notificationToggle}
+                notification={notification}
                 initRepeatTypeIndex={parseInt(userProfile.result.repeat_type_index)}
                 initSoundNameIndex={parseInt(userProfile.result.repeat_sound_index)}
                 setNotification={() => {
-                    setNotificationToggle(!notificationToggle)
+                    setNotification(!notification)
                 }}
                 onClose={() => setTestReminderModal(false)}
             />

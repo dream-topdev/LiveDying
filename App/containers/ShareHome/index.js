@@ -48,7 +48,9 @@ const ShareHomeScreen = ({ navigation }) => {
                                 />
                             </TouchableOpacity>
                             <View style={styles.shareContentWrapper}>
-                                <Text style={styles.shareContent}>{'Sharing yourself'}</Text>
+                                <Text style={styles.shareContent}>
+                                    {'Send this funeral plan to yourself'}
+                                </Text>
                             </View>
                         </View>
                         <View style={styles.seeOtherWrapper}>
@@ -69,7 +71,9 @@ const ShareHomeScreen = ({ navigation }) => {
                                 />
                             </TouchableOpacity>
                             <View style={styles.shareContentWrapper}>
-                                <Text style={styles.seeContent}>{'Watch others'}</Text>
+                                <Text style={styles.seeContent}>
+                                    {'Send this funeral plan to friends and family'}
+                                </Text>
                             </View>
                         </View>
                     </View>

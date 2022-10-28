@@ -13,19 +13,21 @@ import {
     Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
-import InlineContainer from '../../components/InlineContainer';
-import IconButton from '../../components/IconButton';
-import PallbearerContainer from '../../components/PallbearerContainer';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
+import DocumentPicker, { types } from 'react-native-document-picker';
 import Toast from 'react-native-toast-message';
 import { useQuery, useMutation } from 'react-query';
-import API from '../../services/API';
+
+import InlineContainer from '../../components/InlineContainer';
+import IconButton from '../../components/IconButton';
 import AddPeopleModal from '../../components/AddPeopleModal';
-import DocumentPicker, { types } from 'react-native-document-picker';
+import PallbearerContainer from '../../components/PallbearerContainer';
+import Loading from '../../components/Loading';
+
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
+import { AuthContext } from '../../AuthProvider';
+import API from '../../services/API';
+import { styles } from './styles';
 
 
 const defaultAvatarUrl = 'http://livelikeyouaredying.com/assets/images/default/default_avatar.png';
@@ -170,23 +172,7 @@ const PallbearerScreen = ({ navigation }) => {
         return false
     }
     if (isLoading1 || isLoading2 || isLoading3 || isLoading4) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (

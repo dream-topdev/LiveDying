@@ -5,18 +5,22 @@ import {
     Image,
     SafeAreaView
 } from 'react-native';
-import { AuthContext } from '../../AuthProvider';
-import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
+import { useQuery, useMutation } from 'react-query';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import MasonryList from '@react-native-seoul/masonry-list';
+
 import SpeakerContainer from '../../components/SpeakerContainer';
 import PallbearerContainer from '../../components/PallbearerContainer';
+import IconButton from '../../components/IconButton';
+import Loading from '../../components/Loading';
+
+import { scale, scaleVertical } from '../../utils/scale';
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
+
+import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
-import { useQuery, useMutation } from 'react-query';
+import { styles } from './styles';
 
 const SpeakerRoute = ({ }) => {
     const { friendProfile } = useContext(AuthContext)
@@ -57,23 +61,7 @@ const SpeakerRoute = ({ }) => {
     }
 
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (
@@ -128,23 +116,7 @@ const PallbearerRoute = ({ }) => {
     }
 
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
 
     return (

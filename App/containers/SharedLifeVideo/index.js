@@ -7,19 +7,23 @@ import {
     SafeAreaView,
     TouchableOpacity,
 } from 'react-native';
-import { AuthContext } from '../../AuthProvider';
-import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import MasonryList from '@react-native-seoul/masonry-list';
+import { useQuery, useMutation } from 'react-query';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+
 import GalleryItemContainer from '../../components/GalleryItemContainer';
 import MusicPlayerModal from '../../components/MusicPlayerModal';
 import VideoPlayerModal from '../../components/VideoPlayerModal';
+import IconButton from '../../components/IconButton';
+import Loading from '../../components/Loading';
+
+import { scale, scaleVertical } from '../../utils/scale';
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
+
+import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
-import { useQuery, useMutation } from 'react-query';
+import { styles } from './styles';
 
 const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
 const icMusic = 'http://livelikeyouaredying.com/assets/images/ic_music_symbol_v2.png';
@@ -91,23 +95,7 @@ const MusicRoute = ({ text }) => {
         );
     }
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
     return (
         <SafeAreaView style={styles.tabContent}>
@@ -189,24 +177,9 @@ const VideoRoute = ({ text }) => {
         );
     }
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
+
     return (
         <SafeAreaView style={styles.tabContent}>
             <MasonryList
@@ -368,24 +341,9 @@ const PhotoRoute = () => {
         );
     }
     if (isLoading) {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: scale(30)
-                    }}>
-                    {'Loading...'}
-                </Text>
-            </View>
-        )
+        return <Loading />
     }
+
     return (
         <SafeAreaView style={styles.tabContent}>
             <MasonryList

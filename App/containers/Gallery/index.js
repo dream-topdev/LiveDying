@@ -6,24 +6,29 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  TextInput
 } from 'react-native';
+import MasonryList from '@react-native-seoul/masonry-list';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import DocumentPicker, { types } from 'react-native-document-picker';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import { AuthContext } from '../../AuthProvider';
+import { useQuery, useMutation } from 'react-query';
+
 import InlineContainer from '../../components/InlineContainer';
-import IconButton from '../../components/IconButton';
-import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
-import Images from '../../utils/Images';
-import Colors from '../../utils/Colors';
 import GalleryItemContainer from '../../components/GalleryItemContainer';
 import VideoPlayerModal from '../../components/VideoPlayerModal';
 import MusicPlayerModal from '../../components/MusicPlayerModal';
-import MasonryList from '@react-native-seoul/masonry-list';
-import { useQuery, useMutation } from 'react-query';
-import API from '../../services/API';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import UploadMethodSelectModal from '../../components/UploadMethodSelectModal';
-import DocumentPicker, { types } from 'react-native-document-picker';
+import IconButton from '../../components/IconButton';
+import Loading from '../../components/Loading';
+
+import { scale, scaleVertical } from '../../utils/scale';
+import Images from '../../utils/Images';
+import Colors from '../../utils/Colors';
+
+import { AuthContext } from '../../AuthProvider';
+import API from '../../services/API';
+import { styles } from './styles';
 
 
 const hostname = 'http://livelikeyouaredying.com/uploads/gallery/';
@@ -518,7 +523,9 @@ const PhotoCard = ({
   )
 };
 
-const PhotoRoute = () => {
+const PhotoRoute = ({
+  data, setData
+}) => {
   const { userProfile } = useContext(AuthContext);
   const userId = userProfile.result.id;
   console.log('Photo current user is ', userId);
@@ -590,28 +597,18 @@ const PhotoRoute = () => {
     }
   }, [dataPhoto])
 
-  if (isLoading1 || isLoading2) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text
-          style={{
-            fontSize: scale(30)
-          }}>
-          {'Loading...'}
-        </Text>
-      </View>
-    )
-  }
+  if (isLoading1 || isLoading2)
+    <Loading />
 
   return (
     <SafeAreaView style={styles.tabContent}>
+      <TextInput
+        value={data}
+        onChangeText={(v) => {
+          setData(v)
+          console.log("Hello world")
+        }}
+      />
       <MasonryList
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={<View />}
@@ -626,11 +623,6 @@ const PhotoRoute = () => {
   )
 };
 
-const renderScene = SceneMap({
-  first: MusicRoute,
-  second: VideoRoute,
-  third: PhotoRoute
-});
 
 const GalleryScreen = ({ navigation }) => {
   const { userProfile } = useContext(AuthContext)
@@ -646,6 +638,14 @@ const GalleryScreen = ({ navigation }) => {
     'video': types.video,
     'photo': types.images
   }
+  const renderScene = SceneMap({
+    first: MusicRoute,
+    second: VideoRoute,
+    third: () => {
+      return <PhotoRoute data={data} setData={setData} />
+    }
+  });
+  const [data, setData] = useState('Hello world')
   const [isVisibleYoutubeSelectModal, setisVisibleYoutubeSelectModal] = useState(false);
   const { mutate: uploadFileFromLocal, isLoading: isLoading1 } = useMutation(API.postUploadFileFromLocal, {
     onSuccess: (data) => {

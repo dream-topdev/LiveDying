@@ -13,19 +13,23 @@ import {
     Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { AuthContext } from '../../AuthProvider';
+import DocumentPicker, { types } from 'react-native-document-picker';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useMutation, useQuery } from 'react-query';
+
+import UploadMethodSelectModal from '../../components/UploadMethodSelectModal';
 import InlineContainer from '../../components/InlineContainer';
 import IconButton from '../../components/IconButton';
 import SongItemContainer from '../../components/SongItemContainer';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Loading from '../../components/Loading';
+
 import { scale, scaleVertical } from '../../utils/scale';
-import { styles } from './styles';
 import Images from '../../utils/Images';
 import Colors from '../../utils/Colors';
-import { useMutation, useQuery } from 'react-query';
+
+import { AuthContext } from '../../AuthProvider';
 import API from '../../services/API';
-import UploadMethodSelectModal from '../../components/UploadMethodSelectModal';
-import DocumentPicker, { types } from 'react-native-document-picker';
+import { styles } from './styles';
 
 
 const delItemFromJson = (jsonArray, key, value) => {

@@ -147,6 +147,7 @@ const Person = ({
     const [itemList, setItemList] = useState([]);
     const [activeItem, setActiveItem] = useState('');
     const yearList = getItems(new Date().getFullYear() - 1900);
+    const [test, setText] = useState(0);
 
     return (
         <View style={styles.container}>
@@ -435,7 +436,8 @@ const Health = ({
             let heightSquared = parseInt(height) * parseInt(height) / 10000;
             let bmiTemp = (parseInt(weight) / heightSquared).toPrecision(4);
             switch (true) {
-                case bmiTemp < 18.5:
+                case bmiTemp == 0: setIconUrl(null); break
+                case bmiTemp < 18.5 && bmiTemp > 0:
                     setIconUrl(Images.ic_underweight);
                     setIconType("underweight");
                     break;
@@ -467,82 +469,62 @@ const Health = ({
         <View style={styles.container}>
             <View style={styles.inputForm}>
                 <ScrollView>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                        <View style={{
-                            width: '70%',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                        }}>
-                            <InlineContainer
-                                title={height}
-                                editable={true}
-                                placeholder={'Height(cm)'}
-                                onChangeText={value => {
-                                    if (value == '') {
-                                        setValidHeight(false);
-                                    } else if (value == '0') {
-                                        setValidHeight(false)
-                                    } else if (!re.test(value)) {
-                                        setValidHeight(false);
-                                    } else {
-                                        setValidHeight(true);
-                                        setHeight(value);
-                                    }
-                                }}
-                                multiline={false}
-                                actionChild={
-                                    <IconButton
-                                        icon={Images.ic_height}
-                                        width={scale(21)}
-                                        height={scale(24)}
-                                        marginRight={12}
-                                        disabled={true}
-                                    />
-                                }
+                    <InlineContainer
+                        title={height}
+                        editable={true}
+                        placeholder={'Height(cm)'}
+                        onChangeText={value => {
+                            if (value == '') {
+                                setValidHeight(false);
+                            } else if (value == '0') {
+                                setValidHeight(false)
+                            } else if (!re.test(value)) {
+                                setValidHeight(false);
+                            } else {
+                                setValidHeight(true);
+                                setHeight(value);
+                            }
+                        }}
+                        multiline={false}
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_height}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={true}
                             />
-                            <View style={styles.divider} />
-                            <InlineContainer
-                                title={weight.toString()}
-                                editable={true}
-                                placeholder={'Weight(Kg)'}
-                                onChangeText={(value) => {
-                                    if (value == '') {
-                                        setValidWeight(false);
-                                    } else if (value == '0') {
-                                        setValidWeight(false)
-                                    } else if (!re.test(value)) {
-                                        2
-                                        setValidWeight(false);
-                                    } else {
-                                        setValidWeight(true);
-                                        setWeight(value);
-                                    }
-                                }}
-                                multiline={false}
-                                actionChild={
-                                    <IconButton
-                                        icon={Images.ic_weight}
-                                        width={scale(21)}
-                                        height={scale(24)}
-                                        marginRight={12}
-                                        disabled={true}
-                                    />
-                                }
+                        }
+                    />
+                    <View style={styles.divider} />
+                    <InlineContainer
+                        title={weight.toString()}
+                        editable={true}
+                        placeholder={'Weight(Kg)'}
+                        onChangeText={(value) => {
+                            if (value == '') {
+                                setValidWeight(false);
+                            } else if (value == '0') {
+                                setValidWeight(false)
+                            } else if (!re.test(value)) {
+                                2
+                                setValidWeight(false);
+                            } else {
+                                setValidWeight(true);
+                                setWeight(value);
+                            }
+                        }}
+                        multiline={false}
+                        actionChild={
+                            <IconButton
+                                icon={Images.ic_weight}
+                                width={scale(21)}
+                                height={scale(24)}
+                                marginRight={12}
+                                disabled={true}
                             />
-                        </View>
-                        <View style={{
-                            marginRight: scale(30)
-                        }}>
-                            <Image
-                                source={iconUrl}
-                            />
-                        </View>
-                    </View>
+                        }
+                    />
                     <View style={styles.divider} />
                     <InlineContainer
                         title={exercisePerWeek == undefined ? proPertyList.exercisePerWeek.title : exercisePerWeek}
@@ -900,99 +882,101 @@ const ProfileScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.containerInner}>
-                <View style={styles.header}>
-                    <Text style={styles.notetext}>{'Profile'}</Text>
-                    <Image
-                        source={Images.ic_logo}
-                        style={styles.logo}
-                        resizeMode={'contain'}
-                    />
-                </View>
-                <View style={styles.songList}>
-                    <TabView
-                        navigationState={{ index, routes }}
-                        renderScene={renderScene}
-                        renderTabBar={renderTabBar}
-                        onIndexChange={setIndex}
-                    />
-                </View>
-                <View style={styles.loginWrapper}>
-                    <OutlineButton
-                        title="Click to see age you'll likely die"
-                        loading={false}
-                        onPress={() => {
-                            let params = {
-                                userid,
-                                body: {
-                                    person: {
-                                        birthyear,
-                                        age: parseInt(new Date().getFullYear() - parseInt(birthyear)).toString(),
-                                        gender: gender ? "male" : "female",
-                                        education,
-                                        race,
-                                        maritalStatus,
-                                        isSingle,
-                                        isMarried,
-                                        yearsOfMarriage: parseInt(yearsOfMarriage),
-                                        isWidowed,
-                                        yearsSinceSpousePassing: parseInt(yearsSinceSpousePassing),
-                                        isDivorced,
-                                        yearsOfDivorce: parseInt(yearsOfDivorce)
-                                    },
-                                    health: {
-                                        height,
-                                        weight: parseInt(weight),
-                                        bmi: parseFloat(bmi),
-                                        validHeight,
-                                        validWeight,
-                                        validBMI,
-                                        iconType,
-                                        heightError,
-                                        exercisePerWeek,
-                                        healthRank,
-                                        checkdiabetes,
-                                        checkmental,
-                                        alcoholPerWeek,
-                                        checksmoking,
-                                        checkStillSmoking,
-                                        kindOfSmoker,
-                                        ageQuitSmoking
+            <KeyboardAwareScrollView style={{ flex: 1 }}>
+                <View style={styles.containerInner}>
+                    <View style={styles.header}>
+                        <Text style={styles.notetext}>{'Profile'}</Text>
+                        <Image
+                            source={Images.ic_logo}
+                            style={styles.logo}
+                            resizeMode={'contain'}
+                        />
+                    </View>
+                    <View style={styles.songList}>
+                        <TabView
+                            navigationState={{ index, routes }}
+                            renderScene={renderScene}
+                            renderTabBar={renderTabBar}
+                            onIndexChange={setIndex}
+                        />
+                    </View>
+                    <View style={styles.loginWrapper}>
+                        <OutlineButton
+                            title="Click to see age you'll likely die"
+                            loading={false}
+                            onPress={() => {
+                                let params = {
+                                    userid,
+                                    body: {
+                                        person: {
+                                            birthyear,
+                                            age: parseInt(new Date().getFullYear() - parseInt(birthyear)).toString(),
+                                            gender: gender ? "male" : "female",
+                                            education,
+                                            race,
+                                            maritalStatus,
+                                            isSingle,
+                                            isMarried,
+                                            yearsOfMarriage: parseInt(yearsOfMarriage),
+                                            isWidowed,
+                                            yearsSinceSpousePassing: parseInt(yearsSinceSpousePassing),
+                                            isDivorced,
+                                            yearsOfDivorce: parseInt(yearsOfDivorce)
+                                        },
+                                        health: {
+                                            height,
+                                            weight: parseInt(weight),
+                                            bmi: parseFloat(bmi),
+                                            validHeight,
+                                            validWeight,
+                                            validBMI,
+                                            iconType,
+                                            heightError,
+                                            exercisePerWeek,
+                                            healthRank,
+                                            checkdiabetes,
+                                            checkmental,
+                                            alcoholPerWeek,
+                                            checksmoking,
+                                            checkStillSmoking,
+                                            kindOfSmoker,
+                                            ageQuitSmoking
+                                        }
                                     }
-                                }
-                            };
-                            if (birthyear == null) {
-                                showError('Enter your birthyear.');
-                            } else if (race == null) {
-                                showError('Select your race.');
-                            } else if (education == null) {
-                                showError('Select your education status');
-                            } else if (maritalStatus == null) {
-                                showError('Select your marital status.');
-                            } else if (height == 0 || weight == 0) {
-                                showError('Please enter valid height and weight.');
-                            } else if (exercisePerWeek == null) {
-                                showError('Select you exercise frequency per weeek.')
-                            } else if (healthRank == null) {
-                                showError('Select your health rank.');
-                            } else if (alcoholPerWeek == null) {
-                                showError('Select your alcohol per week. ');
-                            } else {
-                                if (checksmoking) {
-                                    if (checkStillSmoking && kindOfSmoker == null) {
-                                        showError('Please smoking status.')
+                                };
+                                if (birthyear == null) {
+                                    showError('Enter your birthyear.');
+                                } else if (race == null) {
+                                    showError('Select your race.');
+                                } else if (education == null) {
+                                    showError('Select your education status');
+                                } else if (maritalStatus == null) {
+                                    showError('Select your marital status.');
+                                } else if (height == 0 || weight == 0) {
+                                    showError('Please enter valid height and weight.');
+                                } else if (exercisePerWeek == null) {
+                                    showError('Select you exercise frequency per weeek.')
+                                } else if (healthRank == null) {
+                                    showError('Select your health rank.');
+                                } else if (alcoholPerWeek == null) {
+                                    showError('Select your alcohol per week. ');
+                                } else {
+                                    if (checksmoking) {
+                                        if (checkStillSmoking && kindOfSmoker == null) {
+                                            showError('Please smoking status.')
+                                        } else {
+                                            calculateLifeSpan(params);
+                                        };
                                     } else {
                                         calculateLifeSpan(params);
-                                    };
-                                } else {
-                                    calculateLifeSpan(params);
+                                    }
                                 }
-                            }
-                        }}
-                    />
+                            }}
+                        />
+                    </View>
                 </View>
-            </View>
-        </View>
+            </KeyboardAwareScrollView>
+        </View >
     )
 }
 export default ProfileScreen;

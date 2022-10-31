@@ -55,8 +55,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    marginTop: scale(20),
-    marginBottom: scale(20)
+    backgroundColor: 'pink'
   },
   forgetWrapper: {
     marginTop: scale(24),

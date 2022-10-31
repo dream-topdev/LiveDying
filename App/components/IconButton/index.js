@@ -29,7 +29,7 @@ const IconButton = ({ icon,
                         width: scale(width),
                         height: scale(height),
                         marginRight: scale(marginRight),
-                        borderRadius: scale(width / 2),
+                        // borderRadius: scale(width / 2),
                         overflow: overFlow
                     }
                 ]}

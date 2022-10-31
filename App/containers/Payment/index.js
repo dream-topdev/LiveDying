@@ -1,17 +1,20 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { CardField, createToken } from '@stripe/stripe-react-native';
-import IconButton from '../../components/IconButton';
-import Images from '../../utils/Images';
-import API from '../../services/API';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useMutation } from 'react-query';
+import { CardField, createToken } from '@stripe/stripe-react-native';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { styles } from './styles';
+import { useMutation } from 'react-query';
+
+import OutlineButton from '../../components/OutlineButton';
+import Loading from '../../components/Loading';
+
+import Images from '../../utils/Images';
 import { scale, scaleVertical } from '../../utils/scale';
 import Colors from '../../utils/Colors';
-import OutlineButton from '../../components/OutlineButton';
+
 import { AuthContext } from '../../AuthProvider';
+import API from '../../services/API';
+import { styles } from './styles';
 
 const PaymentScreen = ({ navigation }) => {
     const { userProfile, fetchProfile } = useContext(AuthContext);
@@ -60,6 +63,10 @@ const PaymentScreen = ({ navigation }) => {
             })
         }
     };
+
+    if (isLoading)
+        return <Loading />
+
     return (
         < View style={styles.container} >
             <View style={styles.header}>

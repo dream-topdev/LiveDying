@@ -18,6 +18,7 @@ import IconButton from '../IconButton';
 import AuthInput from '../AuthInput';
 
 import { styles } from './styles';
+import { scale } from '../../utils/scale';
 
 
 const AddPeopleModal = ({
@@ -50,7 +51,7 @@ const AddPeopleModal = ({
         onClose();
       }}
     >
-      <KeyboardAwareScrollView style={{ flex: 1 }}>
+      <KeyboardAwareScrollView style={{ flex: 1, marginTop: scale(100) }}>
         <View style={styles.container}>
           <View>
             <Text style={styles.title}>{title}</Text>

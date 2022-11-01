@@ -259,37 +259,6 @@ const SongCloseScreen = ({ navigation }) => {
                             }
                         </ScrollView>
                     </View>
-                    <View style={styles.footer}>
-                        <View style={styles.footerInner}>
-                            {/* <IconButton
-                                icon={Images.ic_home}
-                                width={52}
-                                height={52}
-                                onPress={() => {
-                                    console.log('You clicked the back button')
-                                    navigation.navigate('Profile')
-                                }}
-                            /> */}
-                            {/* <IconButton
-                                icon={Images.ic_back}
-                                width={52}
-                                height={52}
-                                onPress={() => {
-                                    console.log('You clicked the back button')
-                                    navigation.navigate('Gallery')
-                                }}
-                            /> */}
-                            <IconButton
-                                icon={Images.ic_next}
-                                width={52}
-                                height={52}
-                                onPress={() => {
-                                    console.log('You clicked the back button')
-                                    navigation.navigate('Pallbearer')
-                                }}
-                            />
-                        </View>
-                    </View>
                 </View>
                 <UploadMethodSelectModal
                     visible={isVisibleYoutubeSelectModal}

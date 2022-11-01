@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center'
   },
   toggleWrapper: {
+    alignItems:'left',
     marginBottom: scale(15)
   }
 });

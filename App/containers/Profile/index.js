@@ -147,7 +147,6 @@ const Person = ({
     const [itemList, setItemList] = useState([]);
     const [activeItem, setActiveItem] = useState('');
     const yearList = getItems(new Date().getFullYear() - 1900);
-    const [test, setText] = useState(0);
 
     return (
         <View style={styles.container}>
@@ -568,9 +567,10 @@ const Health = ({
                         title="Do you have diabetes?"
                         actionChild={
                             <Switch
+                                style={{ transform: [{ scaleX: .7 }, { scaleY: .7 }] }}
                                 trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
                                 thumbColor={Colors.white}
-                                ios_backgroundColor={Colors.primaryColor}
+                                ios_backgroundColor={Colors.textInputPlacholder}
                                 disabled={false}
                                 onValueChange={() => setCheckdiabetes(!checkdiabetes)}
                                 value={checkdiabetes}
@@ -582,14 +582,15 @@ const Health = ({
                         title="Are you currently diagnosed with a serious mental condition?"
                         actionChild={
                             <Switch
+                                style={{ transform: [{ scaleX: .7 }, { scaleY: .7 }] }}
                                 trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
                                 thumbColor={Colors.white}
-                                ios_backgroundColor={Colors.primaryColor}
+                                ios_backgroundColor={Colors.textInputPlacholder}
                                 disabled={false}
                                 onValueChange={() => setCheckmental(!checkmental)}
                                 value={checkmental}
                             />
-                        }
+                        }xssdafads
                     />
                     <View style={styles.divider} />
                     <InlineContainer
@@ -615,9 +616,10 @@ const Health = ({
                         title="Have you ever smoked?"
                         actionChild={
                             <Switch
+                                style={{ transform: [{ scaleX: .7 }, { scaleY: .7 }] }}
                                 trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
                                 thumbColor={Colors.white}
-                                ios_backgroundColor={Colors.primaryColor}
+                                ios_backgroundColor={Colors.textInputPlacholder}
                                 onValueChange={() => { setChecksmoking(!checksmoking) }}
                                 disabled={false}
                                 value={checksmoking}
@@ -631,9 +633,10 @@ const Health = ({
                                 title="Do you still smoke?"
                                 actionChild={
                                     <Switch
+                                        style={{ transform: [{ scaleX: .7 }, { scaleY: .7 }] }}
                                         trackColor={{ true: Colors.primaryColor, false: Colors.textInputPlacholder }}
                                         thumbColor={Colors.white}
-                                        ios_backgroundColor={Colors.primaryColor}
+                                        ios_backgroundColor={Colors.textInputPlacholder}
                                         onValueChange={() => { setCheckStillSmoking(!checkStillSmoking) }}
                                         disabled={false}
                                         value={checkStillSmoking}

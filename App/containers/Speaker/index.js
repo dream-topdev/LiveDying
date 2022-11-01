@@ -175,7 +175,7 @@ const SpeakerScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView style={{ flex: 1 }}>
+            <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{flex:1}}>
                 <View style={styles.containerInner}>
                     <View style={styles.header}>
                         <View style={styles.backWrapper}>

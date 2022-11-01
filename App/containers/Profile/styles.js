@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
     flex: 1,
-    minHeight: scale(610),
+    minHeight: scale(710),
     paddingHorizontal: scale(27),
     width: '100%',
   },
@@ -54,8 +54,7 @@ export const styles = StyleSheet.create({
   loginWrapper: {
     width: '100%',
     flexDirection: 'column',
-    justifyContent: 'flex-end',
-    backgroundColor: 'pink'
+    justifyContent: 'flex-end'
   },
   forgetWrapper: {
     marginTop: scale(24),

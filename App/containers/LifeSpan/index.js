@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
-    ScrollView
+    ScrollView,
+    SafeAreaView
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
@@ -45,7 +46,7 @@ const LifeSpanScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <KeyboardAwareScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-                <View style={styles.containerInner}>
+                <SafeAreaView style={styles.containerInner}>
                     <View style={styles.lifespan}>
                         <Text style={styles.notetext}>{lifeSpan}</Text>
                     </View>
@@ -94,7 +95,7 @@ const LifeSpanScreen = ({ navigation }) => {
                             }}
                         />
                     </View>
-                </View>
+                </SafeAreaView>
             </KeyboardAwareScrollView>
         </View>
     );

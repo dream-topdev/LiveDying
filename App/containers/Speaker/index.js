@@ -186,7 +186,7 @@ const SpeakerScreen = ({ navigation }) => {
                                 marginRight={10}
                                 disabled={false}
                                 onPress={() => {
-                                    navigation.navigate('Pallbearer')
+                                    navigation.goBack()
                                 }}
                             />
                             <Text style={styles.notetext}>{'Agenda'}</Text>

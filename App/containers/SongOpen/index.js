@@ -176,7 +176,7 @@ const SongOpenScreen = ({ navigation }) => {
                                 marginRight={10}
                                 disabled={false}
                                 onPress={() => {
-                                    navigation.navigate('Funeral')
+                                    navigation.goBack();
                                 }}
                             />
                             <Text style={styles.notetext}>{'Agenda'}</Text>

@@ -184,7 +184,7 @@ const SongCloseScreen = ({ navigation }) => {
                                 marginRight={10}
                                 disabled={false}
                                 onPress={() => {
-                                    navigation.navigate('Gallery')
+                                    navigation.goBack();
                                 }}
                             />
                             <Text style={styles.notetext}>{'Agenda'}</Text>

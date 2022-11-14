@@ -10,6 +10,7 @@ const superlineHeight = superFontSize * 1.1
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: scale(27),
     backgroundColor: Colors.backgroundColor,
   },
   containerInner: {
@@ -17,7 +18,6 @@ export const styles = StyleSheet.create({
     position: 'relative',
     flex: 1,
     minHeight: scale(610),
-    paddingHorizontal: scale(27),
     width: '100%',
   },
   lifespan: {

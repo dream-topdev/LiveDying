@@ -188,7 +188,7 @@ const PallbearerScreen = ({ navigation }) => {
                                 marginRight={10}
                                 disabled={false}
                                 onPress={() => {
-                                    navigation.navigate('SongProcess')
+                                    navigation.goBack();
                                 }}
                             />
                             <Text style={styles.notetext}>{'Agenda'}</Text>

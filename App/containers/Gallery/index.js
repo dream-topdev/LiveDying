@@ -763,7 +763,7 @@ const GalleryScreen = ({ navigation }) => {
               marginRight={10}
               disabled={false}
               onPress={() => {
-                navigation.navigate('Speaker')
+                navigation.goBack();
               }}
             />
             <Text style={styles.notetext}>{'Agenda'}</Text>

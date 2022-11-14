@@ -178,7 +178,7 @@ const SongProcessScreen = ({ navigation }) => {
                                 marginRight={10}
                                 disabled={false}
                                 onPress={() => {
-                                    navigation.navigate('SongOpen')
+                                    navigation.goBack()
                                 }}
                             />
                             <Text style={styles.notetext}>{'Agenda'}</Text>
